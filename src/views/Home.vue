@@ -1,7 +1,7 @@
 <template>
   <div class="home">
-    <h1>This is main menu.</h1>
-    <p>TWHERES MY TEXT</p>
+    <h1>Then came the night of the first falling star.</h1>
+    <p>Then came the night of the first falling star.</p>
   </div>
 </template>
 <script>
@@ -14,9 +14,3 @@ export default {
 }
 </script>
 
-<style lang="scss">
-.home {
-  background-color: #05ffb0;
-}
-
-</style>
