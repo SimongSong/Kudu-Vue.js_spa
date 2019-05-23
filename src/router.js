@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from './views/Home.vue'
+import Form from './views/Form.vue'
+
 
 Vue.use(Router)
 
@@ -14,12 +16,19 @@ export default new Router({
       component: Home
     },
     {
-      path: '/about',
-      name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (about.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "about" */ './views/About.vue')
+      path: '/detail/:type/:pk',
+      name: 'detail',
+      component: () => import('./views/Detail.vue')
+    },
+    {
+      path: '/list/:type/:pk',
+      name: 'list',
+      component: () => import('./views/List.vue')
+    },
+    {
+      path: '/form/:type/:pk',
+      name: 'form',
+      component: Form
     }
   ]
 })
