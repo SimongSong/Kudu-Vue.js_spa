@@ -1,5 +1,8 @@
 <template>
   <div id="app">
+          <div class="side-menu">
+          Sidebar
+        </div>
     <b-container>
       <router-view/>
     </b-container>
