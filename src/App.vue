@@ -1,16 +1,39 @@
 <template>
-  <div id="app">
-    <Sidemenu />
-    <div class="display-item">
-      <router-view/>
-    </div>
-    <h1>fefe</h1>
-    <Footer />
+  <div class="page-container">
+    <md-app md-waterfall md-mode="fixed">
+      <md-app-toolbar class="md-primary">
+        <span class="md-title">My Title</span>
+      </md-app-toolbar>
+  
+      <md-app-drawer md-permanent="full">
+        <Sidemenu />       
+      </md-app-drawer>
+        
+      <md-app-content>
+        <router-view/>
+      </md-app-content>
+    </md-app>
   </div>
 </template>
 
+
+<style lang="scss" scoped>
+  .md-app {
+    max-height: 400px;
+    border: 1px solid rgba(#000, .12);
+  }
+
+   // Demo purposes only
+  .md-drawer {
+    width: 230px;
+    max-width: calc(100vw - 125px);
+  }
+</style>
+
+
 <script>
 import Sidemenu from './components/sidemenu.vue'
+
 import Footer from './components/footer.vue'
 
 export default {
