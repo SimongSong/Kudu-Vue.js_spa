@@ -16,15 +16,10 @@ export default new Router({
       component: Home
     },
     {
-      path: '/detail/',
+      path: '/detail/:type/:pk',
       name: 'detail',
       component: () => import('./views/Detail.vue')
     },
-    // {
-    //   path: '/detail/:type/:pk',
-    //   name: 'detail',
-    //   component: () => import('./views/Detail.vue')
-    // },
     {
       path: '/list/:type/',
       name: 'list',

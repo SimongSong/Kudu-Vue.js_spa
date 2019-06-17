@@ -12,11 +12,7 @@
           </md-list-item>
           <md-list-item>
             <md-icon>move_to_inbox</md-icon>
-            <span class="md-list-item-text"><router-link to="/detail">Detail</router-link></span>
-          </md-list-item>
-          <md-list-item>
-            <md-icon>move_to_inbox</md-icon>
-            <span class="md-list-item-text"><router-link to="/list">TENXList</router-link></span>
+            <span class="md-list-item-text"><router-link to="/list/tenxlibrary">TENXList</router-link></span>
           </md-list-item>       
           <md-list-item>
             <md-icon>move_to_inbox</md-icon>

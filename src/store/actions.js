@@ -2,9 +2,9 @@ import axios from 'axios'
 
 
 export default {
-  loadData({ commit }) {
+  loadData({ commit }, url) {
     axios
-      .get('http://127.0.0.1:8000/api/kududlplibrary_list/',{},{
+      .get(url,{},{
       auth: {
         username: 'ssong',
         password: 'Iamsuperstar1#'}

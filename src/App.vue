@@ -10,7 +10,7 @@
       </md-app-drawer>
         
       <md-app-content>
-        <router-view/>
+        <router-view :key="$route.fullPath"/>
       </md-app-content>
     </md-app>
   </div>
@@ -45,3 +45,5 @@ export default {
 }
 </script>
 
+282903819
+1036393130
