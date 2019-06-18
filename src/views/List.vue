@@ -25,7 +25,7 @@
 </template>
 
 <script>
-  import {listUrl} from "../helpers/urlMaker"
+  import {listUrl} from "../helpers/util"
 
   export default {
     name: 'TableSearch',
@@ -38,7 +38,7 @@
     },
     mounted () {
       console.log("MOUTNED")
-      this.$store.dispatch('loadData',listUrl(this.$route.params.type))
+      this.$store.dispatch('loadData',{url: listUrl(this.$route.params.type), type: "list"})
     },
     data : function () {
       return {

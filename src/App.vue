@@ -1,9 +1,7 @@
 <template>
   <div class="page-container">
     <md-app md-waterfall md-mode="fixed">
-      <md-app-toolbar class="md-primary">
-        <span class="md-title">My Title</span>
-      </md-app-toolbar>
+
   
       <md-app-drawer md-permanent="full">
         <Sidemenu />       

@@ -1,8 +1,11 @@
+import {detailDataProcess} from "../helpers/util"
+
 export default {
   SET_DATA (state, data) {
-    console.log("WTF")
-    console.log(state)
     state.data = data
-    state.model ="CHANGED"
+  },
+
+  SET_DETAIL(state,data) {
+    state.detail = detailDataProcess(data,"")
   }
 }

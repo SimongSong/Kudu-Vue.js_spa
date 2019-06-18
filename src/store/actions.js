@@ -2,9 +2,11 @@ import axios from 'axios'
 
 
 export default {
-  loadData({ commit }, url) {
+  loadData({ commit }, payload) {
+    console.log(payload.url)
+    console.log(payload.type)
     axios
-      .get(url,{},{
+      .get(payload.url,{},{
       auth: {
         username: 'ssong',
         password: 'Iamsuperstar1#'}
@@ -12,7 +14,10 @@ export default {
       .then(r => r.data)
       .then(data => {
         console.log("TRIGGER")
-        commit('SET_DATA', data)
+        if(payload.type === "list")
+          commit('SET_DATA', data)
+        else if(payload.type === "detail")
+          commit('SET_DETAIL', data)
       })
   }
 }
