@@ -59,11 +59,12 @@
 
   .router-component {
     width:1000px; 
+    height: 100%;
     margin:0;
     float: left;
   }
   .side-component { 
-    padding-top: 20px;
+    
     width: 300px;
     margin:0;
     float: left;

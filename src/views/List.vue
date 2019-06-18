@@ -1,12 +1,11 @@
 <template>
 
   <div v-if='listHeaders !== null'>
-    {{listHeaders}}
     
-     <md-table :value="listValues" md-sort="id" md-sort-order="asc" md-card md-fixed-header>
-      <md-table-toolbar>
-        <h1 class="md-title">{{$route.params.type}}</h1>
-      </md-table-toolbar>
+    <p class="table-title">{{$route.params.type}}</p>
+    <md-divider></md-divider>
+    
+    <md-table :value="listValues" md-sort="id" md-sort-order="asc" md-fixed-header>
 
       <md-table-row 
       v-for="item in listValues" 
@@ -71,8 +70,13 @@
   @media (max-width: 978px) {
     .md-table{
         max-width: 650px;
+        height: 100%;
     }
   } 
+
+  .table-title {
+    font-size: 22px;
+  }
 
   .md-field {
     max-width: 300px;

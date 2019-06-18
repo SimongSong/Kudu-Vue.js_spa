@@ -2,6 +2,12 @@
 <div class="full-control">
     <div class="list">
       <md-list  >
+      <md-list-item to="/">
+        <md-icon>videogame_asset</md-icon>
+        <span >Home</span>
+      </md-list-item>
+      </md-list >
+      <md-list  >
         <md-list-item md-expand v-for="(value,key) in getStructure">
           <md-icon>whatshot</md-icon>
           <span class="md-list-item-text">{{key}}</span>
