@@ -2,7 +2,7 @@
 
   <div v-if='listHeaders !== null'>
     {{listHeaders}}
-    <md-progress-spinner md-mode="indeterminate"></md-progress-spinner>
+    
      <md-table :value="listValues" md-sort="id" md-sort-order="asc" md-card md-fixed-header>
       <md-table-toolbar>
         <h1 class="md-title">{{$route.params.type}}</h1>
@@ -65,9 +65,18 @@
   .md-table {
     overflow:auto;
     height: 100%;
-    max-width: 1200px;
+    max-width: 1000px;
   }
+
+  @media (max-width: 978px) {
+    .md-table{
+        max-width: 650px;
+    }
+  } 
+
   .md-field {
     max-width: 300px;
   }
 </style>
+
+
