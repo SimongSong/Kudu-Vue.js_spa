@@ -16,12 +16,12 @@ export default new Router({
       component: Home
     },
     {
-      path: '/detail/:type/:pk',
+      path: '/detail/:app/:type/:pk',
       name: 'detail',
       component: () => import('./views/Detail.vue')
     },
     {
-      path: '/list/:type/',
+      path: '/list/:app/:type/',
       name: 'list',
       component: () => import('./views/List.vue')
     },

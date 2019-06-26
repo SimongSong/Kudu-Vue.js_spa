@@ -5,5 +5,8 @@ export default {
     model: "TenxLibrary",
     data: [],
     detail: {},
-    structure: structure
+    structure: structure,
+    form: {},
+    // Tuple of (URL Path, Title)
+    history: []
 }

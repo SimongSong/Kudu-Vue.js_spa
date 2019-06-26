@@ -1,12 +1,17 @@
 <template>
   <div v-if='cardValues !== null'>
+      <md-dialog-alert
+      :md-active.sync="deleteAlert"
+      md-title="DELETELTELDELDLELTEL!"
+      md-content="DELETE DELETE DELETE??????DELETE ." />
+
     <md-card md-with-hover>
       <md-card-header>
         <div class="md-title">{{$route.params.type.toUpperCase()}}</div>
       </md-card-header>
       <md-card-actions>
         <md-button>Edit</md-button>
-        <md-button>Delete</md-button>
+        <md-button @click="deleteAlert = true">Delete</md-button>
       </md-card-actions>
     </md-card>  
     <md-card md-with-hover>
@@ -48,12 +53,13 @@
 </style>
 
 <script>
-import {detailUrl} from "../helpers/util"
-
 export default {
   name: 'detail',
+  data: () => ({
+    deleteAlert: false,
+  }),
   mounted () {
-      this.$store.dispatch('loadData',{url: detailUrl(this.$route.params.type, this.$route.params.pk), type: "detail"})
+      this.$store.dispatch('loadData',{app: this.$route.params.app, type: "detail", pk: this.$route.params.pk,  model: this.$route.params.type })
   },
   computed: {
     cardValues () {

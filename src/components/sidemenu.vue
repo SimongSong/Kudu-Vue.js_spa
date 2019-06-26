@@ -13,9 +13,7 @@
           <span class="md-list-item-text">{{key}}</span>
           <md-list slot="md-expand">
             <md-list-item v-for="(s,k) in value" :to="s.url" class="md-inset">
-              <router-link :to="s.url">
                 {{s.title}}
-              </router-link>
             </md-list-item>
           </md-list>
         </md-list-item>

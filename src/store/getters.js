@@ -43,4 +43,14 @@ export default {
     }
     return null
   },
+
+  formFields: state => {
+    console.log("HELO")
+    console.log(state.structure.Core.Sample.form_fields)
+    return state.structure.Core.Sample.form_fields
+    // console.log("HINP")
+    // console.log(state.model)
+    // console.log(state.structure.Core)
+    // return state.structure.Core[state.model].formFields 
+  }
 }

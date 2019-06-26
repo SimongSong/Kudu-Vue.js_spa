@@ -1,13 +1,5 @@
-const BASE_URL = 'http://127.0.0.1:8000/api/'
 
-export function listUrl(type) {
-  return BASE_URL+"kudu" + type+ "_list/"
-}
 
-export function detailUrl(type ,pk) {
-  if(type === "dlplibrary") type = "library"
-  return BASE_URL + type + "/" + pk
-}
 
 
 export function detailDataProcess(data, name) {

@@ -1,17 +1,21 @@
 <template>
-
   <div v-if='listHeaders !== null'>
-    
-    <p class="table-title">{{$route.params.type}}</p>
+    <div>
+    <p class="table-title" style="display: inline-block;">{{$route.params.type}}</p>
+    <md-button class="md-icon-button" style="display: inline-block; float : right; margin-top : 20px" @click="toggleEditForm">
+        <md-icon>add</md-icon>
+    </md-button>
+    </div>
+    <editForm :showForm="showForm" :model="$route.params.type" :toggleEditForm="toggleEditForm" />
     <md-divider></md-divider>
     
     <md-table :value="listValues" md-sort="id" md-sort-order="asc" md-fixed-header>
-
       <md-table-row 
       v-for="item in listValues" 
       @click="$router.replace({ 
         name: 'detail', 
         params: {
+          app: $route.params.app,
           type: $route.params.type, 
           pk: item.id
         }
@@ -20,30 +24,35 @@
       </md-table-row>
     </md-table>
   </div>
-  
 </template>
 
 <script>
-  import {listUrl} from "../helpers/util"
-
+  import editForm from "../components/editForm"
   export default {
     name: 'TableSearch',
+    components: {
+      editForm,
+    },
     created() {
       console.log("CREATED")
     },
-
     beforeCreate() {
       console.log("CONE")
     },
     mounted () {
       console.log("MOUTNED")
-      this.$store.dispatch('loadData',{url: listUrl(this.$route.params.type), type: "list"})
+      this.$store.dispatch('loadData',{app: this.$route.params.app, type: "list", model: this.$route.params.type })
     },
     data : function () {
       return {
-
+        showForm : false,
         headers: ["i"],
         data: {"id" : 1}
+      }
+    },
+    methods: {
+      toggleEditForm: function () {
+        this.showForm = !this.showForm
       }
     },
     computed : {
