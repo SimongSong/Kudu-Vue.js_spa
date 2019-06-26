@@ -1,4 +1,4 @@
-import structure from '../structure'
+import structure from '../structure/structure'
 
 export default {
     view: "list",

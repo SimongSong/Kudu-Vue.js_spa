@@ -1,7 +1,3 @@
-
-
-
-
 export function detailDataProcess(data, name) {
   //Change nested object into a list of objects
   var parent = {};
@@ -20,3 +16,22 @@ export function detailDataProcess(data, name) {
 
   return [[name, parent]].concat(objectsList)
 }
+
+export function detailEditForm(data, form) {
+  Object.keys(form).forEach(function(key) {
+    if(key !== "children") form[key]["value"] = data[key]
+  })
+  Object.keys(form["children"]).forEach(function(key) {
+    console.log("KEY")
+    console.log(key)
+    Object.keys(data[key]).forEach(function(children_key) {
+      console.log("cHILDREN KEY")
+      console.log(children_key)
+      if (Object.keys(form["children"][key]).includes(children_key)) form["children"][key][children_key]["value"] = data[key][children_key]
+    })
+  })
+  console.log("FORM")
+  console.log(form)
+  return form
+}
+

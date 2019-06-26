@@ -4,13 +4,15 @@
       :md-active.sync="deleteAlert"
       md-title="DELETELTELDELDLELTEL!"
       md-content="DELETE DELETE DELETE??????DELETE ." />
+    
+    <editForm :showForm="showForm" :toggleEditForm="toggleEditForm" />
 
     <md-card md-with-hover>
       <md-card-header>
         <div class="md-title">{{$route.params.type.toUpperCase()}}</div>
       </md-card-header>
       <md-card-actions>
-        <md-button>Edit</md-button>
+        <md-button @click="toggleEditForm">Edit</md-button>
         <md-button @click="deleteAlert = true">Delete</md-button>
       </md-card-actions>
     </md-card>  
@@ -53,11 +55,21 @@
 </style>
 
 <script>
+import editForm from "../components/editForm"
 export default {
   name: 'detail',
+  components: {
+    editForm,
+  },
   data: () => ({
     deleteAlert: false,
+    showForm: false,
   }),
+  methods: {
+    toggleEditForm: function () {
+      this.showForm = !this.showForm
+    }
+  },
   mounted () {
       this.$store.dispatch('loadData',{app: this.$route.params.app, type: "detail", pk: this.$route.params.pk,  model: this.$route.params.type })
   },

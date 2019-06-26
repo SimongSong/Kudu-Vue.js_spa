@@ -4,7 +4,7 @@
   <md-card >
         
   <md-card-header>
-    <div class="md-title">create {{model}}</div>
+    <div class="md-title">create {{$route.params.type}}</div>
   </md-card-header>
  
   <md-card-content>
@@ -17,7 +17,7 @@
       <label>Select date</label>
       </md-datepicker>
       <md-select v-else-if="value.type === 'Select'" v-model="value.value">
-        <md-option v-for="choice in value.choices" :value='choice'>{{choice}}</md-option>
+        <md-option v-for="choice in value.choices" :value='choice[0]'>{{choice[1]}}</md-option>
       </md-select>
     </md-field>    
     <md-datepicker v-else-if="key !== 'children' && value.type === 'Date'" v-model="value.value">
@@ -25,14 +25,14 @@
     </md-datepicker>
     
     <div v-else v-for="child,k in value">
-      <p>{{key}}</p>
+      <p>{{k}}</p>
         <md-field v-if="value.type !== 'Date'" v-for="value,key in child">
           <label>{{key}}</label>
           <md-input v-if="value.type === 'String'" v-model="value.value"></md-input>
           <md-input v-else-if="value.type === 'Integer'" v-model="value.value"></md-input>
           <md-datepicker v-else-if="value.type === 'Date'" v-model="value.value"></md-datepicker>
           <md-select v-else-if="value.type === 'Select'" v-model="value.value">
-            <md-option v-for="choice in value.choices" :value='choice'>{{choice}}</md-option>
+            <md-option v-for="choice in value.choices" :value='choice[0]'>{{choice[1]}}</md-option>
           </md-select>
         </md-field>    
         <md-datepicker v-else>
@@ -56,7 +56,7 @@
 <script>
   export default {
     name: 'editForm',
-    props: ['showForm', 'model', 'toggleEditForm'],
+    props: ['showForm', 'toggleEditForm'],
     name: 'FormValidation',
     data: () => ({
       showForm: true,

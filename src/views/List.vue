@@ -6,7 +6,7 @@
         <md-icon>add</md-icon>
     </md-button>
     </div>
-    <editForm :showForm="showForm" :model="$route.params.type" :toggleEditForm="toggleEditForm" />
+    <editForm :showForm="showForm" :toggleEditForm="toggleEditForm" />
     <md-divider></md-divider>
     
     <md-table :value="listValues" md-sort="id" md-sort-order="asc" md-fixed-header>
@@ -56,9 +56,6 @@
       }
     },
     computed : {
-      model () {
-        return this.$store.getters.getModel
-      },
       listHeaders () {
         return this.$store.getters.getListHeaders
       },
