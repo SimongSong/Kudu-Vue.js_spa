@@ -30,9 +30,9 @@ export default {
   ['UN', 'unkown']],
   
   chip_format : 
-  [['W', 'Wafergen']
-  ['M', 'Microfluidic']
-  ['B', 'Bulk']
+  [['W', 'Wafergen'],
+  ['M', 'Microfluidic'],
+  ['B', 'Bulk'],
   ['O', 'Other']],
 
   spotting_location :

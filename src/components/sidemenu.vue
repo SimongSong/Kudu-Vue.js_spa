@@ -1,7 +1,7 @@
 <template>
 <div class="full-control">
     <div class="list">
-      <md-list  >
+      <md-list>
       <md-list-item to="/">
         <md-icon>videogame_asset</md-icon>
         <span >Home</span>
@@ -39,6 +39,15 @@ export default {
   },
 }
 </script>
+
+<style lang="scss">
+.title {
+}
+.md-list {
+}
+
+</style>
+
 
 
 

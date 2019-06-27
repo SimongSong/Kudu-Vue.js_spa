@@ -1,5 +1,5 @@
 import axios from 'axios'
-const BASE_URL = 'http://127.0.0.1:8000/api/'
+const BASE_URL = 'https://colossus.canadacentral.cloudapp.azure.com/api/'
 
 export default {
   loadData({ commit, state }, payload) {

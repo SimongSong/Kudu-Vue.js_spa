@@ -2,20 +2,20 @@ import form from './formFields'
 export default {
   core : {
     sample : {
-      title : "Colossus Samples",
+      title : "Core Samples",
       url : "/list/core/sample",
       list_api: "kudusample_list/",
       detail_api: "sample/",
       form_fields : form.sample
     },
     project : {
-      title : "Colossus Projects",
+      title : "Core Projects",
       url : "/list/core/project",
       list_api: "kuduproject_list/",
       detail_api: "project/",
     },
     analysis : {
-      title : "Colossus Analyses",
+      title : "Core Analyses",
       url : "/list/core/analysis",
       list_api: "kuduanalysis_list/",
       detail_api:"analysis/",
