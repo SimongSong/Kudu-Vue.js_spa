@@ -46,5 +46,9 @@ export default {
 
   formFields: state => {
     return state.model.form_fields
+  },
+
+  getUsername: state => {
+    return state.account.username
   }
 }

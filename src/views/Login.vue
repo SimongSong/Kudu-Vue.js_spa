@@ -19,7 +19,7 @@
         </md-field>
       </div>
 
-      <md-button class="md-raised md-primary" @click="toggleLogin">Sign In</md-button>
+      <md-button class="md-raised md-primary" @click="login">Sign In</md-button>
 
     </md-content>
   </div>
@@ -29,7 +29,20 @@
 
 export default {
   name: 'login',
-  props: ["toggleLogin"],
+  props: { 
+    toggleLogin: {type: Function},
+    spinnerLoading: {type: Function},
+  },
+  methods: {
+    login () {
+      this.spinnerLoading()
+      this.$store.dispatch('login',this.account).then(
+        response => {console.log(response);
+        this.spinnerLoading()
+        this.toggleLogin()},
+        error => {})
+    }
+  },
   data() {
     return {
       account : {
@@ -66,7 +79,7 @@ export default {
   z-index: 1;
   width: 100%;
   padding: 25px;
-  max-width: 380px;
+  max-width: 350px;
   position: relative;
 }
 

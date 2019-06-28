@@ -19,6 +19,15 @@ export default {
         else if(payload.type === "detail")
           commit('SET_DETAIL', {data: data, model: app_model} )
       })
+  },
+  login({ commit }, payload) {
+    return new Promise(function(resolve, reject) {
+      setTimeout(function() {
+        commit('AUTHENTICATE', payload)
+        resolve('foo');
+      }, 2000);
+    });
+
   }
 }
   

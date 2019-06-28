@@ -13,5 +13,9 @@ export default {
     state.detail = detailDataProcess(payload.data,"")
     state.model = payload.model
     state.model.form_fields = detailEditForm(payload.data, state.model.form_fields)
+  },
+
+  AUTHENTICATE(state, payload) {
+    state.account.username = payload.username
   }
 }

@@ -13,7 +13,8 @@
     </div>
     <div >
     <md-content class="topmenu">
-    
+    <md-button >API</md-button>
+    <md-button >Admin</md-button>
     </md-content>     
     <md-content class="maincontent">
       <router-view class="router-component" :key="$route.fullPath"/>
@@ -53,13 +54,33 @@ export default {
   height: 50px;
   width:800px;  
   max-width: calc(100vw - 125px);
+  display: flex;
+  align-items: center;
 }
 
 .sidemenu-bottom {
   width: 260px;
   height: 68vh;
-  max-width: calc(100vw - 125px);
+  max-width: calc(100vw - 100px);
   overflow-y : scroll;
+}
+
+@media only screen and (max-width: 1026px) {
+    .sidemenu-bottom {
+      display: none;
+    }
+    .sidemenu-top {
+      display: none;
+    }
+}
+
+@media only screen and (max-height: 540px) {
+    .sidemenu-top {
+      display: none;
+    }
+    .sidemenu-bottom {
+      height: 90vh;
+    }
 }
 
 .sidemenu-top {
@@ -74,7 +95,7 @@ export default {
       max-width: 60px;
       }
     .md-title {
-      font-size : 1.3em;
+      font-size : 1.3sem;
       }
     .md-body {
       font-size : 1em;
