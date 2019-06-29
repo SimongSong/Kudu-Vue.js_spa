@@ -6,6 +6,8 @@ export default {
         token: ""
     },
 
+    loading: false,
+
     view: "list",
     model: "TenxLibrary",
     data: [],

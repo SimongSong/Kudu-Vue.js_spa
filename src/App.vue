@@ -1,16 +1,16 @@
 <template>
   <div>
-  <Login v-if="!auth" :toggleLogin="login" :spinnerLoading="spinnerLoading" />
-  <Temp v-else />
+ 
+  <Temp/>
   <div class="loading-overlay" v-if="loading" >
     <md-progress-spinner md-mode="indeterminate">
     </md-progress-spinner>
   </div>
   </div>
 </template>
-
+ 
 <script>
-
+//  <Login v-if="!auth" :toggleLogin="login" />
 import Login from './views/Login'
 import Temp from './views/Temp'
 export default {
@@ -23,13 +23,14 @@ export default {
     login () {
       this.auth = true
     },
-    spinnerLoading () {
-      this.loading = !this.loading
-    }
   },
+  computed: {
+    loading () {
+      return this.$store.state.loading
+    }
+  },  
   data() {
     return {
-      loading: false,
       auth: false
     }
   },

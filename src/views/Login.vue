@@ -11,15 +11,15 @@
       <div class="login-form">
         <md-field>
           <label>Username</label>
-          <md-input v-model="account.username" autofocus></md-input>
+          <md-input v-model="account.username" autofocus required></md-input>
         </md-field>
         <md-field>
           <label>Password</label>
-          <md-input v-model="account.password" autofocus type="password"></md-input>
+          <md-input v-model="account.password" autofocus required type="password" v-on:keyup.enter="login"></md-input>
         </md-field>
       </div>
 
-      <md-button class="md-raised md-primary" @click="login">Sign In</md-button>
+      <md-button class="md-raised md-primary" @click="login" >Sign In</md-button>
 
     </md-content>
   </div>
@@ -35,12 +35,21 @@ export default {
   },
   methods: {
     login () {
-      this.spinnerLoading()
+      console.log("E")
+      this.toggleLoading()
       this.$store.dispatch('login',this.account).then(
         response => {console.log(response);
-        this.spinnerLoading()
+        this.$session.start();
+        this.$session.set('token', response);
+        this.toggleLoading()
         this.toggleLogin()},
-        error => {})
+        error => {
+          console.log("ERROR")
+          this.toggleLoading()
+        })
+    },
+    toggleLoading () {
+      this.$store.commit('LOADING')
     }
   },
   data() {
@@ -54,7 +63,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .centre-focus {
   display: flex;
   align-items: center;

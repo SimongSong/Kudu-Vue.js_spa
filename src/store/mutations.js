@@ -17,5 +17,20 @@ export default {
 
   AUTHENTICATE(state, payload) {
     state.account.username = payload.username
+  },
+
+  LOADING(state) {
+    console.log(state.loading)
+    console.log("LOADING TRIGGERED")
+    state.loading = !state.loading
+    console.log(state.loading)
+  },
+
+  KILLLOADING(state) {
+    console.log(state.loading)
+    console.log("LOADING KILLED")
+    state.loading = false
+    console.log(state.loading)
   }
+  
 }

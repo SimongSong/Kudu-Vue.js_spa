@@ -6,9 +6,8 @@
         <md-icon>add</md-icon>
     </md-button>
     </div>
-    <editForm :showForm="showForm" :toggleEditForm="toggleEditForm" />
-    <md-divider></md-divider>
     
+
     <md-table :value="listValues" md-sort="id" md-sort-order="asc" md-fixed-header>
       <md-table-row 
       v-for="item in listValues" 
@@ -39,10 +38,38 @@
     beforeCreate() {
       console.log("CONE")
     },
+    directives : {
+      stopLoading : {
+        update : function(el, binding, vnode) {
+          console.log(vnode.context)
+          el.dispatchEvent(new Event('stoploading'))
+          vnode.context.toggleLoading()
+          console.log("VDIRECD")
+        }
+      }
+    },
     mounted () {
       console.log("MOUTNED")
-      this.$store.dispatch('loadData',{app: this.$route.params.app, type: "list", model: this.$route.params.type })
+      // this.toggleLoading()
+      this.$store.dispatch('loadData',{app: this.$route.params.app, type: "list", model: this.$route.params.type }).
+      then(
+        response => {
+          console.log("DONE")
+          console.log(this.$store.state.loading)
+        },
+        error => {
+          console.log("ERROR")
+          console.log(this.$store.state.loading)
+        }
+      )
     },
+    // updated() {
+    //   this.$nextTick(function () {
+    //     console.log("NEXT TICK")
+    //     this.$store.commit('KILLLOADING')
+        
+    //   })
+    // },  
     data : function () {
       return {
         showForm : false,
@@ -53,8 +80,18 @@
     methods: {
       toggleEditForm: function () {
         this.showForm = !this.showForm
+      },
+      toggleLoading () {
+      this.$store.commit('LOADING')
       }
     },
+    // events : {
+    //   stopLoading: function() {
+    //     console.log("HEFKEJHFOEJOFHEOFIH")
+    //     console.log("EVENT HANDLE")
+    //     this.toggleLoading()
+    //   }
+    // },
     computed : {
       listHeaders () {
         return this.$store.getters.getListHeaders
@@ -68,15 +105,17 @@
 
 <style lang="scss" scoped>
   .md-table {
-    overflow:auto;
     height: 100%;
-    max-width: 1000px;
+    max-width: 100%;
+    .md-table-row {
+       width: 100%;
+       overflow: auto;
+    }
   }
 
   @media (max-width: 978px) {
     .md-table{
-        max-width: 650px;
-        height: 100%;
+
     }
   } 
 

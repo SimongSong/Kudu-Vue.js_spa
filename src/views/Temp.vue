@@ -29,7 +29,7 @@ import Sidemenu from '../components/sidemenu.vue'
 import SidemenuTop from '../components/sidemenuTop.vue'
 export default {
 
-  name: 'main',
+  name: 'temp',
   components : {
     Sidemenu,
     SidemenuTop
@@ -46,9 +46,7 @@ export default {
 </script>
 
 <style lang="scss">
-.main {
-  
-}
+
 
 .topmenu {
   height: 50px;
