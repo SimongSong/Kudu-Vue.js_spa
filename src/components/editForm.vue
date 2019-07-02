@@ -21,7 +21,7 @@
       </md-select>
     </md-field>    
     <md-datepicker v-else-if="key !== 'children' && value.type === 'Date'" v-model="value.value">
-      <label>{{value.value}}</label>
+      <label>{{key}}</label>
     </md-datepicker>
     
     <div v-else v-for="child,k in value">
@@ -35,8 +35,8 @@
             <md-option v-for="choice in value.choices" :value='choice[0]'>{{choice[1]}}</md-option>
           </md-select>
         </md-field>    
-        <md-datepicker v-else>
-          <label>{{value.value}}</label>
+        <md-datepicker v-else v-model="value.value">
+          <label>{{key}}</label>
         </md-datepicker>
     </div>    
   

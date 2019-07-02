@@ -11,10 +11,7 @@ export function detailDataProcess(data, name) {
         objectsList.push(e)
       })
     }
-    else {
-      if (/^\d{4}\-(0?[1-9]|1[012])\-(0?[1-9]|[12][0-9]|3[01])$/.test(data[key])) parent[key] = new Date(data[key])
-      else parent[key] = data[key] 
-    }
+    else parent[key] = data[key] 
   });
 
   return [[name, parent]].concat(objectsList)
@@ -22,8 +19,7 @@ export function detailDataProcess(data, name) {
 
 export function detailEditForm(data, form) {
   console.log("DETIAL EDIT")
-  console.log(data)
-  console.log(form)
+
   Object.keys(form).forEach(function(key) {
     if(key !== "children") form[key]["value"] = data[key]
   })
@@ -33,7 +29,8 @@ export function detailEditForm(data, form) {
     Object.keys(data[key]).forEach(function(children_key) {
       console.log("cHILDREN KEY")
       console.log(children_key)
-      if (Object.keys(form["children"][key]).includes(children_key)) form["children"][key][children_key]["value"] = data[key][children_key]
+      if (Object.keys(form["children"][key]).includes(children_key)) 
+        form["children"][key][children_key]["value"] = checkDataFormat(data[key][children_key])
     })
   })
   console.log("FORM")
@@ -41,3 +38,8 @@ export function detailEditForm(data, form) {
   return form
 }
 
+function checkDataFormat(input) {
+  if (/^\d{4}\-(0?[1-9]|1[012])\-(0?[1-9]|[12][0-9]|3[01])$/.test(input)) {
+    return  new Date(input.replace("-"," "))}
+  else return input
+};
