@@ -13,13 +13,15 @@ export default {
       url : "/list/core/project",
       list_api: "kuduproject_list/",
       detail_api: "project/",
+      form_fields : form.project
     },
     analysis : {
       title : "Core Analyses",
       url : "/list/core/analysis",
       list_api: "kuduanalysis_list/",
       detail_api:"analysis/",
-      editable: false
+      form_fields : form.analysis,
+      noteditable: true
     },
     summary : false
   },
@@ -28,46 +30,53 @@ export default {
       title : "DLP Libraries",
       url : "/list/dlp/library",
       list_api: "kududlplibrary_list/",
-      detail_api: "library/"
+      detail_api: "library/",
+      form_fields : form.dlplibrary
     },
     sequencing : {
       title : "DLP Sequencings",
       url : "/list/dlp/sequencing",
       list_api: "kududlpsequencing_list/",
-      detail_api: "sequencing/"
+      detail_api: "sequencing/",
+      form_fields : form.dlpsequencing
     },
     analysis : {
       title : "DLP Analyses",
       url : "/list/dlp/analysis",
       list_api: "kududlpanalysis_list/",
-      detail_api: "analysis/"
+      detail_api: "analysis/",
+      noteditable: true
     },
     summary : true
   },
   tenx : {
     chip : {
       title : "Tenx Chips",
-      url : "/list/tenx/tenxchip",
+      url : "/list/tenx/chip",
       list_api: "kudutenxchip_list/",
-      detail_api: "tenxchip/"
+      detail_api: "tenxchip/",
+      form_fields : form.tenxchip
     },
     pool : {
       title : "Tenx Pools",
-      url : "/list/tenx/tenxpool",
+      url : "/list/tenx/pool",
       list_api: "kudutenxpool_list/",
-      detail_api: "tenxpool/"
+      detail_api: "tenxpool/",
+      form_fields : form.tenxpool,
     },
     library : {
       title : "Tenx Libraries",
       url : "/list/tenx/library",
       list_api: "kudutenxlibrary_list/",
-      detail_api: "tenxlibrary/"
+      detail_api: "tenxlibrary/",
+      form_fields : form.tenxlibrary,
     },
     sequencing : {
       title : "Tenx Sequencings",
       url : "/list/tenx/sequencing",
       list_api: "kudutenxsequencing_list/",
-      detail_api: "tenxsequencing/"
+      detail_api: "tenxsequencing/",
+      form_fields : form.tenxsequencing,
     },
     summary : true
   }

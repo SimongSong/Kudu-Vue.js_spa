@@ -1,18 +1,17 @@
 import axios from 'axios'
 import { start } from 'repl';
 const BASE_URL = 'http://127.0.0.1:8000/api/'
-
+const token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjozMSwidXNlcm5hbWUiOiJzc29uZyIsImV4cCI6MTU2MjA4OTkxOCwiZW1haWwiOiIiLCJvcmlnX2lhdCI6MTU2MjA4NjMxOH0.W6e1WX_qhk4UNmSCdCxooTcvYwjvpke32SWW5Fgm9zc'
 export default {
   loadData({ commit, state }, payload) {
     let app_model = state.structure[payload.app][payload.model]
     let url = (payload.type === "list") ? app_model.list_api : (app_model.detail_api + payload.pk)
-    
     axios
-      .get(BASE_URL + url,{},{
-      auth: {
-        username: 'ssong',
-        password: 'Iamsuperstar1#'}
-    })
+      .get(BASE_URL + url,{
+        headers : {
+          Authorization : 'JWT ' + token
+        }
+      })
       .then(r => r.data)
       .then(data => {
         console.log("TRIGGER")

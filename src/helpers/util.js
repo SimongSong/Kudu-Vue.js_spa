@@ -11,13 +11,19 @@ export function detailDataProcess(data, name) {
         objectsList.push(e)
       })
     }
-    else parent[key] = data[key] 
+    else {
+      if (/^\d{4}\-(0?[1-9]|1[012])\-(0?[1-9]|[12][0-9]|3[01])$/.test(data[key])) parent[key] = new Date(data[key])
+      else parent[key] = data[key] 
+    }
   });
 
   return [[name, parent]].concat(objectsList)
 }
 
 export function detailEditForm(data, form) {
+  console.log("DETIAL EDIT")
+  console.log(data)
+  console.log(form)
   Object.keys(form).forEach(function(key) {
     if(key !== "children") form[key]["value"] = data[key]
   })

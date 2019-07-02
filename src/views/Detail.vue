@@ -11,7 +11,7 @@
       <md-card-header>
         <div class="md-title">{{$route.params.type.toUpperCase()}}</div>
       </md-card-header>
-      <md-card-actions>
+      <md-card-actions v-if="!isEditable">
         <md-button @click="toggleEditForm">Edit</md-button>
         <md-button @click="deleteAlert = true">Delete</md-button>
       </md-card-actions>
@@ -79,6 +79,9 @@ export default {
     },
     cardParentValues () {
       return this.$store.getters.cardParentValues
+    },
+    isEditable () {
+      return this.$store.getters.isEditable
     }
   },
 }

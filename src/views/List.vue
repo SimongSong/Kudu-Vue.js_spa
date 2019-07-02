@@ -2,7 +2,7 @@
   <div v-if='listHeaders !== null'>
     <div>
     <p class="table-title" style="display: inline-block;">{{$route.params.type}}</p>
-    <md-button class="md-icon-button" style="display: inline-block; float : right; margin-top : 20px" @click="toggleEditForm">
+    <md-button v-if="!isEditable" class="md-icon-button" style="display: inline-block; float : right; margin-top : 20px">
         <md-icon>add</md-icon>
     </md-button>
     </div>
@@ -37,16 +37,6 @@
     },
     beforeCreate() {
       console.log("CONE")
-    },
-    directives : {
-      stopLoading : {
-        update : function(el, binding, vnode) {
-          console.log(vnode.context)
-          el.dispatchEvent(new Event('stoploading'))
-          vnode.context.toggleLoading()
-          console.log("VDIRECD")
-        }
-      }
     },
     mounted () {
       console.log("MOUTNED")
@@ -99,6 +89,9 @@
       listValues () {
         return this.$store.getters.getListValues
       },
+      isEditable () {
+      return this.$store.getters.isEditable
+      }
     },
   }
 </script>

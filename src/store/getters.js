@@ -45,10 +45,15 @@ export default {
   },
 
   formFields: state => {
+    console.log(state.model)
     return state.model.form_fields
   },
 
   getUsername: state => {
     return state.account.username
+  },
+
+  isEditable: state => {
+    return state.model.noteditable
   }
 }
