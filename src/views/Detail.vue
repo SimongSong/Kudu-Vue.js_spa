@@ -71,7 +71,13 @@ export default {
     }
   },
   mounted () {
-      this.$store.dispatch('loadData',{app: this.$route.params.app, type: "detail", pk: this.$route.params.pk,  model: this.$route.params.type })
+      this.$store.dispatch('loadData',{
+        app: this.$route.params.app, 
+        type: "detail", 
+        pk: this.$route.params.pk,  
+        model: this.$route.params.type,
+        token : this.$session.get('token')
+        })
   },
   computed: {
     cardValues () {

@@ -41,7 +41,12 @@
     mounted () {
       console.log("MOUTNED")
       // this.toggleLoading()
-      this.$store.dispatch('loadData',{app: this.$route.params.app, type: "list", model: this.$route.params.type }).
+      this.$store.dispatch('loadData',{
+        app: this.$route.params.app, 
+        type: "list", 
+        model: this.$route.params.type, 
+        token : this.$session.get('token')
+        }).
       then(
         response => {
           console.log("DONE")

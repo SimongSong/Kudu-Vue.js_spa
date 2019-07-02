@@ -1,13 +1,11 @@
 <template>
   <div class="centre-focus">
     <md-content class="md-elevation-3">
-
       <div class="title">
         <img src="../assets/temporarylogo.png">
         <div class="md-title">Kudu - Colossus</div>
         <div class="md-body-1">Life is like a hair loss, it just gets progressively worse.</div>
       </div>
-
       <div class="login-form">
         <md-field>
           <label>Username</label>
@@ -18,9 +16,7 @@
           <md-input v-model="account.password" autofocus required type="password" v-on:keyup.enter="login"></md-input>
         </md-field>
       </div>
-
       <md-button class="md-raised md-primary" @click="login" >Sign In</md-button>
-
     </md-content>
   </div>
 </template>

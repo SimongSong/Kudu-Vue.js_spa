@@ -13,6 +13,7 @@
     </div>
     <div >
     <md-content class="topmenu">
+    <md-button >LOGOUT</md-button>
     <md-button >API</md-button>
     <md-button >Admin</md-button>
     </md-content>     

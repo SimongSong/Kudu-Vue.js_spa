@@ -3,7 +3,8 @@ import structure from '../structure/structure'
 export default {
     account: {
         username: "Simong",
-        token: ""
+        token: "",
+        expired: false        
     },
 
     loading: false,

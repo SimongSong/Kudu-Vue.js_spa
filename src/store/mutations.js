@@ -18,6 +18,7 @@ export default {
   },
 
   AUTHENTICATE(state, payload) {
+    state.account.expired = false
     state.account.username = payload.username
   },
 
@@ -33,6 +34,11 @@ export default {
     console.log("LOADING KILLED")
     state.loading = false
     console.log(state.loading)
+  },
+
+  LOGOUT(state) {
+    state.account.expired = true
+    state.account.username = null
   }
   
 }
