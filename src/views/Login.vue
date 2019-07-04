@@ -13,7 +13,7 @@
         </md-field>
         <md-field>
           <label>Password</label>
-          <md-input v-model="account.password" autofocus required type="password" v-on:keyup.enter="login"></md-input>
+          <md-input v-model="account.password"  required type="password" v-on:keyup.enter="login"></md-input>
         </md-field>
       </div>
       <md-button class="md-raised md-primary" @click="login" >Sign In</md-button>
@@ -33,7 +33,8 @@ export default {
     login () {
       console.log("E")
       this.toggleLoading()
-      this.$store.dispatch('login',this.account).then(
+      this.$store.dispatch('login',this.account)
+      .then(
         response => {console.log(response);
         this.$session.start();
         this.$session.set('token', response);

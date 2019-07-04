@@ -24,17 +24,11 @@ export function detailEditForm(data, form) {
     if(key !== "children") form[key]["value"] = data[key]
   })
   Object.keys(form["children"]).forEach(function(key) {
-    console.log("KEY")
-    console.log(key)
     Object.keys(data[key]).forEach(function(children_key) {
-      console.log("cHILDREN KEY")
-      console.log(children_key)
       if (Object.keys(form["children"][key]).includes(children_key)) 
         form["children"][key][children_key]["value"] = checkDataFormat(data[key][children_key])
     })
   })
-  console.log("FORM")
-  console.log(form)
   return form
 }
 
@@ -43,3 +37,8 @@ function checkDataFormat(input) {
     return  new Date(input.replace("-"," "))}
   else return input
 };
+
+export function listSearch(search, data) {
+  return data.filter(o =>
+    Object.keys(o).some(k => String(o[k]).toLowerCase().includes(search.toLowerCase())));
+}

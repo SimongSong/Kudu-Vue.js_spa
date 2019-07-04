@@ -44,11 +44,6 @@ export default {
     return null
   },
 
-  formFields: state => {
-    console.log(state.model)
-    return state.model.form_fields
-  },
-
   getUsername: state => {
     return state.account.username
   },

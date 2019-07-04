@@ -10,7 +10,7 @@ export default {
     loading: false,
 
     view: "list",
-    model: "TenxLibrary",
+    model: {},
     data: [],
     detail: {},
     structure: structure,

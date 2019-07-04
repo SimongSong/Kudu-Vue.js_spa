@@ -2,11 +2,25 @@ import choices from './choiceMapping'
 
 export default {
   project : {
-    name : { type : "String" },
-    description : { type : "String" },
-    dlplibrary_set : {},
-    pballibrary_projects : {},
-    tenxlibrary_set : {}
+    fields : {
+      name : { type : "String" },
+      description : { type : "String" },
+      dlplibrary_set : {},
+      pballibrary_projects : {},
+      tenxlibrary_set : {}
+    },
+    relations : {
+      dlplibrary_set : {
+        model : ["dlp","library"],
+        name: "pool_id",
+        many : true
+      },
+      tenxlibrary_set : {
+        model : ["tenx","library"],
+        name: "name ",
+        many : true
+      },
+    }
   },
   // analysis : {
   //   input_type : { type : "String" },
@@ -23,12 +37,14 @@ export default {
   //   pbalsequencing_set : [],
   // },
   sample : {
-    sample_id : { type : "String", must : true },
-    taxonomy_id : { type : "Integer" },
-    sample_type : { type : "Select", choices : choices.sample_type },
-    anonymous_patient_id : { type : "String" },
-    cell_line_id : { type : "String" },
-    xenograft_id : { type : "String" },
+    fields : {
+      sample_id : { type : "String", must : true },
+      taxonomy_id : { type : "Integer" },
+      sample_type : { type : "Select", choices : choices.sample_type },
+      anonymous_patient_id : { type : "String" },
+      cell_line_id : { type : "String" },
+      xenograft_id : { type : "String" },
+    },
     children : {
       additionalsampleinformation : {
         tissue_state : { type : "Select", choices : choices.tissue_state },
@@ -54,14 +70,23 @@ export default {
     }
   },
   dlplibrary : {
-    pool_id : { type : "String" },
-    jira_ticket : { type : "String" },
-    description : { type : "String" },
-    result : { type : "String" },
-    title : { type : "String" },
-    quality : { type : "Integer" },
-    exclude_from_analysis : { type : "Bool" },
-    failed : { type : "Bool" },
+    fields : {
+      pool_id : { type : "String" },
+      jira_ticket : { type : "String" },
+      description : { type : "String" },
+      result : { type : "String" },
+      title : { type : "String" },
+      quality : { type : "Integer" },
+      exclude_from_analysis : { type : "Bool" },
+      failed : { type : "Bool" },
+    },
+    relations : {
+      projects : {
+        model : ["core","project"],
+        name : "name",
+        many : true
+      }
+    },
     children : {
       dlplibraryconstructioninformation : {
         chip_format : { type : "Select", choices : choices.chip_format },
@@ -109,53 +134,70 @@ export default {
     }
   },
   dlpsequencing : {
-    rev_comp_override : { type : "Select", choices : choices.rev_comp_override },
-    adapter : { type : "String" },        
-    format_for_data_submission : { type : "String" },        
-    index_read_type : { type : "String" },        
-    index_read1_length : { type : "Integer" },        
-    index_read2_length : { type : "Integer" },
-    read_type : { type : "Select", choices : choices.read_type },
-    read1_length : { type : "Integer" },
-    read2_length : { type : "Integer" },
-    sequencing_instrument : { type : "Select", choices : choices.sequencing_instrument },
-    sequencing_output_mode : { type : "Select", choices : choices.sequencing_output_mode },
-    short_description_of_submission : { type : "String" },        
-    submission_date : { type : "Date" }, 
-    number_of_lanes_requested : { type : "Integer" },        
-    gsc_library_id : { type : "String" },        
-    sequencer_id : { type : "String" },        
-    sequencing_center : { type : "Select", choices : choices.sequencing_center },
-    sequencer_notes : { type : "String" },            
+    fields : {
+      rev_comp_override : { type : "Select", choices : choices.rev_comp_override },
+      adapter : { type : "String" },        
+      format_for_data_submission : { type : "String" },        
+      index_read_type : { type : "String" },        
+      index_read1_length : { type : "Integer" },        
+      index_read2_length : { type : "Integer" },
+      read_type : { type : "Select", choices : choices.read_type },
+      read1_length : { type : "Integer" },
+      read2_length : { type : "Integer" },
+      sequencing_instrument : { type : "Select", choices : choices.sequencing_instrument },
+      sequencing_output_mode : { type : "Select", choices : choices.sequencing_output_mode },
+      short_description_of_submission : { type : "String" },        
+      submission_date : { type : "Date" }, 
+      number_of_lanes_requested : { type : "Integer" },        
+      gsc_library_id : { type : "String" },        
+      sequencer_id : { type : "String" },        
+      sequencing_center : { type : "Select", choices : choices.sequencing_center },
+      sequencer_notes : { type : "String" }
+    }     
   },
   tenxchip : {
-    name : { type : "String" },        
-    lab_name : { type : "Select", choices : choices.lab_name },
+    fields : {
+      name : { type : "String" },        
+      lab_name : { type : "Select", choices : choices.lab_name },
+    }
   },
   tenxpool : {
-    pool_name : { type : "String" },        
-    gsc_pool_name : { type : "String" },        
-    construction_location : { type : "Select", choices : choices.sequencing_center },
-    constructed_date : { type : "Date" }
+    fields : {
+      pool_name : { type : "String" },        
+      gsc_pool_name : { type : "String" },        
+      construction_location : { type : "Select", choices : choices.sequencing_center },
+      constructed_date : { type : "Date" }
+    }
   },
   tenxsequencing : {
-    sequencing_instrument : { type : "Select", choices : choices.sequencing_instrument },
-    sequencing_center : { type : "Select", choices : choices.sequencing_center },
-    submission_date : { type : "Date" },
-    sequencer_id : { type : "String" },
-    number_of_lanes_requested : { type : "Integer" },
+    fields : {
+      sequencing_instrument : { type : "Select", choices : choices.sequencing_instrument },
+      sequencing_center : { type : "Select", choices : choices.sequencing_center },
+      submission_date : { type : "Date" },
+      sequencer_id : { type : "String" },
+      number_of_lanes_requested : { type : "Integer" },
+    }
   },
   tenxlibrary : {
-    name : { type : "String" },
-    jira_ticket : { type : "String" },
-    description : { type : "String" },
-    result : { type : "String" },
-    num_sublibraries : { type : "String" },
-    experimental_condition : { type : "String" },
-    chip_well : { type : "Integer" },
-    condition : { type : "String" },
-    google_sheet : { type : "String" },
-    failed : { type : "Bool" },
+    fields : {
+      name : { type : "String" },
+      jira_ticket : { type : "String" },
+      description : { type : "String" },
+      result : { type : "String" },
+      num_sublibraries : { type : "String" },
+      experimental_condition : { type : "String" },
+      chip_well : { type : "Integer" },
+      condition : { type : "String" },
+      google_sheet : { type : "String" },
+      failed : { type : "Bool" },
+    },
+    relations : {
+      projects : {
+        model : ["core","project"],
+        name : "name",
+        many : true
+      }
+    },
     children : {
       tenxlibraryconstructioninformation : {
         library_construction_method : { type : "String" },

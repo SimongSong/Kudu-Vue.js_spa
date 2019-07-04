@@ -6,14 +6,14 @@ export default {
       url : "/list/core/sample",
       list_api: "kudusample_list/",
       detail_api: "sample/",
-      form_fields : form.sample
+      form_fields : form.sample,      
     },
     project : {
       title : "Core Projects",
       url : "/list/core/project",
       list_api: "kuduproject_list/",
       detail_api: "project/",
-      form_fields : form.project
+      form_fields : form.project,
     },
     analysis : {
       title : "Core Analyses",
@@ -31,7 +31,7 @@ export default {
       url : "/list/dlp/library",
       list_api: "kududlplibrary_list/",
       detail_api: "library/",
-      form_fields : form.dlplibrary
+      form_fields : form.dlplibrary,
     },
     sequencing : {
       title : "DLP Sequencings",

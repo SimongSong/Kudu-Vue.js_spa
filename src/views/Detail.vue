@@ -1,5 +1,5 @@
 <template>
-  <div v-if='cardValues !== null'>
+  <div class="detail-wrap" v-if='cardValues !== null'>
       <md-dialog-alert
       :md-active.sync="deleteAlert"
       md-title="DELETELTELDELDLELTEL!"
@@ -38,8 +38,13 @@
   </div>
 </template>
 <style lang="scss" scoped>
+  .detail-wrap {
+    height : 100%;
+    overflow-y : scroll;    
+  }
+
   .md-card {
-    width: 100%;
+    width: 99%;
     max-width: 1000px;
     margin: 4px;
     display: inline-block;

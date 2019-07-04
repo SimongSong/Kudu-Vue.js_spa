@@ -1,6 +1,6 @@
 <template>
   <div>
-  <Login v-if="login" :toggleLogin="login" />
+  <Login v-if="loginCheck" :toggleLogin="login" />
   <Temp v-else/>
   <div class="loading-overlay" v-if="loading" >
     <md-progress-spinner md-mode="indeterminate">
@@ -35,7 +35,7 @@ export default {
     loading () {
       return this.$store.state.loading
     },
-    login () {
+    loginCheck () {
       return (!this.auth || this.$store.state.account.expired) 
     }
   },  

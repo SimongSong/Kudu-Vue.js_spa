@@ -23,10 +23,7 @@ export default {
   },
 
   LOADING(state) {
-    console.log(state.loading)
-    console.log("LOADING TRIGGERED")
     state.loading = !state.loading
-    console.log(state.loading)
   },
 
   KILLLOADING(state) {
@@ -37,8 +34,10 @@ export default {
   },
 
   LOGOUT(state) {
+    console.log(this._vm.$session)
     state.account.expired = true
     state.account.username = null
+    this._vm.$session.remove('token')
   }
   
 }
