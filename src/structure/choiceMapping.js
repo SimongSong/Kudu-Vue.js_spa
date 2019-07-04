@@ -14,6 +14,16 @@ export default {
   ['MP', 'Metaplasia'],
   ['DP', 'Dysplasia']],
   
+  run_status : 
+  [["IDLE", 'Idle'],
+  ["ERROR", 'Error'],
+  ["RUNNING", 'Running'],
+  ["ARCHIVING", 'Archiving'],
+  ["COMPLETE", 'Complete'],
+  ["ALIGN_COMPLETE", 'Align Complete'],
+  ["HMMCOPY_COMPLETE", 'Hmmcopy Complete']],
+
+
   pathology_occurrence :               
   [['PR', 'Primary'],
   ['RC', 'Recurrent or Relapse'],

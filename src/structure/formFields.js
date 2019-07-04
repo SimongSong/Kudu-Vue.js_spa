@@ -5,9 +5,6 @@ export default {
     fields : {
       name : { type : "String" },
       description : { type : "String" },
-      dlplibrary_set : {},
-      pballibrary_projects : {},
-      tenxlibrary_set : {}
     },
     relations : {
       dlplibrary_set : {
@@ -17,7 +14,7 @@ export default {
       },
       tenxlibrary_set : {
         model : ["tenx","library"],
-        name: "name ",
+        name: "name",
         many : true
       },
     }
@@ -26,15 +23,9 @@ export default {
   //   input_type : { type : "String" },
   //   version : { type : "String" },
   //   jira_ticket : { type : "String" },
-  //   run_status : null,
-  //   submission_date : null,
-  //   description : "",
-  //   dlp_library : null,
-  //   pbal_library : null,
-  //   tenx_library : null,
-  //   tenxsequencing_set : [],
-  //   dlpsequencing_set : [],
-  //   pbalsequencing_set : [],
+  //   run_status : { type : "Select", choices : choices.run_status },
+  //   submission_date : { type : "Date" },
+  //   description : { type : "String" },
   // },
   sample : {
     fields : {
@@ -44,6 +35,18 @@ export default {
       anonymous_patient_id : { type : "String" },
       cell_line_id : { type : "String" },
       xenograft_id : { type : "String" },
+    },
+    relations : {
+      tenxlibrary : {
+        model : ["tenx","library"],
+        name : "name",
+        many : true
+      },
+      dlplibrary : {
+        model : ["dlp","library"],
+        name : "pool_id",
+        many : true
+      },
     },
     children : {
       additionalsampleinformation : {
@@ -84,6 +87,16 @@ export default {
       projects : {
         model : ["core","project"],
         name : "name",
+        many : true
+      },
+      sample : {
+        model : ["core","sample"],
+        name : "sample_id",
+        many : false
+      },
+      dlpsequencing : {
+        model : ["dlp","sequencing"],
+        name : "id",
         many : true
       }
     },
@@ -153,13 +166,32 @@ export default {
       sequencer_id : { type : "String" },        
       sequencing_center : { type : "Select", choices : choices.sequencing_center },
       sequencer_notes : { type : "String" }
+    },
+    relations : {
+      dlplibrary : {
+        model : ["dlp","library"],
+        name : "pool_id",
+        many : false
+      },
+      relates_to : {
+        model : ["dlp","sequencing"],
+        name : "id",
+        many : true
+      }
     }     
   },
   tenxchip : {
     fields : {
       name : { type : "String" },        
       lab_name : { type : "Select", choices : choices.lab_name },
-    }
+    },
+    relations : {
+      tenxlibrary : {
+        model : ["tenx","library"],
+        name : "name",
+        many : true
+      }
+    },
   },
   tenxpool : {
     fields : {
@@ -167,6 +199,18 @@ export default {
       gsc_pool_name : { type : "String" },        
       construction_location : { type : "Select", choices : choices.sequencing_center },
       constructed_date : { type : "Date" }
+    },
+    relations : {
+      tenxlibrary : {
+        model : ["tenx","library"],
+        name : "name",
+        many : true
+      },
+      tenxsequencing : {
+        model : ["tenx","sequencing"],
+        name : "id",
+        many : true
+      }
     }
   },
   tenxsequencing : {
@@ -176,6 +220,18 @@ export default {
       submission_date : { type : "Date" },
       sequencer_id : { type : "String" },
       number_of_lanes_requested : { type : "Integer" },
+    },
+    relations : {
+      tenxlibrary : {
+        model : ["tenx","library"],
+        name : "name",
+        many : false
+      },   
+      tenxpool : {
+        model : ["tenx","pool"],
+        name : "pool_name",
+        many : false
+      },  
     }
   },
   tenxlibrary : {
@@ -195,6 +251,26 @@ export default {
       projects : {
         model : ["core","project"],
         name : "name",
+        many : true
+      },
+      tenxchip : {
+        model : ["tenx","chip"],
+        name : "name",
+        many : false
+      },
+      sample : {
+        model : ["core","sample"],
+        name : "sample_id",
+        many : false
+      },
+      tenxpool : {
+        model : ["tenx","pool"],
+        name : "pool_name",
+        many : false
+      },
+      tenxsequencing : {
+        model : ["tenx","sequencing"],
+        name : "id",
         many : true
       }
     },
