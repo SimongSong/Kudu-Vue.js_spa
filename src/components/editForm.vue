@@ -11,7 +11,7 @@
   <md-subheader>Relations</md-subheader>
   <md-list>
     <md-list-item md-expand v-for="(value,key) in formData.relations">
-      <span class="md-list-item-text" >{{key}}</span>
+      <span class="md-list-item-text" >{{key}}{{value.many}}</span>
       <md-list slot="md-expand">
         <relationManyEdit :relationInfo="value" :selected="value.selected" :many="value.many"/>    
       </md-list>

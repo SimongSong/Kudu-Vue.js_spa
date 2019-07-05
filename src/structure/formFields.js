@@ -37,11 +37,11 @@ export default {
       xenograft_id : { type : "String" },
     },
     relations : {
-      tenxlibrary_set : {
-        model : ["tenx","library"],
-        name : "name",
-        many : true
-      },
+      // tenxlibrary_set : {
+      //   model : ["tenx","library"],
+      //   name : "name",
+      //   many : true
+      // },
       dlplibrary_set : {
         model : ["dlp","library"],
         name : "pool_id",

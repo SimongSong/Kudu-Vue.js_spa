@@ -41,9 +41,6 @@ export default {
         }
       })
       .then( res => {
-        console.log("RETURNED")
-        console.log(res.data)
-        console.log(payload.name)
         resolve(res.data.map(a => {return { id : a.id, name : a[payload.name] }}))
       })
       .catch( e => {
