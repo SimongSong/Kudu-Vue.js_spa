@@ -1,3 +1,4 @@
+
 export function detailDataProcess(data, name) {
   //Change nested object into a list of objects
   var parent = {};
@@ -19,16 +20,37 @@ export function detailDataProcess(data, name) {
 
 export function detailEditForm(data, form) {
   console.log("DETIAL EDIT")
-
-  Object.keys(form).forEach(function(key) {
-    if(key !== "children") form[key]["value"] = data[key]
+  console.log(data)
+  Object.keys(form.fields).forEach(function(key){
+    form.fields[key].value = data[key]
   })
-  Object.keys(form["children"]).forEach(function(key) {
+  Object.keys(form.children).forEach(function(key){
     Object.keys(data[key]).forEach(function(children_key) {
-      if (Object.keys(form["children"][key]).includes(children_key)) 
-        form["children"][key][children_key]["value"] = checkDataFormat(data[key][children_key])
+      if (Object.keys(form.children[key]).includes(children_key)) 
+        form.children[key][children_key].value = checkDataFormat(data[key][children_key])
     })
   })
+  Object.keys(form.relations).forEach(function(key){
+    form.relations[key].selected = []
+    console.log(key)
+    if (Object.keys(data).includes(key)){
+      if(form.relations[key].many) {
+        console.log("MANY NUMBER")
+        if (Number.isInteger(data[key][0])) form.relations[key].selected = data[key]
+        else {
+          data[key].forEach(function(item) {
+            form.relations[key].selected.push(item.id)
+          })
+        }
+      }
+      else {
+        console.log("SINGLE LIKE ME FOR REST OF MY LIFE")
+        form.relations[key].selected = data[key].id
+      }
+    }
+  })
+  console.log("FORM READY")
+  console.log(form)
   return form
 }
 

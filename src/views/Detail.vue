@@ -5,7 +5,7 @@
       md-title="DELETELTELDELDLELTEL!"
       md-content="DELETE DELETE DELETE??????DELETE ." />
     
-    <editForm :showForm="showForm" :toggleEditForm="toggleEditForm" />
+    <editForm :showForm="showForm" :toggleEditForm="toggleEditForm" :formData = "this.$store.state.model.form_fields"/>
 
     <md-card md-with-hover>
       <md-card-header>

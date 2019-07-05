@@ -37,12 +37,12 @@ export default {
       xenograft_id : { type : "String" },
     },
     relations : {
-      tenxlibrary : {
+      tenxlibrary_set : {
         model : ["tenx","library"],
         name : "name",
         many : true
       },
-      dlplibrary : {
+      dlplibrary_set : {
         model : ["dlp","library"],
         name : "pool_id",
         many : true
@@ -94,7 +94,7 @@ export default {
         name : "sample_id",
         many : false
       },
-      dlpsequencing : {
+      dlpsequencing_set : {
         model : ["dlp","sequencing"],
         name : "id",
         many : true
@@ -201,7 +201,7 @@ export default {
       constructed_date : { type : "Date" }
     },
     relations : {
-      tenxlibrary : {
+      tenxlibrary_set : {
         model : ["tenx","library"],
         name : "name",
         many : true

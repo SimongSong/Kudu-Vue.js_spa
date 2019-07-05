@@ -1,13 +1,13 @@
 <template>
   <div>
-    <md-table v-model="searched" @md-selected="onSelect" >
-      <md-table-toolbar>
-        <md-field md-clearable class="md-toolbar-section-end">
-          <md-input placeholder="Search by name..." v-model="search" @input="searchOnTable" />
-        </md-field>
-      </md-table-toolbar>
-      <md-table-row slot="md-table-row" slot-scope="{ item }" md-selectable="multiple" md-auto-select>
-        <md-table-cell md-label="ID" md-sort-by="name">{{ item.name }}</md-table-cell>
+    <md-table-toolbar>
+      <md-field md-clearable class="md-toolbar-section-end">
+        <md-input placeholder="Search by name..." v-model="search" @input="searchOnTable" />
+      </md-field>
+    </md-table-toolbar>
+    <md-table id="choiceTable" v-model="searched">
+      <md-table-row class="rowitem" slot="md-table-row" slot-scope="{ item }" >
+        <md-table-cell  md-label="ID" md-sort-by="name"><md-checkbox v-model="item.selected" @change="selectItem(item)"></md-checkbox>{{ item.name }}</md-table-cell>
       </md-table-row>
     </md-table>
 
@@ -20,11 +20,7 @@
   }
 
   const searchByName = (items, term) => {
-    console.log(items)
-    console.log(term)
-    
     if (term) {
-      console.log(items.filter(item => toLower(item.name).includes(toLower(term))))
       return items.filter(item => toLower(item.name).includes(toLower(term)))
     }
 
@@ -33,33 +29,35 @@
 
   export default {
     name: 'relationManyEdit',
-    props: ['relationInfo', 'selected'],
+    props: ['relationInfo', 'selected', 'many'],
     data: () => ({
+      items: [],
       search: null,
       searched: [],
-      items: []
+      boolean: false,
     }),
+    mounted() {
+      console.log("MOUNTED")
+    },
     methods: {
       onSelect (items) {
+        console.log("ONSELECT")
         this.selected = items
       },
-      getAlternateLabel (count) {
-        let plural = ''
-
-        if (count > 1) {
-          plural = 's'
-        }
-
-        return `${count} user${plural} selected`
-      },
       searchOnTable () {
-        console.log("SERACH")
         this.searched = searchByName(this.items, this.search)
       },
+      selectItem ( item ) {
+        console.log(this.selected)
+        if (item.selected) this.selected.push(item.id)
+        else this.selected = this.selected.filter(i => i !== item.id )
+        console.log(this.selected)
+      }
+
     },
     created () {
       console.log("BEGINNING")
-      console.log(this.$session.get('token'))
+      console.log(this.selected)
       this.$store.dispatch('loadRelationList',{
         token : this.$session.get('token'),
         name : this.relationInfo.name,
@@ -69,9 +67,13 @@
         response => {
           console.log("returned")
           console.log(response)
+          console.log(this.selected)
+          console.log(this.many)
           this.items = response
+          this.items.forEach( item => {
+            if(this.selected.includes(item.id)) item.selected = true
+          })
           this.searched = this.items
-          this.selected = []
         },
         error => {
         }
