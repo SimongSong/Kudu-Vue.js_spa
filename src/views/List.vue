@@ -1,6 +1,6 @@
 <template>
   <div v-if='listHeaders !== null'>
-    <md-table md-height="100%" :value="listValues" md-sort="id" md-sort-order="asc" md-fixed-header>
+    <md-table md-width="100%" md-height="100%" :value="listValues" md-sort="id" md-sort-order="asc" md-fixed-header>
       
       <md-table-toolbar>
       <div class="md-toolbar-section-start">
@@ -130,6 +130,7 @@
 
 <style lang="scss" scoped>
   .md-table {
+    min-width: 50vh;
     height: calc(100% - 40px);
   }
 
@@ -139,8 +140,10 @@
   }
 
   .md-field {
-    max-width: 300px;
+    overflow: hidden;
+    word-wrap: break-word;
   }
+  
 </style>
 
 
