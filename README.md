@@ -1,4 +1,5 @@
 # kudu
+Basic Webiste generator for effectively displaying ORM Database, with little to no programming.
 
 ## Project setup
 ```
