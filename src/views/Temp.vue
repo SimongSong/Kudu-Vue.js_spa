@@ -52,7 +52,6 @@ export default {
 
 .topmenu {
   height: 50px;
-  width:800px;  
   max-width: calc(100vw - 125px);
   display: flex;
   align-items: center;
@@ -106,8 +105,11 @@ export default {
 
 .maincontent {
   height: calc(90vh - 49px);
-  width:800px;  
   max-width: calc(100vw - 125px);
+}
+
+.router-component {
+  height: 100%;
 }
 
 .centre-focus {

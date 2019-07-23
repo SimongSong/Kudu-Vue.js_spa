@@ -9,7 +9,8 @@
 
     <md-card md-with-hover>
       <md-card-header>
-        <div class="md-title">{{$route.params.type.toUpperCase()}}</div>
+        <div class="md-title">{{$route.params.type.toUpperCase()}}
+        </div>
       </md-card-header>
       <md-card-actions v-if="!isEditable">
         <md-button @click="toggleEditForm">Edit</md-button>

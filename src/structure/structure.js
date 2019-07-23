@@ -15,14 +15,6 @@ export default {
       detail_api: "project/",
       form_fields : form.project,
     },
-    analysis : {
-      title : "Core Analyses",
-      url : "/list/core/analysis",
-      list_api: "kuduanalysis_list/",
-      detail_api:"analysis/",
-      form_fields : form.analysis,
-      noteditable: true
-    },
     summary : false
   },
   dlp : {
@@ -77,6 +69,14 @@ export default {
       list_api: "kudutenxsequencing_list/",
       detail_api: "tenxsequencing/",
       form_fields : form.tenxsequencing,
+    },
+    analysis : {
+      title : "Tenx Analyses",
+      url : "/list/tenx/analysis",
+      list_api: "kudutenxanalysis_list/",
+      detail_api:"tenxanalysis/",
+      form_fields : form.tenxanalysis,
+      noteditable: true
     },
     summary : true
   }

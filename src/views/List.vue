@@ -1,6 +1,6 @@
 <template>
   <div v-if='listHeaders !== null'>
-    <md-table :value="listValues" md-sort="id" md-sort-order="asc" md-fixed-header>
+    <md-table md-height="100%" :value="listValues" md-sort="id" md-sort-order="asc" md-fixed-header>
       
       <md-table-toolbar>
       <div class="md-toolbar-section-start">
@@ -32,7 +32,6 @@
         <md-button v-if="!isEditable" @click="toggleEditForm" class="md-icon-button">
         <md-icon>add</md-icon>
     </md-button>
-    <customFilter />
   </div>
 </template>
 
@@ -131,19 +130,9 @@
 
 <style lang="scss" scoped>
   .md-table {
-    height: 100%;
-    max-width: 100%;
-    .md-table-row {
-       width: 100%;
-       overflow: auto;
-    }
+    height: calc(100% - 40px);
   }
 
-  @media (max-width: 978px) {
-    .md-table{
-
-    }
-  } 
 
   .table-title {
     font-size: 22px;
