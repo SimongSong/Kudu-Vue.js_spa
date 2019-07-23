@@ -84,9 +84,6 @@
     name: 'editForm',
     props: ['showForm', 'toggleEditForm', 'formData'],
     name: 'FormValidation',
-    created() {
-      console.log(this.formData)
-    },
     components : {
       relationManyEdit
     },

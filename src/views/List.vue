@@ -1,22 +1,19 @@
 <template>
-  <div v-if='listHeaders !== null'>
+  <div v-if='headerLoaded'>
     <md-table md-width="100%" md-height="100%" :value="listValues" md-sort="id" md-sort-order="asc" md-fixed-header>
-      
       <md-table-toolbar>
       <div class="md-toolbar-section-start">
-      <h1 class="md-title">{{$route.params.type}}</h1>
+        <h1 class="md-title">{{$route.params.type}}</h1>
       </div>
-
-      <editForm :showForm="showForm" :toggleEditForm="toggleEditForm" :formData = "this.$store.state.model.form_fields"/>
       
       <md-field md-clearable class="md-toolbar-section-end">
-      <md-input placeholder="Search by name..." v-model="search" v-on:keyup.enter="login" />
+      <md-input placeholder="Search by name..." v-model="search"/>
       </md-field>
-
       </md-table-toolbar>
         
       <md-table-row 
-      v-for="item in listValues" 
+      slot="md-table-row" 
+      slot-scope="{ item }"
       @click="$router.replace({ 
         name: 'detail', 
         params: {
@@ -25,13 +22,13 @@
           pk: item.id
         }
       })">
-        <md-table-cell v-for="(value,key) in item" :md-label="key" :md-sort-by="key">{{ value }}</md-table-cell>
-      </md-table-row>
-      
+        <md-table-cell v-for="header in headers" :md-label="header" :md-sort-by="header" md-numeric>{{ item[header] }}</md-table-cell>
+      </md-table-row>      
     </md-table>
         <md-button v-if="!isEditable" @click="toggleEditForm" class="md-icon-button">
         <md-icon>add</md-icon>
     </md-button>
+    <editForm :showForm="showForm" :toggleEditForm="toggleEditForm" :formData = "this.$store.state.model.form_fields" />
   </div>
 </template>
 
@@ -48,13 +45,7 @@
     created() {
       console.log("CREATED")
       console.log(this.$store.state.form)
-      this.toggleLoading()
-    },
-    beforeCreate() {
-      console.log("CONE")
-    },
-    mounted () {
-      console.log("MOUTNED")
+      // this.toggleLoading()
       this.$store.dispatch('loadData',{
         app: this.$route.params.app, 
         type: "list", 
@@ -64,29 +55,40 @@
       then(
         response => {
           console.log("DONE")
-          console.log(this.$store.state.loading)
+          this.dataset = response
+          if(typeof response[0] !== 'undefined') this.headers =  Object.keys(response[0]) 
+          this.headerLoaded = true
+          console.log("HELLO")
         },
         error => {
           console.log("ERROR")
-          this.$store.commit('KILLLOADING')
-          console.log(this.$store.state.loading)
+          // this.$store.commit('KILLLOADING')
+          // console.log(this.$store.state.loading)
         }
       )
     },
-    updated() {
-      this.$nextTick(function () {
-        console.log("NEXT TICK")
-        if (this.headerLoaded){
-          this.headerLoaded = false
-          this.$store.commit('KILLLOADING')
-        }
-        else this.headerLoaded = true
+    beforeCreate() {
+      console.log("CONE")
+    },
+    mounted () {
+      console.log("MOUTNED")
+    },
+    // updated() {
+    //   this.$nextTick(function () {
+    //     console.log("NEXT TICK")
+    //     if (this.headerLoaded){
+    //       this.headerLoaded = false
+    //       this.$store.commit('KILLLOADING')
+    //     }
+    //     else this.headerLoaded = true
         
-      })
-    },  
+    //   })
+    // },  
     data : function () {
       return {
         headerLoaded : false,
+        dataset: [],
+        headers: [],
         search: null,
         showForm : false,
         headers: ["i"],
@@ -95,7 +97,10 @@
     },
     methods: {
       toggleEditForm: function () {
+        console.log("fefe")
+        console.log(this.showForm)
         this.showForm = !this.showForm
+        console.log(this.showForm)
       },
       toggleLoading () {
       this.$store.commit('LOADING')
@@ -112,14 +117,13 @@
     //   }
     // },
     computed : {
-      listHeaders () {
-        return this.$store.getters.getListHeaders
-      },
+      // listHeaders () {
+      //   return this.$store.getters.getListHeaders
+      // },
       listValues () {
-        let data = this.$store.getters.getListValues
         if (this.search) 
-          return listSearch(this.search, data)
-        return data
+          return listSearch(this.search, this.dataset)
+        return this.dataset
       },
       isEditable () {
       return this.$store.getters.isEditable

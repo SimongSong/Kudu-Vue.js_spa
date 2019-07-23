@@ -11,7 +11,6 @@ export default {
 
     view: "list",
     model: {},
-    data: [],
     detail: {},
     structure: structure,
     form: {},

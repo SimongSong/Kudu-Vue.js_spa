@@ -15,17 +15,17 @@ export default {
           }
         })
         .then(r => {
+          if(payload.type === "list"){
+            commit('SET_DATA', {model: app_model})
+            resolve(r.data)
+          }
+          else if(payload.type === "detail") commit('SET_DETAIL', {data: r.data, model: app_model} )
           resolve("success")
-          if(payload.type === "list")
-            commit('SET_DATA', {data: r.data, model: app_model} )
-          else if(payload.type === "detail")
-            commit('SET_DETAIL', {data: r.data, model: app_model} )
         })
         .catch(e => {
           console.log(e.response)
           reject('fefe')
-          if(e.response.data.detail.includes("expired"))
-          commit('LOGOUT')
+          if(e.response.data.detail.includes("expired")) commit('LOGOUT')
         })
     })
   },

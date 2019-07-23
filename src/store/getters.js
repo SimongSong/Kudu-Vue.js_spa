@@ -2,21 +2,21 @@ export default {
   getModel: state => {
     return state.model
   },
-  getListHeaders: state => {
-    console.log("WHY!!!")
-    if(typeof state.data[0] !== 'undefined'){
-      console.log(Object.keys(state.data[0]))
-      return Object.keys(state.data[0])
-    }
-    return null
+  // getListHeaders: state => {
+  //   console.log("WHY!!!")
+  //   if(typeof state.data[0] !== 'undefined'){
+  //     console.log(Object.keys(state.data[0]))
+  //     return Object.keys(state.data[0])
+  //   }
+  //   return null
 
-  },
+  // },
 
-  getListValues: state => {
-    if(typeof state.data[0] !== 'undefined')
-      return state.data
-    return null
-  },
+  // getListValues: state => {
+  //   if(typeof state.data[0] !== 'undefined')
+  //     return state.data
+  //   return null
+  // },
 
   getDetailHeaders: state => {
     if(typeof state.detail[0] !== 'undefined'){

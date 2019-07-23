@@ -4,8 +4,6 @@ export default {
   SET_DATA (state, payload) {
     console.log("HELLFIN")
     console.log(payload.model)
-
-    state.data = payload.data
     state.model = payload.model
   },
 
