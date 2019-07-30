@@ -45,7 +45,7 @@ const router =  new Router({
 
 router.beforeEach((to, from, next) => {
   const authRequired = to.matched.some((route) => route.meta.auth)
-  const authorized = store.state.account.authorized
+  const authorized = !!localStorage.getItem('user-token') || ''
   console.log(authorized)
   if(authRequired && !authorized) next('/login')
   else next()

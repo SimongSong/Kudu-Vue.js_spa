@@ -50,7 +50,7 @@
         app: this.$route.params.app, 
         type: "list", 
         model: this.$route.params.type, 
-        token : this.$session.get('token')
+        token : localStorage.getItem('user-token')
         }).
       then(
         response => {

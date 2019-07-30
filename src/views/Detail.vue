@@ -82,7 +82,7 @@ export default {
         type: "detail", 
         pk: this.$route.params.pk,  
         model: this.$route.params.type,
-        token : this.$session.get('token')
+        token : localStorage.getItem('user-token')
         })
   },
   computed: {

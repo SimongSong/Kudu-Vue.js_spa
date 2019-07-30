@@ -1,9 +1,9 @@
 <template>
+<div style="text-align: center;">
   <div class="login-focus">
-    <md-content class="login-content md-elevation-3">
       <div class="title">
         <img src="../assets/temporarylogo.png">
-        <div class="md-title">Kudu - Colossus</div>
+        <div class="md-title">LOGIN</div>
         <div class="md-body-1">Life is like a hair loss, it just gets progressively worse.</div>
       </div>
       <div class="login-form">
@@ -16,44 +16,29 @@
           <md-input v-model="account.password"  required type="password" v-on:keyup.enter="login"></md-input>
         </md-field>
       </div>
-      <md-button class="login-button md-raised md-primary" @click="login" >Sign In</md-button>
-    </md-content>
+    <md-button class="login-button md-raised md-primary" @click="login" >Sign In</md-button>
   </div>
+</div>
 </template>
 
 <script>
 
 export default {
   name: 'login',
-  props: { 
-    toggleLogin: {type: Function},
-    spinnerLoading: {type: Function},
-  },
   computed: {
-    loading () {
-      return this.$store.state.loading
-    },
   },  
   methods: {
     login () {
       console.log("E")
-      this.toggleLoading()
       this.$store.dispatch('login',this.account)
       .then(
         response => {console.log(response);
-        this.$session.start();
-        localStorage.setItem('user-token', response)
-        this.toggleLoading()
         this.$router.push('/') 
         },
         error => {
           console.log("ERROR")
-          this.toggleLoading()
         })
     },
-    toggleLoading () {
-      this.$store.commit('LOADING')
-    }
   },
   data() {
     return {
@@ -68,12 +53,9 @@ export default {
 
 <style lang="scss" scoped>
 .login-focus {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  height: 100vh;
+  display: inline-block;
   .title {
+    display: inline-block;
     text-align: center;
     margin-bottom: 20px;
     img {
@@ -87,12 +69,8 @@ export default {
   margin-bottom : 40px;
 }
 
-.login-content {
-  z-index: 1;
-  width: 100%;
-  padding: 25px;
-  max-width: 350px;
-  position: relative;
+.md-field {
+  max-width: 30vw;
 }
 
 .login-button {

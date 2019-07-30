@@ -13,9 +13,8 @@
     </div>
     <div >
     <md-content class="topmenu">
-    <md-input />
   
-    <md-button @click="$store.commit('LOGOUT')">{{$store.state.account}}</md-button>
+    <md-button @click="$store.commit('LOGOUT')">LOGOUT</md-button>
     <md-button >API</md-button>
     <md-button >Admin</md-button>
     </md-content>     

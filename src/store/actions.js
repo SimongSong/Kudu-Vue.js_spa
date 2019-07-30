@@ -65,18 +65,18 @@ export default {
   },
 
   login({ commit }, payload) {
-    console.log("payload")
-    console.log(payload)
     return new Promise(function(resolve, reject) {
       axios.post(BASE_URL + "auth/", {
         username: payload.username,
         password: payload.password
     }).then(res =>
         {
-        resolve(res.data.token);
+        localStorage.setItem('user-token', res.data.token)
+        resolve('authenticated');
         commit('AUTHENTICATE', {username : payload.username })
         }).catch(e => {
           console.log("ERROR")
+          localStorage.removeItem('user-token')
           console.log(e)
           reject('wrong username or password')
         })

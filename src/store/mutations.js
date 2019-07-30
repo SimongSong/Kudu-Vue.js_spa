@@ -17,7 +17,6 @@ export default {
 
   AUTHENTICATE(state, payload) {
     state.account.expired = false
-    state.account.authorized = true
     state.account.username = payload.username
   },
 
@@ -35,7 +34,7 @@ export default {
   LOGOUT(state) {
     console.log(this._vm.$session)
     state.account.expired = true
-    state.account.authorized = false
+    localStorage.removeItem('user-token')
     state.account.username = null
     this._vm.$session.remove('token')
   }

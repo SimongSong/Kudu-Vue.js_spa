@@ -16,6 +16,11 @@ export default {
   components: {
     Temp
   },
+  computed: {
+    loading () {
+      return false
+    }
+  },
   data() {
     return {
       auth: false
