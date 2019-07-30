@@ -105,7 +105,7 @@ export default {
 
 .maincontent {
   height: calc(90vh - 49px);
-  max-width: calc(100vw - 125px);
+  min-width: calc(60vw - 425px);
 }
 
 .router-component {
