@@ -2,6 +2,7 @@ import structure from '../structure/structure'
 
 export default {
     account: {
+        authorized: false,
         username: "Simong",
         token: "",
         expired: false        

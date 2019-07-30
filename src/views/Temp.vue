@@ -14,7 +14,8 @@
     <div >
     <md-content class="topmenu">
     <md-input />
-    <md-button @click="$store.commit('LOGOUT')">LOGOUT</md-button>
+  
+    <md-button @click="$store.commit('LOGOUT')">{{$store.state.account}}</md-button>
     <md-button >API</md-button>
     <md-button >Admin</md-button>
     </md-content>     
@@ -105,7 +106,7 @@ export default {
 
 .maincontent {
   height: calc(90vh - 49px);
-  min-width: calc(60vw - 425px);
+  min-width: calc(90vw - 225px);
 }
 
 .router-component {

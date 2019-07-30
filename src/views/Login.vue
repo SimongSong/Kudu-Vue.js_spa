@@ -1,6 +1,6 @@
 <template>
-  <div class="centre-focus">
-    <md-content class="md-elevation-3">
+  <div class="login-focus">
+    <md-content class="login-content md-elevation-3">
       <div class="title">
         <img src="../assets/temporarylogo.png">
         <div class="md-title">Kudu - Colossus</div>
@@ -16,7 +16,7 @@
           <md-input v-model="account.password"  required type="password" v-on:keyup.enter="login"></md-input>
         </md-field>
       </div>
-      <md-button class="md-raised md-primary" @click="login" >Sign In</md-button>
+      <md-button class="login-button md-raised md-primary" @click="login" >Sign In</md-button>
     </md-content>
   </div>
 </template>
@@ -29,6 +29,11 @@ export default {
     toggleLogin: {type: Function},
     spinnerLoading: {type: Function},
   },
+  computed: {
+    loading () {
+      return this.$store.state.loading
+    },
+  },  
   methods: {
     login () {
       console.log("E")
@@ -37,9 +42,10 @@ export default {
       .then(
         response => {console.log(response);
         this.$session.start();
-        this.$session.set('token', response);
+        localStorage.setItem('user-token', response)
         this.toggleLoading()
-        this.toggleLogin()},
+        this.$router.push('/') 
+        },
         error => {
           console.log("ERROR")
           this.toggleLoading()
@@ -61,7 +67,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.centre-focus {
+.login-focus {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -81,7 +87,7 @@ export default {
   margin-bottom : 40px;
 }
 
-.md-content {
+.login-content {
   z-index: 1;
   width: 100%;
   padding: 25px;
@@ -89,7 +95,7 @@ export default {
   position: relative;
 }
 
-.md-button {
+.login-button {
   float : right;
 }
 

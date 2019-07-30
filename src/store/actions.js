@@ -5,6 +5,7 @@ const BASE_URL = 'http://127.0.0.1:8000/api/'
 
 export default {
   loadData({ commit, dispatch, state }, payload) {
+    console.log("LOAD DATA")
     let app_model = state.structure[payload.app][payload.model]
     let url = (payload.type === "list") ? app_model.list_api : (app_model.detail_api + payload.pk)
     return new Promise(function(resolve, reject) {

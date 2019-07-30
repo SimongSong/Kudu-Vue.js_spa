@@ -1,6 +1,6 @@
 <template>
   <div v-if='headerLoaded'>
-    <md-table md-width="100%" md-height="100%" :value="listValues" md-sort="id" md-sort-order="asc" md-fixed-header>
+    <md-table md-height="100%" :value="listValues" md-sort="id" md-sort-order="asc" md-fixed-header>
       <md-table-toolbar>
       <div class="md-toolbar-section-start">
         <h1 class="md-title">{{$route.params.type}}</h1>
@@ -143,11 +143,18 @@
     font-size: 22px;
   }
 
-  .md-field {
-    overflow: hidden;
-    word-wrap: break-word;
+  .md-table .md-table-cell.md-has-action .md-table-cell-container {
+    justify-content: space-around;
   }
-  
+  .md-table .md-table-head {
+    text-align: center;
+  }
+  .md-table .md-table-cell {
+    text-align: center;
+  }
+  .md-table-head.md-numeric {
+    text-align: center;
+  }
 </style>
 
 

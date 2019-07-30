@@ -1,7 +1,6 @@
 <template>
   <div>
-  <Login v-if="loginCheck" :toggleLogin="login" />
-  <Temp v-else/>
+  <Temp />
   <div class="loading-overlay" v-if="loading" >
     <md-progress-spinner md-mode="indeterminate">
     </md-progress-spinner>
@@ -10,35 +9,13 @@
 </template>
  
 <script>
-import Login from './views/Login'
+
 import Temp from './views/Temp'
 export default {
   name: 'app',
-  mounted() {
-    this.checkToken()
-  },
   components: {
-    Login,
     Temp
   },
-  methods: {
-    login () {
-      this.auth = true
-    },
-    checkToken() {
-      this.$session.start();
-      if (this.$session.has("token"))
-        this.auth=true
-    }
-  },
-  computed: {
-    loading () {
-      return this.$store.state.loading
-    },
-    loginCheck () {
-      return (!this.auth || this.$store.state.account.expired) 
-    }
-  },  
   data() {
     return {
       auth: false
