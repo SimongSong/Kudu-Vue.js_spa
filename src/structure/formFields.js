@@ -27,6 +27,7 @@ export default {
   //   submission_date : { type : "Date" },
   //   description : { type : "String" },
   // },
+
   sample : {
     fields : {
       sample_id : { type : "String", must : true },
