@@ -39,7 +39,7 @@ export function detailEditForm(data, form) {
         if (Number.isInteger(data[key][0])) form.relations[key].selected = data[key]
         else {
           data[key].forEach(function(item) {
-            form.relations[key].selected = item.id
+            form.relations[key].selected = [item.id]
           })
         }
       }

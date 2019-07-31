@@ -8,7 +8,7 @@
         </md-field>
       </md-table-toolbar>
       <md-table-row class="rowitem" slot="md-table-row" slot-scope="{ item }" >
-        <md-table-cell  md-label="ID" md-sort-by="name"><md-checkbox v-model="item.selected" @change="selectItem(item)"></md-checkbox>{{ item.name }}{{ item.selected }}</md-table-cell>
+        <md-table-cell  md-label="ID" md-sort-by="name"><md-checkbox v-model="item.selected" @change="selectItem(item)"></md-checkbox>{{ item.name }}</md-table-cell>
       </md-table-row>
     </md-table>
 

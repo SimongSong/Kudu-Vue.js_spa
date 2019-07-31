@@ -1,18 +1,22 @@
 <template>
   <div>
-    <md-radio v-model="selected" v-for="item in items" :value="item.id">{{item.name}}</md-radio>
+    <md-list class="single-list-row">
+      <md-list-item v-for="item in items">
+      <md-radio v-model="selected" :value="item.id" >{{item.name}}</md-radio>
+      </md-list-item>
+    </md-list>
   </div>
 </template>
 
 <script>
-  import Vue from 'vue'
-
   export default {
     name: 'relationSingleEdit',
     props: ['relationInfo', 'selected'],
+    created() {
+      if(!this.selected) this.selected = false
+    },
     data: () => ({
       items: [],
-      selected: false,
     }),
     mounted () {
       this.$store.dispatch('loadRelationList',{
@@ -31,5 +35,8 @@
 </script>
 
 <style lang="scss" scoped>
-
+.single-list-row {
+  height: 200px;
+  overflow-y: scroll;
+}
 </style>

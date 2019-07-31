@@ -9,7 +9,6 @@
   <md-card-content>
 
   <md-subheader>Relations</md-subheader>
-  {{formValue}}
   <md-list>
     <md-list-item md-expand v-for="(value,key) in formValue.relations">
       <span class="md-list-item-text" >{{key}}</span>
@@ -94,7 +93,8 @@
       this.formValue = this.formData
     },
     components : {
-      relationManyEdit
+      relationManyEdit,
+      relationSingleEdit
     },
     methods: {
       // THIS IS TEMP
