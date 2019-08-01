@@ -8,8 +8,8 @@ export default {
   },
 
   SET_DETAIL(state,payload) {
-    state.detail = detailDataProcess(payload.data,"")
     state.model = payload.model
+    // state.detail = detailDataProcess(payload.data,"")
     state.model.form_fields = detailEditForm(payload.data, state.model.form_fields)
     console.log("DETAIL")
     console.log(state.model.form_fields)

@@ -18,6 +18,23 @@ export default {
   //   return null
   // },
 
+  getStructurekeys: state => {
+    var keys = {}
+    Object.keys(state.structure).forEach((key) => {
+      var child_keys = Object.keys(state.structure[key])
+      keys[key.toUpperCase()] = []
+      if (!state.structure[key].summary) child_keys = child_keys.filter(item => item !== 'summary')
+      child_keys.forEach(child => {
+        var text_value = child.charAt(0).toUpperCase() + child.slice(1)
+        var path = state.structure[key][child].url
+        if(child=="summary")keys[key.toUpperCase()].push({icon : 'mdi-chart-bar', text: text_value, link: path})
+        else keys[key.toUpperCase()].push({icon : 'mdi-folder-open', text: text_value, link: path})
+      })
+    })
+    
+    return keys
+  },
+
   getDetailHeaders: state => {
     if(typeof state.detail[0] !== 'undefined'){
       let headers = []
@@ -30,17 +47,12 @@ export default {
   },
 
   cardValues: state => {
-    if(typeof state.detail[0] !== 'undefined') {
-      console.log("CARDS")  
-      console.log(state.detail.slice(1))  
-      return state.detail.slice(1)
-    }
+    if(typeof state.detail[0] !== 'undefined') return state.detail.slice(1)
+    
     return null
   },
   cardParentValues: state => {
-    if(typeof state.detail[0][1] !== 'undefined'){
-      return state.detail[0][1]
-    }
+    if(typeof state.detail[0][1] !== 'undefined') return state.detail[0][1]    
     return null
   },
 

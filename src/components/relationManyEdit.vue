@@ -23,10 +23,7 @@
   }
 
   const searchByName = (items, term) => {
-    if (term) {
-      return items.filter(item => toLower(item.name).includes(toLower(term)))
-    }
-
+    if (term) return items.filter(item => toLower(item.name).includes(toLower(term)))
     return items
   }
 
@@ -44,15 +41,11 @@
         this.searched = searchByName(this.items, this.search)
       },
       selectItem ( item ) {
-        console.log(item.selected)
         if (item.selected) this.selected.push(item.id)
         else this.selected.splice(this.selected.indexOf(item.id), 1)
-        console.log(this.selected)
       }
     },
     mounted () {
-      console.log("BEGINNING")
-      console.log(this.selected)
       this.$store.dispatch('loadRelationList',{
         token : localStorage.getItem('user-token'),
         name : this.relationInfo.name,

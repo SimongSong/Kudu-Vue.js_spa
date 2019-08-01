@@ -11,7 +11,7 @@ export default {
 
     view: "list",
     model: {},
-    detail: {},
+    // detail: {},
     structure: structure,
     form: {},
     // Tuple of (URL Path, Title)

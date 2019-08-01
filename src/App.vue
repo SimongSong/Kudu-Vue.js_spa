@@ -1,46 +1,72 @@
 <template>
-  <div>
-  <Temp />
-  <div class="loading-overlay" v-if="loading" >
-    <md-progress-spinner md-mode="indeterminate">
-    </md-progress-spinner>
-  </div>
-  </div>
+  <v-app >
+    <!-- Topnav Bar START -->
+    <v-app-bar
+        app
+        clipped-left
+        color="red"
+        dense
+      >
+      <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
+      <v-toolbar-title class="mr-12 align-center">
+        <span class="title">Kudu - Colossus</span>
+      </v-toolbar-title>
+      <v-spacer></v-spacer>
+      <v-layout
+        align-center
+        style="max-width: 650px"
+      >
+        <v-text-field
+          :append-icon-cb="() => {}"
+          placeholder="Search..."
+          single-line
+          append-icon="search"
+          color="white"
+          hide-details
+        ></v-text-field>
+      </v-layout>
+    </v-app-bar>
+    <!-- Topnav Bar END -->
+
+    <!-- Sidemenu START -->
+    <v-navigation-drawer
+      v-model="drawer"
+      app
+      clipped
+    >
+      <SideMenu />
+    </v-navigation-drawer>
+    <!-- Sidemenu END -->
+
+    <v-content>
+      <v-container fill-height>
+        <v-layout
+          justify-center
+          align-center
+        >
+          <v-flex shrink>
+          
+          </v-flex>
+        </v-layout>
+      </v-container>
+    </v-content>
+  </v-app>
 </template>
- 
+
 <script>
-
-import Temp from './views/Temp'
-export default {
-  name: 'app',
-  components: {
-    Temp
-  },
-  computed: {
-    loading () {
-      return false
-    }
-  },
-  data() {
-    return {
-      auth: false
-    }
-  },
-}
-</script>
-
-<style lang="scss">
-  .loading-overlay {
-    z-index: 10;
-    top: 0;
-    left: 0;
-    right: 0;
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background: rgba(255, 255, 255, 0.9);
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  import SideMenu from "./views/SideMenu"
+  export default {
+    props: {
+      source: String,
+    },
+    components: {
+      SideMenu
+    },
+    data: () => ({
+      drawer: null,
+    }),
+    created () {
+      this.$vuetify.theme.dark = true
+    },
   }
-</style>
+</script>

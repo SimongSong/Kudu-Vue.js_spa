@@ -26,6 +26,7 @@ export default {
         .catch(e => {
           console.log(e.response)
           reject('fefe')
+          if(e.response.data.detail.includes("expired")) commit('LOGOUT')
         })
     })
   },
