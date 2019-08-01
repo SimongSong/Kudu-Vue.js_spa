@@ -32,7 +32,7 @@ const router =  new Router({
       path: '/list/:app/:type/',
       name: 'list',
       meta: {auth: true},
-      component: () => import('./views/List.vue')
+      component: () => import('./views/ListView.vue')
     },
     {
       path: '/form/:type/:pk',

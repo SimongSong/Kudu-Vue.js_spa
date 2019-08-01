@@ -31,8 +31,22 @@ export default {
         else keys[key.toUpperCase()].push({icon : 'mdi-folder-open', text: text_value, link: path})
       })
     })
-    
     return keys
+  },
+
+  getListHeaders: state => {
+    var headers = []
+    
+    return [{
+      text: 'Dessert (100g serving)',
+      align: 'left',
+      sortable: false,
+      value: 'name',
+    }]
+  },
+
+  getListData: state => {
+
   },
 
   getDetailHeaders: state => {

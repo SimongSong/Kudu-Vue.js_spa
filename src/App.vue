@@ -2,9 +2,10 @@
   <v-app >
     <!-- Topnav Bar START -->
     <v-app-bar
+        fixed
         app
         clipped-left
-        color="red"
+        
         dense
       >
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
@@ -38,18 +39,23 @@
     </v-navigation-drawer>
     <!-- Sidemenu END -->
 
+    <!-- Maincontent START -->
     <v-content>
-      <v-container fill-height>
+      <v-container fluid>
         <v-layout
-          justify-center
-          align-center
-        >
-          <v-flex shrink>
+          child-flex
           
-          </v-flex>
+          
+        >
+            <router-view class="router-component" :key="$route.fullPath"/>
         </v-layout>
       </v-container>
     </v-content>
+    <!-- Maincontent END -->
+
+    <v-footer app fixed>
+      <span>&copy; 2019</span>
+    </v-footer>
   </v-app>
 </template>
 

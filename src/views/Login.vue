@@ -1,24 +1,34 @@
 <template>
-<div style="text-align: center;">
-  <div class="login-focus">
-      <div class="title">
-        <img src="../assets/temporarylogo.png">
-        <div class="md-title">LOGIN</div>
-        <div class="md-body-1">Life is like a hair loss, it just gets progressively worse.</div>
-      </div>
-      <div class="login-form">
-        <md-field>
-          <label>Username</label>
-          <md-input v-model="account.username" autofocus required></md-input>
-        </md-field>
-        <md-field>
-          <label>Password</label>
-          <md-input v-model="account.password"  required type="password" v-on:keyup.enter="login"></md-input>
-        </md-field>
-      </div>
-    <md-button class="login-button md-raised md-primary" @click="login" >Sign In</md-button>
-  </div>
-</div>
+
+<v-container fluid>
+  <v-layout  wrap>
+    <v-flex>
+    
+    </v-flex>
+    <v-flex style="text-align: center;">
+    
+    <img src="../assets/temporarylogo.png">
+      <v-text-field
+        v-model="account.username"
+        label="Account"
+      ></v-text-field>
+      <v-text-field
+        v-model="account.password"
+        :append-icon="show ? 'visibility' : 'visibility_off'"
+        :rules="[rules.required, rules.min]"
+        :type="show ? 'text' : 'password'"
+        name="input-10-1"
+        label="Password"
+        hint="At least 5 characters"
+        counter
+        @click:append="show = !show"
+      ></v-text-field>
+      <br>
+      <v-btn style="float:right;" color="secondary" @click="login">Login</v-btn>
+    </v-flex>
+  </v-layout>
+</v-container>
+
 </template>
 
 <script>
@@ -42,6 +52,12 @@ export default {
   },
   data() {
     return {
+      show: false,
+      rules: {
+        required: value => !!value || 'Required.',
+        min: v => v.length >= 5 || 'Min 8 characters',
+        emailMatch: () => ('The email and password you entered don\'t match'),
+        },
       account : {
         username: "",
         password: "",
@@ -49,32 +65,34 @@ export default {
     }
   },
 }
+
+// <div style="text-align: center;">
+//   <div class="login-focus">
+//       <div class="title">
+//         <img src="../assets/temporarylogo.png">
+//         <div class="md-title">LOGIN</div>
+//         <div class="md-body-1">Life is like a hair loss, it just gets progressively worse.</div>
+//       </div>
+//       <div class="login-form">
+//         <md-field>
+//           <label>Username</label>
+//           <md-input v-model="account.username" autofocus required></md-input>
+//         </md-field>
+//         <md-field>
+//           <label>Password</label>
+//           <md-input v-model="account.password"  required type="password" v-on:keyup.enter="login"></md-input>
+//         </md-field>
+//       </div>
+//     <md-button class="login-button md-raised md-primary" @click="login" >Sign In</md-button>
+//   </div>
+// </div>
 </script>
 
 <style lang="scss" scoped>
-.login-focus {
-  display: inline-block;
-  .title {
-    display: inline-block;
-    text-align: center;
-    margin-bottom: 20px;
-    img {
+img {
       margin-bottom: 5px;
       max-width: 100px;
+      text-align: center;  
     }
-  }
-}
-
-.login-form {
-  margin-bottom : 40px;
-}
-
-.md-field {
-  max-width: 30vw;
-}
-
-.login-button {
-  float : right;
-}
 
 </style>

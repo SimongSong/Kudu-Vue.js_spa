@@ -28,7 +28,7 @@
       </v-list-item>
       <v-list-item @click="">
         <v-list-item-action>
-        <v-icon>mdi-church</v-icon>
+        <v-icon>mdi-account-key</v-icon>
         </v-list-item-action>
         <v-list-item-title>Admin</v-list-item-title>
       </v-list-item>
@@ -77,6 +77,12 @@
     <v-icon color="grey darken-1">settings</v-icon>
     </v-list-item-action>
     <v-list-item-title class="grey--text text--darken-1">Settings</v-list-item-title>
+    </v-list-item>
+    <v-list-item @click="$store.commit('LOGOUT')">
+    <v-list-item-action>
+    <v-icon color="grey darken-1">mdi-logout</v-icon>
+    </v-list-item-action>
+    <v-list-item-title class="grey--text text--darken-1">Logout</v-list-item-title>
     </v-list-item>
   </v-list>
   </div>
