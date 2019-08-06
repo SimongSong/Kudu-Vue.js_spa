@@ -14,6 +14,7 @@ import Vuetify from 'vuetify/lib'
 import 'vuetify/dist/vuetify.min.css'
 import vuetify from './plugins/vuetify';
 
+
 Vue.use(Vuetify)
 // Vue.use(VueMaterial)
 Vue.use(VueSession)
@@ -23,6 +24,15 @@ Vue.config.productionTip = false
 export default new Vuetify({
   icons: {
     iconfont: 'md',
+  },
+  theme : {
+    dark: {
+      primary: '#fffff',
+      secondary: '#fffff',
+      accent: '#fffff',
+      error: '#fffff',
+      background: '#fffff'
+    },
   }
 })
 

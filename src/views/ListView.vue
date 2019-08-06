@@ -1,11 +1,10 @@
 <template>
-  
     <v-data-table
       fixed-header
       :loading="loading"
       :headers="headers"
       :items="items"
-      height="calc(100vh - 220px)"
+      height="calc(100vh - 200px)"
       :search="search"
       :items-per-page="15"
       :footer-props="{
@@ -22,6 +21,7 @@
         <v-toolbar-title> {{$route.params.app.toUpperCase()}} {{$route.params.type.toUpperCase()}} LIST</v-toolbar-title>
         <v-spacer></v-spacer>
         <v-text-field v-model="search" label="Search (UPPER CASE ONLY)" class="mx-4"></v-text-field>
+        <v-button>Create New</v-button>
       </v-toolbar>
     </template>
     <template v-slot:item="{ item }">
@@ -38,7 +38,6 @@
         </td>
       </tr>
     </template>
-
     </v-data-table>
   
 </template>

@@ -19,18 +19,23 @@
 //   return [[name, parent]].concat(objectsList)
 // }
 
-export function detailEditForm(data, form) {
+export function detailEditForm(data, form) { 
+  form.fields = Object.assign({id: {"type": "Id", value : data.id}}, form.fields);
   Object.keys(form.fields).forEach(function(key){
-    form.fields[key].value = data[key]
+    if(data[key]) form.fields[key].value = data[key]
+    else form.fields[key].value = null
   })
   Object.keys(form.children).forEach(function(key){
+    form.children[key].fields = Object.assign({id: {"type": "Id", value : null}}, form.children[key].fields);
     Object.keys(data[key]).forEach(function(children_key) {
-      if (Object.keys(form.children[key]).includes(children_key)) 
-        form.children[key][children_key].value = checkDataFormat(data[key][children_key])
+      if (Object.keys(form.children[key].fields).includes(children_key)) form.children[key].fields[children_key].value = checkDataFormat(data[key][children_key])
+      else form.children[key].fields = Object.assign({[children_key]: {"type": "String", value : data[key][children_key]}}, form.children[key].fields);
+      
     })
   })
   Object.keys(form.relations).forEach(function(key){
     form.relations[key].selected = []
+    
     console.log(key)
     if (Object.keys(data).includes(key)){
       if(form.relations[key].many) {

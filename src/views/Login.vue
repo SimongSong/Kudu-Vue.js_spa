@@ -1,12 +1,8 @@
 <template>
 
-<v-container fluid>
-  <v-layout  wrap>
-    <v-flex>
-    
-    </v-flex>
+<v-container >
+  <v-layout >
     <v-flex style="text-align: center;">
-    
     <img src="../assets/temporarylogo.png">
       <v-text-field
         v-model="account.username"
