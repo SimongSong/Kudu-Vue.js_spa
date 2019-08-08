@@ -46,25 +46,19 @@
       <v-container style="height: calc(90vh - 70px); overflow-y: scroll;">
         <ListComponent :relations="modelRelations"  />        
       </v-container >
-        
       </v-tab-item>
       
-      <v-tab-item>
-
-        <v-card flat style="height: calc(90vh - 70px); overflow-y: scroll;">
-          <EditComponent :title="modelTitle" :fields="modelFields" :children="modelChildren" :relations="modelRelations" />
-        </v-card>
+      <v-tab-item style="height: calc(90vh - 70px);">
+        <EditComponent :title="modelTitle" :fields="modelFields" :children="modelChildren" :relations="modelRelations" />
       </v-tab-item>
 
       <v-tab-item>
-        <v-container
-          fluid
-          grid-list-sm
-        >
-          <v-layout wrap>
-            FEFE
-          </v-layout>
-        </v-container>
+      <v-card flat>
+      <v-card-text>
+        <div class="headline font-weight-light"> Are you sure? </div>
+        <div class="display-1 font-weight-light pink--text">Other related entries can be affected by this deletion.</div>
+      </v-card-text>
+      </v-card>
       </v-tab-item>
 
     </v-tabs>

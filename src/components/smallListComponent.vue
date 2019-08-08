@@ -30,6 +30,7 @@
       </tr>
     </template>
   </v-data-table> 
+  
 </template>
 
 
@@ -38,8 +39,6 @@ export default {
     name: "SmallList",
     props: ['model'],
     created() {
-      console.log("FEFE")
-      console.log(this.model)
       this.$store.dispatch('loadRelationList',{
         app: this.model.model[0],
         model: this.model.model[1],

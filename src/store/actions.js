@@ -37,7 +37,7 @@ export default {
     let list = payload.list.join(",")
     return new Promise( function(resolve, reject) {
       console.log(url)
-      if (!payload.list) reject("empty")
+      if (payload.list.length == 0) reject("empty")
       axios.get(BASE_URL + url,{ 
         params : {
           id__in : list
