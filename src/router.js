@@ -26,7 +26,7 @@ const router =  new Router({
       path: '/detail/:app/:type/:pk',
       name: 'detail',
       meta: {auth: true},
-      component: () => import('./views/Detail.vue')
+      component: () => import('./views/DetailView.vue')
     },
     {
       path: '/list/:app/:type/',

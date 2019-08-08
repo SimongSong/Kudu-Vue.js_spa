@@ -17,7 +17,6 @@ export default {
         })
         .then(r => {
           if(payload.type === "list"){
-            commit('SET_DATA', {model: app_model})
             resolve(r.data)
           }
           else if(payload.type === "detail") commit('SET_DETAIL', {data: r.data, model: app_model} )
@@ -34,34 +33,27 @@ export default {
   loadRelationList({ commit, state }, payload) {
     console.log("LOADRELATIONINFO")
     console.log(payload)
-    let url = state.structure[payload.model[0]][payload.model[1]].list_api
+    let url = state.structure[payload.app][payload.model].list_api
+    let list = payload.list.join(",")
     return new Promise( function(resolve, reject) {
+      console.log(url)
+      if (!payload.list) reject("empty")
       axios.get(BASE_URL + url,{ 
+        params : {
+          id__in : list
+        },
         headers : {
           Authorization : 'JWT ' + payload.token
         }
       })
-      .then( res => {
-        resolve(res.data.map(a => {return { id : a.id, name : a[payload.name] }}))
+      .then( r => {
+        resolve(r.data)
       })
       .catch( e => {
+        console.log(e)
         reject(e.response)
       })
     })
-      // return new Promise(function(resolve, reject) {
-    //   axios.post(BASE_URL + "auth/", {
-    //     username: payload.username,
-    //     password: payload.password
-    // }).then(res =>
-    //     {
-    //     resolve(res.data.token);
-    //     commit('AUTHENTICATE', {username : payload.username })
-    //     }).catch(e => {
-    //       console.log("ERROR")
-    //       console.log(e)
-    //       reject('wrong username or password')
-    //     })
-    // });
   },
 
   login({ commit }, payload) {

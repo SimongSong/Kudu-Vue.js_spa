@@ -18,6 +18,11 @@ export default {
   //   return null
   // },
 
+
+  getModelTitle: state => (app, model) => {
+    return state.structure[app][model].title
+  },
+
   getStructurekeys: state => {
     var keys = {}
     Object.keys(state.structure).forEach((key) => {
@@ -34,45 +39,45 @@ export default {
     return keys
   },
 
-  getListHeaders: state => {
-    var headers = []
+  // getListHeaders: state => {
+  //   var headers = []
+
+  //   return [{
+  //     text: 'Dessert (100g serving)',
+  //     align: 'left',
+  //     sortable: false,
+  //     value: 'name',
+  //   }]
+  // },
+
+  // getListData: state => {
+
+  // },
+
+  // getDetailHeaders: state => {
+  //   if(typeof state.detail[0] !== 'undefined'){
+  //     let headers = []
+  //     state.detail.forEach(element => {
+  //       headers.push(element[0])
+  //     });
+  //     return headers
+  //   }
+  //   return null   
+  // },
+
+  // cardValues: state => {
+  //   if(typeof state.detail[0] !== 'undefined') return state.detail.slice(1)
     
-    return [{
-      text: 'Dessert (100g serving)',
-      align: 'left',
-      sortable: false,
-      value: 'name',
-    }]
-  },
+  //   return null
+  // },
+  // cardParentValues: state => {
+  //   if(typeof state.detail[0][1] !== 'undefined') return state.detail[0][1]    
+  //   return null
+  // },
 
-  getListData: state => {
-
-  },
-
-  getDetailHeaders: state => {
-    if(typeof state.detail[0] !== 'undefined'){
-      let headers = []
-      state.detail.forEach(element => {
-        headers.push(element[0])
-      });
-      return headers
-    }
-    return null   
-  },
-
-  cardValues: state => {
-    if(typeof state.detail[0] !== 'undefined') return state.detail.slice(1)
-    
-    return null
-  },
-  cardParentValues: state => {
-    if(typeof state.detail[0][1] !== 'undefined') return state.detail[0][1]    
-    return null
-  },
-
-  getUsername: state => {
-    return state.account.username
-  },
+  // getUsername: state => {
+  //   return state.account.username
+  // },
 
   isEditable: state => {
     return state.model.noteditable

@@ -27,11 +27,11 @@ export default new Vuetify({
   },
   theme : {
     dark: {
-      primary: '#fffff',
-      secondary: '#fffff',
-      accent: '#fffff',
-      error: '#fffff',
-      background: '#fffff'
+      primary: '#3f51b5',
+      secondary: '#b0bec5',
+      accent: '#8c9eff',
+      error: '#b71c1c',
+      backgroundColor: '#fffff'
     },
   }
 })
