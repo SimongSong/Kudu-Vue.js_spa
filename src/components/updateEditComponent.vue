@@ -27,8 +27,9 @@
 
   <div v-if="relations">
     <div v-for="r in relationsDifferences"> 
-      <div class="headline font-weight-light" v-if="r[1].length !== 0">
-        Relationship with <span class="pink--text">{{r[0]}}</span> has been updated from <span class="pink--text">{{r[1].join(",")}}</span> to <span class="pink--text">{{r[2].join(",")}}</span>.
+      {{r}}
+      <div class="headline font-weight-light" v-if="r[1].length !== 0 || r[2].length !== 0 ">
+        Relationship with <span class="pink--text">{{r[0]}}</span> has been updated from <span class="pink--text">[ {{r[1].join(",")}} ]</span> to <span class="pink--text">[ {{r[2].join(",")}} ]</span>.
       </div>
     </div>
     <v-divider></v-divider>
@@ -57,11 +58,11 @@ export default {
   },
   computed: {
     fieldDifferences() { 
-      if(!this.fields) return None
+      if(!this.fields) return []
       return this.computeDifferences(this.fields, this.structure.fields) 
       },
     childrenDifferences() { 
-      if(!this.children) return None
+      if(!this.children) return []
       var diffObject = []
       Object.keys(this.children).forEach( key => {
         diffObject.push([this.children[key].title, this.computeDifferences(this.children[key].fields, this.structure.children[key].fields)]) 
@@ -69,17 +70,14 @@ export default {
       return diffObject
     },
     relationsDifferences() { 
-      if(!this.relations) return None
+      if(!this.relations) return []
       var diffObject = []
       Object.keys(this.relations).forEach( key => {
         if(this.structure.relations[key].selected.length == 0 && this.relations[key].selected.length == 0) return
         var title = this.getTitle(this.relations[key].model[0],this.relations[key].model[1])
-        if(this.structure.relations[key].selected.length !== this.relations[key].selected.length) {
-          diffObject.push([title, this.relations[key].selected, this.structure.relations[key].selected])
-          return
-        }
+     
         for(var i = 0; i < this.relations[key].selected.length; i++) {
-          if(this.relations[key].selected[i] !== this.structure.relations[key].selected[i]) {
+          if(!this.arraysEqual(this.relations[key].selected,this.structure.relations[key].selected)) {
             diffObject.push([title, this.relations[key].selected, this.structure.relations[key].selected])
             return
           }
@@ -112,6 +110,13 @@ export default {
         return acc
       }, [])
       return differenceList
+    },
+    arraysEqual(_arr1, _arr2) {
+      if (!Array.isArray(_arr1) || ! Array.isArray(_arr2) || _arr1.length !== _arr2.length) return false;
+      var arr1 = _arr1.concat().sort();
+      var arr2 = _arr2.concat().sort();
+      for (var i = 0; i < arr1.length; i++) { if (arr1[i] !== arr2[i]) return false; }
+      return true;
     }
   },  
 

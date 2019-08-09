@@ -18,7 +18,7 @@
       >
         <v-text-field
           :append-icon-cb="() => {}"
-          placeholder="Search..."
+          placeholder="Search feature is not there yet..."
           single-line
           append-icon="search"
           color="white"

@@ -14,11 +14,17 @@
 
       <v-divider></v-divider>
 
-      <v-list-item @click="">
+      <v-list-item @click="$router.push('/')">
+        <v-list-item-action>
+        <v-icon>mdi-pine-tree</v-icon>
+        </v-list-item-action>
+        <v-list-item-title>Home</v-list-item-title>
+      </v-list-item>
+      <v-list-item @click="" disabled>
         <v-list-item-action>
         <v-icon>mdi-account</v-icon>
         </v-list-item-action>
-        <v-list-item-title>Account</v-list-item-title>
+        <v-list-item-title>Account(NOTHIGN ATM)</v-list-item-title>
       </v-list-item>
       <v-list-item @click="">
         <v-list-item-action>
@@ -26,11 +32,11 @@
         </v-list-item-action>
         <v-list-item-title>API</v-list-item-title>
       </v-list-item>
-      <v-list-item @click="">
+      <v-list-item @click="" disabled>
         <v-list-item-action>
         <v-icon>mdi-account-key</v-icon>
         </v-list-item-action>
-        <v-list-item-title>Admin</v-list-item-title>
+        <v-list-item-title>Admin(NOTHIGN ATM)</v-list-item-title>
       </v-list-item>
 
       <v-subheader class="mt-4 grey--text text--darken-1">FOLDERS</v-subheader>
@@ -66,23 +72,24 @@
     <v-list-item
     class="mt-4"
     @click=""
+    disabled
     >
     <v-list-item-action>
     <v-icon color="grey darken-1">mdi-help-box</v-icon>
     </v-list-item-action>
-    <v-list-item-title class="grey--text text--darken-1">About</v-list-item-title>
+    <v-list-item-title class="grey--text text--darken-1" >About(NOTHING ATM)</v-list-item-title>
     </v-list-item>
-    <v-list-item @click="">
+    <v-list-item @click="" disabled>
     <v-list-item-action>
-    <v-icon color="grey darken-1">settings</v-icon>
+    <v-icon color="grey darken-1" >settings</v-icon>
     </v-list-item-action>
-    <v-list-item-title class="grey--text text--darken-1">Settings</v-list-item-title>
+    <v-list-item-title class="grey--text text--darken-1">Settings(NOTHING ATM)</v-list-item-title>
     </v-list-item>
-    <v-list-item @click="$store.commit('LOGOUT')">
+    <v-list-item @click="$store.commit('LOGOUT')" >
     <v-list-item-action>
     <v-icon color="grey darken-1">mdi-logout</v-icon>
     </v-list-item-action>
-    <v-list-item-title class="grey--text text--darken-1">Logout</v-list-item-title>
+    <v-list-item-title class="grey--text text--darken-1">Logout(I ACTUALLY WORK)</v-list-item-title>
     </v-list-item>
   </v-list>
   </div>

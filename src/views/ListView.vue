@@ -6,9 +6,9 @@
       :items="items"
       height="calc(100vh - 200px)"
       :search="search"
-      :items-per-page="15"
+      :items-per-page="30"
       :footer-props="{
-      itemsPerPageOptions: [15, 20, 50, 100],
+      itemsPerPageOptions: [15, 20, 30, 50, 100],
       showFirstLastPage: true,
       firstIcon: 'mdi-arrow-collapse-left',
       lastIcon: 'mdi-arrow-collapse-right',
