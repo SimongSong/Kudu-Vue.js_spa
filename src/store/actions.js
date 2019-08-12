@@ -84,10 +84,10 @@ export default {
         {
         localStorage.setItem('user-token', res.data.token)
         resolve('authenticated');
-        commit('AUTHENTICATE', {username : payload.username })
+        commit('AUTHENTICATE', {username : payload.username})
         }).catch(e => {
           console.log("ERROR")
-          localStorage.removeItem('user-token')
+          commit('LOGOUT')
           console.log(e)
           reject('wrong username or password')
         })
@@ -103,9 +103,7 @@ export default {
         {
           resolve('refreshed');
         }).catch(e => {
-          console.log(e.response)
-          localStorage.removeItem('user-token')
-          reject('wrong token')
+          commit('LOGOUT')
         })
     });
   }

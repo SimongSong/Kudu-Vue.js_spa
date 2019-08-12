@@ -13,7 +13,7 @@ export default {
   },
 
   AUTHENTICATE(state, payload) {
-    state.account.expired = false
+    state.account.authenticated = true
     state.account.username = payload.username
   },
 
@@ -30,11 +30,14 @@ export default {
 
   LOGOUT(state) {
     console.log(this._vm.$session)
-    state.account.expired = true
+    state.account.authenticated = false
     localStorage.removeItem('user-token')
     state.account.username = null
-    this._vm.$session.remove('token')
-    router.push('/')
+    router.push('/login')
+  },
+
+  UPDATE_AUTH_STATUS(state, payload) {
+    state.account.authenticated = payload
   }
   
 }

@@ -1,14 +1,9 @@
 export const BASE_URL = 'http://127.0.0.1:8000/api/'
 
 export function checkTokenExpiration(token){
-  console.log("E")
   this.$store.dispatch('login',{token: token})
-  .then(
-    response => {console.log(response);
-    },
-    error => {
-      this.$router.push('/') 
-  })
+  .then( response => {console.log(response); },
+    error => { this.$router.push('/') })
 }
 
 
@@ -28,7 +23,7 @@ export function getTitle (app, model) {
 }
 
 export function detailEditForm(data, form) { 
-
+  console.log("DETAIL FORM")
   form.fields = Object.assign({id: {"type": "Id", value : data.id}}, form.fields);
   Object.keys(form.fields).forEach(function(key){
     if(data[key]) {

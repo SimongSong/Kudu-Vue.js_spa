@@ -28,7 +28,7 @@
 import {getTitle} from "../helpers/util"
 import Vue from 'vue'
 export default {
-    name: "SmallList",
+    name: "SmallRelationList",
     props: ['relation'],
     created() {
       this.$store.dispatch('refresh',{token : localStorage.getItem('user-token')})

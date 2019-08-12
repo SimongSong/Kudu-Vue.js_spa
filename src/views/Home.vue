@@ -4,7 +4,7 @@
     flat
   >
     <v-card-title>
-      <h2 :class="`display-1 font-weight-light mb-4 pink--text`">Welcome to new your new website!</h2>
+      <h2 :class="`display-1 font-weight-light mb-4 pink--text`">Welcome to your new website!</h2>
     </v-card-title>
     <v-card-text>
       <v-icon>mdi-human-greeting</v-icon>
@@ -20,7 +20,7 @@
       If you have any problem, suggestion or feedback please contact Simong Song on our slack.</h2>
     
      <div class="my-2">
-        <v-btn text>
+        <v-btn text @click="goToColossus">
         <v-icon>mdi-run-fast</v-icon>
         This upsets me take me back to old website.</v-btn>
       </div>
@@ -35,6 +35,11 @@
 
 export default {
   components: {
+  },
+  methods: {
+    goToColossus() {
+      window.location.href = "https://colossus.canadacentral.cloudapp.azure.com"
+    }
   },
 };
 </script>

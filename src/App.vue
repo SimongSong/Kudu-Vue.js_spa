@@ -4,19 +4,21 @@
     <v-app-bar
         app
         clipped-left
-        color="red"
+        color="#E91E63"
         dense
       >
-      <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
+      <v-app-bar-nav-icon v-if="authorized" @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
       <v-toolbar-title class="mr-12 align-center">
-        <span class="title">Kudu - Colossus</span>
+        <span class="title">Kudu - Colossus BETA</span>
       </v-toolbar-title>
       <v-spacer></v-spacer>
+      
       <v-layout
         align-center
         style="max-width: 650px"
       >
         <v-text-field
+          v-if="authorized"
           :append-icon-cb="() => {}"
           placeholder="Search feature is not there yet..."
           single-line
@@ -31,7 +33,7 @@
     <!-- Topnav Bar END -->
 
     <!-- Sidemenu START -->
-    <v-navigation-drawer
+    <v-navigation-drawer 
       v-model="drawer"
       app
       clipped
@@ -68,12 +70,22 @@
       SideMenu
     },
     data: () => ({
-      drawer: null,
-      query: ""
+      drawer: false,
+      query: "",
     }),
     created () {
       this.$vuetify.theme.dark = true
-    },  
+      const tokenExist = !!(localStorage.getItem('user-token') || '')
+      if(!tokenExist) { this.$store.commit('UPDATE_AUTH_STATUS',false) }
+      else { this.$store.commit('UPDATE_AUTH_STATUS',true)} 
+    },
+    computed: {
+      authorized() { 
+        let val = this.$store.state.account.authenticated 
+        this.drawer = false
+        return val
+      }
+    },
     methods: {
       searchQuery() {
         if(this.query) {
@@ -83,6 +95,10 @@
           });
         }
       }
+    },
+    mounted: function() {
+      this.authorized = !!localStorage.getItem('user-token')
+      console.log(`authorized: ${this.authorized}`)
     },
   }
 </script>

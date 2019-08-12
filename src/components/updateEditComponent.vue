@@ -27,7 +27,6 @@
 
   <div v-if="relations">
     <div v-for="r in relationsDifferences"> 
-      {{r}}
       <div class="headline font-weight-light" v-if="r[1].length !== 0 || r[2].length !== 0 ">
         Relationship with <span class="pink--text">{{r[0]}}</span> has been updated from <span class="pink--text">[ {{r[1].join(",")}} ]</span> to <span class="pink--text">[ {{r[2].join(",")}} ]</span>.
       </div>
@@ -95,6 +94,9 @@ export default {
     }
   },
   methods: {
+    getTitle: getTitle,
+    printNone: printNone, 
+    titleEdit: titleEdit,
     computeDifferences(oldObject, newObject) {
       var differenceList = Object.keys(oldObject).reduce( (acc, curr)  => {
         if( oldObject[curr].value !== newObject[curr].value){ acc.push([curr, oldObject[curr].value, newObject[curr].value]) }

@@ -1,10 +1,20 @@
 <template>
+  <v-timeline dense>
+    <v-timeline-item small fill-dot large color="pink" >
+    <v-toolbar flat>
+        <v-toolbar-title> {{$route.params.app.toUpperCase()}} {{$route.params.type.toUpperCase()}} LIST</v-toolbar-title>
+        <v-spacer></v-spacer>
+        <v-text-field v-model="search" label="Search" class="mx-4"></v-text-field>
+        <v-button>Create New</v-button>
+      </v-toolbar>
+    </v-timeline-item>
+    <v-timeline-item small fill-dot color="pink" >
     <v-data-table
       fixed-header
       :loading="loading"
       :headers="headers"
       :items="items"
-      height="calc(100vh - 200px)"
+      height="calc(90vh - 200px)"
       :search="search"
       :items-per-page="30"
       :footer-props="{
@@ -16,14 +26,6 @@
       nextIcon: 'mdi-plus'
       }"
     >
-    <template v-slot:top>
-      <v-toolbar flat>
-        <v-toolbar-title> {{$route.params.app.toUpperCase()}} {{$route.params.type.toUpperCase()}} LIST</v-toolbar-title>
-        <v-spacer></v-spacer>
-        <v-text-field v-model="search" label="Search (UPPER CASE ONLY)" class="mx-4"></v-text-field>
-        <v-button>Create New</v-button>
-      </v-toolbar>
-    </template>
     <template v-slot:item="{ item }">
       <tr @click="$router.replace({ 
         name: 'detail', 
@@ -39,7 +41,8 @@
       </tr>
     </template>
     </v-data-table>
-  
+    </v-timeline-item>
+  </v-timeline>
 </template>
 
 <script>
