@@ -11,7 +11,7 @@
         Relations
       </v-tab>
       <v-tab>
-      SUBMIT
+        SUBMIT
       </v-tab>
 
       <v-tab-item >
@@ -46,6 +46,7 @@
   import SmallEditComponent from "../components/smallEditFormComponent"
   import SmallRelationEditComponent from "../components/smallRelationEditFormComponent"
   import UpdateComponent from "../components/updateEditComponent"
+  import {getTitle} from "../helpers/util"
   import Vue from 'vue'
   export default {
     props: ['title', 'fields', 'children', 'relations'],
@@ -65,12 +66,5 @@
         submit: false
       }
     },
-    methods: {
-      getTitle (app, model) {
-        console.log(app, model)
-        return this.$store.getters.getModelTitle(app, model)
-      },
-    },
-
   }
 </script>

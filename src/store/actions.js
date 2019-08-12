@@ -1,9 +1,28 @@
 import axios from 'axios'
-import { start } from 'repl';
-const BASE_URL = 'http://127.0.0.1:8000/api/'
+import {BASE_URL} from '../helpers/util'
 
 
 export default {
+  searchQuery({ commit }, payload) {
+    console.log(payload)
+    return new Promise( function(resolve, reject) {
+      if (!payload.query) reject("empty")
+      axios.get(BASE_URL + 'kudusearch/' + payload.query,{ 
+        headers : {
+          Authorization : 'JWT ' + payload.token
+        }
+      })
+      .then( r => {
+        console.log("FFEE")
+        resolve(r.data)
+      })
+      .catch( e => {
+        console.log(e.response)
+        reject(e.response)
+      })
+    })
+  },
+
   loadData({ commit, dispatch, state }, payload) {
     console.log("LOAD DATA")
     let app_model = state.structure[payload.app][payload.model]
@@ -75,6 +94,21 @@ export default {
     });
 
   },
+
+  refresh({ commit }, payload) {
+    return new Promise(function(resolve, reject) {
+      axios.post(BASE_URL + "auth/refresh/", {
+        token: payload.token,
+      }).then(res =>
+        {
+          resolve('refreshed');
+        }).catch(e => {
+          console.log(e.response)
+          localStorage.removeItem('user-token')
+          reject('wrong token')
+        })
+    });
+  }
 
 }
   

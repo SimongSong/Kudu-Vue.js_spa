@@ -46,20 +46,22 @@
   export default {
     name: "ListView",
     created() {
-      this.$store.dispatch('loadData',{
-        app: this.$route.params.app, 
-        type: "list", 
-        model: this.$route.params.type, 
-        token : localStorage.getItem('user-token')
-        }).
-      then(
-        response => {
-          this.items = response
-          this.computeHeaders()
-          console.log(this.items)
-        },
-        error => {}
-      )
+      this.$store.dispatch('refresh',{token : localStorage.getItem('user-token')})
+      .then(
+        this.$store.dispatch('loadData',{
+          app: this.$route.params.app, 
+          type: "list", 
+          model: this.$route.params.type, 
+          token : localStorage.getItem('user-token')
+          }).then(
+          response => {
+            this.items = response
+            this.computeHeaders()
+            console.log(this.items)
+          },
+          error => {}
+        )
+      ).catch( e => { this.$router.push('/login') } )
     },
     data () {
       return {

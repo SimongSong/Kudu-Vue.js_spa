@@ -2,7 +2,7 @@
 
 <v-container >
   <v-layout >
-    <v-flex style="text-align: center;">
+    <v-flex style="text-align: center; mx4">
     <img src="../assets/temporarylogo.png">
       <v-text-field
         v-model="account.username"

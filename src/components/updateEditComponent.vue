@@ -45,6 +45,7 @@
 
 <script>
 // Relationship with {{r[0]}} has been updated from {{r[1]}} to {{r[2]}}.
+import {getTitle, printNone, titleEdit} from "../helpers/util"
 export default {
   name: "UpdateEdit",
   props: ['title', 'fields', 'children', 'relations', 'structure'],
@@ -94,16 +95,6 @@ export default {
     }
   },
   methods: {
-    getTitle (app, model) { return this.$store.getters.getModelTitle(app, model)},
-    printNone(val){
-      if(val) return val
-      else return "None"
-    },
-    titleEdit(title){
-      var res = title.split("_")
-      res.forEach((r,i) => {res[i] = r.charAt(0).toUpperCase() + r.slice(1);})
-      return res.join(" ")
-    },
     computeDifferences(oldObject, newObject) {
       var differenceList = Object.keys(oldObject).reduce( (acc, curr)  => {
         if( oldObject[curr].value !== newObject[curr].value){ acc.push([curr, oldObject[curr].value, newObject[curr].value]) }

@@ -23,6 +23,8 @@
           append-icon="search"
           color="white"
           hide-details
+          v-model="query"
+          @keyup.enter.native="searchQuery"
         ></v-text-field>
       </v-layout>
     </v-app-bar>
@@ -53,8 +55,6 @@
     </v-content>
     <!-- Maincontent END -->
 
-   
-
   </v-app>
 </template>
 
@@ -69,9 +69,20 @@
     },
     data: () => ({
       drawer: null,
+      query: ""
     }),
     created () {
       this.$vuetify.theme.dark = true
+    },  
+    methods: {
+      searchQuery() {
+        if(this.query) {
+          this.$router.push({
+            name: 'search', 
+            params: { query: this.query }
+          });
+        }
+      }
     },
   }
 </script>

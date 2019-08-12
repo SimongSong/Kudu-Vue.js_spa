@@ -1,23 +1,31 @@
+export const BASE_URL = 'http://127.0.0.1:8000/api/'
 
-// export function detailDataProcess(data, name) {
-//   //Change nested object into a list of objects
-//   var parent = {};
-//   var objectsList = [];
+export function checkTokenExpiration(token){
+  console.log("E")
+  this.$store.dispatch('login',{token: token})
+  .then(
+    response => {console.log(response);
+    },
+    error => {
+      this.$router.push('/') 
+  })
+}
 
-//   Object.keys(data).forEach(function(key) {
-//     if( key )
-//     if( data[key] === null ) parent[key] = "N/A"
-//     else if(typeof data[key] === "object" && !(data[key] instanceof Array) ) {
-//       detailDataProcess(data[key],key).forEach(function (e) {
-//         if(e instanceof Array)
-//         objectsList.push(e)
-//       })
-//     }
-//     else parent[key] = data[key] 
-//   });
 
-//   return [[name, parent]].concat(objectsList)
-// }
+export function titleEdit(title){
+  var res = title.split("_")
+  res.forEach((r,i) => {res[i] = r.charAt(0).toUpperCase() + r.slice(1);})
+  return res.join(" ")
+}
+
+export function printNone(val){
+  if(val) return val
+  else return "None"
+}
+
+export function getTitle (app, model) {
+  return this.$store.getters.getModelTitle(app, model)
+}
 
 export function detailEditForm(data, form) { 
 

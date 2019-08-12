@@ -35,6 +35,7 @@
 
 
 <script>
+import {getTitle} from "../helpers/util"
 export default {
     name: "SmallList",
     props: ['model'],
@@ -71,10 +72,7 @@ export default {
         })
         this.loading= false
       },
-      getTitle (app, model) {
-        console.log(app, model)
-        return this.$store.getters.getModelTitle(app, model)
-      }
+      getTitle: getTitle
     },
 }
 </script>

@@ -2,7 +2,6 @@ import Vue from 'vue'
 import store from './store/'
 import Router from 'vue-router'
 import Home from './views/Home.vue'
-import Form from './views/Form.vue'
 import Login from './views/Login'
 
 Vue.use(Router)
@@ -35,10 +34,10 @@ const router =  new Router({
       component: () => import('./views/ListView.vue')
     },
     {
-      path: '/form/:type/:pk',
-      name: 'form',
+      path: '/search/:query',
+      name: 'search',
       meta: {auth: true},
-      component: Form
+      component: () => import('./views/SearchResult.vue')
     }
   ]
 })
@@ -46,7 +45,6 @@ const router =  new Router({
 router.beforeEach((to, from, next) => {
   const authRequired = to.matched.some((route) => route.meta.auth)
   const authorized = !!localStorage.getItem('user-token') || ''
-  console.log(authorized)
   if(authRequired && !authorized) next('/login')
   else next()
 })

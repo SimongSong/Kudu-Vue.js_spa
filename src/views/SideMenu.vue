@@ -26,7 +26,7 @@
         </v-list-item-action>
         <v-list-item-title>Account(NOTHIGN ATM)</v-list-item-title>
       </v-list-item>
-      <v-list-item @click="">
+      <v-list-item @click="toAPI">
         <v-list-item-action>
         <v-icon>mdi-format-list-bulleted</v-icon>
         </v-list-item-action>
@@ -96,11 +96,15 @@
 </template>
 
 <script>
+  import {BASE_URL} from "../helpers/util"
   export default {
     methods: {
       getRouterPath(model) {
         return "/list/" + model
       },
+      toAPI() {
+        window.location.href = BASE_URL
+      }
     },
     computed: {
       getStructure() {

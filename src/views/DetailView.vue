@@ -67,6 +67,7 @@
 
 
 <script>
+import {titleEdit, printNone} from "../helpers/util"
 import ListComponent from "../components/detailPageListComponent"
 import EditComponent from "../components/editFormComponent"
 export default {
@@ -78,27 +79,23 @@ export default {
   data: () => ({
     detailData: {},
   }),
-  methods: {
-    titleEdit(title){
-      var res = title.split("_")
-      res.forEach((r,i) => {res[i] = r.charAt(0).toUpperCase() + r.slice(1);})
-      return res.join(" ")
-    },
-    printNone(val){
-      if(val) return val
-      else return "None"
-    }
-  },
   created() {
   },
+  methods: {
+    titleEdit: titleEdit,
+    printNone: printNone
+  },
   mounted () {
-    this.$store.dispatch('loadData',{
-      app: this.$route.params.app, 
-      type: "detail", 
-      pk: this.$route.params.pk,  
-      model: this.$route.params.type,
-      token : localStorage.getItem('user-token')
-    })
+    this.$store.dispatch('refresh',{token : localStorage.getItem('user-token')})
+    .then(
+      this.$store.dispatch('loadData',{
+        app: this.$route.params.app, 
+        type: "detail", 
+        pk: this.$route.params.pk,  
+        model: this.$route.params.type,
+        token : localStorage.getItem('user-token')
+      })
+    ).catch( e => { this.$router.push('/login') } )
   },
   computed: {
     modelTitle () { return this.$store.state.model.title },

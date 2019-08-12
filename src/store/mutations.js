@@ -1,4 +1,5 @@
 import {detailDataProcess, detailEditForm} from "../helpers/util"
+import router from '../router'
 
 export default {
   SET_DETAIL(state,payload) {
@@ -33,6 +34,7 @@ export default {
     localStorage.removeItem('user-token')
     state.account.username = null
     this._vm.$session.remove('token')
+    router.push('/')
   }
   
 }
