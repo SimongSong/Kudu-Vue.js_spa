@@ -4,7 +4,7 @@
     flat
   >
     <v-card-title>
-      <h2 :class="`display-1 font-weight-light mb-4 pink--text`">Welcome to new your new website!</h2>
+      <h2 :class="`display-1 font-weight-light mb-4 pink--text`">Welcome to your new website!</h2>
     </v-card-title>
     <v-card-text>
       <v-icon>mdi-human-greeting</v-icon>

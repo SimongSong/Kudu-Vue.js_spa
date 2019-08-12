@@ -7,9 +7,10 @@
         color="red"
         dense
       >
-      <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
+      <v-app-bar-nav-icon v-if="authorized" @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
       <v-toolbar-title class="mr-12 align-center">
         <span class="title">Kudu - Colossus</span>
+        {{authorized}}
       </v-toolbar-title>
       <v-spacer></v-spacer>
       <v-layout
@@ -17,6 +18,7 @@
         style="max-width: 650px"
       >
         <v-text-field
+          v-show="authorized"
           :append-icon-cb="() => {}"
           placeholder="Search feature is not there yet..."
           single-line
@@ -29,7 +31,7 @@
     <!-- Topnav Bar END -->
 
     <!-- Sidemenu START -->
-    <v-navigation-drawer
+    <v-navigation-drawer v-if="authorized"
       v-model="drawer"
       app
       clipped
@@ -69,9 +71,14 @@
     },
     data: () => ({
       drawer: null,
+      authorized: false
     }),
     created () {
       this.$vuetify.theme.dark = true
+    },
+    mounted: function() {
+      this.authorized = !!localStorage.getItem('user-token')
+      console.log(`authorized: ${this.authorized}`)
     },
   }
 </script>

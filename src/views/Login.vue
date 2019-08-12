@@ -1,31 +1,71 @@
 <template>
+    <v-content>
+      <v-container
+        fluid
+        fill-height
+      >
+        <v-layout
+          align-center
+          justify-center
+        >
+          <v-flex
+            xs12
+            sm8
+            md4
+          >
+          <v-alert
+            dense
+            outlined
+            type="error"
+            v-if="!credentialsValid"
+          >
+            Invalid username or password
+          </v-alert>
+            <v-card class="elevation-12" style="align: center">
+              <v-toolbar
+                color="red"
+                flat
+              >
+                <v-toolbar-title>Login</v-toolbar-title>
+                <v-spacer></v-spacer>
+              </v-toolbar>
+              <v-card-text>
+                <v-form>
+                  <v-text-field
+                    prepend-icon="person"
+                    v-model="account.username"
+                    label="Account"
+                    v-on:keyup.enter="login"
+                  ></v-text-field>
 
-<v-container >
-  <v-layout >
-    <v-flex style="text-align: center;">
-    <img src="../assets/temporarylogo.png">
-      <v-text-field
-        v-model="account.username"
-        label="Account"
-      ></v-text-field>
-      <v-text-field
-        v-model="account.password"
-        :append-icon="show ? 'visibility' : 'visibility_off'"
-        :rules="[rules.required, rules.min]"
-        :type="show ? 'text' : 'password'"
-        name="input-10-1"
-        label="Password"
-        hint="At least 5 characters"
-        counter
-        @click:append="show = !show"
-      ></v-text-field>
-      <br>
-      <v-btn style="float:right;" color="secondary" @click="login">Login</v-btn>
-    </v-flex>
-  </v-layout>
-</v-container>
-
+                  <v-text-field
+                    id="password"
+                    label="Password"
+                    name="password"
+                    prepend-icon="lock"
+                    :type="show ? 'text' : 'password'"
+                    v-model="account.password"
+                    :rules="[rules.required, rules.min]"
+                    hint="At least 5 characters"
+                    counter
+                    @click:append="show = !show"
+                    v-on:keyup.enter="login"
+                  ></v-text-field>
+                </v-form>
+              </v-card-text>
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn color="info" @click="login">Login</v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-flex>
+        </v-layout>
+      </v-container>
+    </v-content>
 </template>
+
+
+
 
 <script>
 
@@ -35,14 +75,13 @@ export default {
   },  
   methods: {
     login () {
-      console.log("E")
       this.$store.dispatch('login',this.account)
       .then(
         response => {console.log(response);
         this.$router.push('/') 
         },
         error => {
-          console.log("ERROR")
+          this.credentialsValid = false
         })
     },
   },
@@ -50,14 +89,15 @@ export default {
     return {
       show: false,
       rules: {
-        required: value => !!value || 'Required.',
+        required: value => !!value || 'Required',
         min: v => v.length >= 5 || 'Min 8 characters',
         emailMatch: () => ('The email and password you entered don\'t match'),
         },
       account : {
         username: "",
         password: "",
-      }
+      },
+      credentialsValid: true
     }
   },
 }
