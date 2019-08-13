@@ -24,7 +24,11 @@ export function getTitle (app, model) {
 
 export function detailEditForm(data, form) { 
   console.log("DETAIL FORM")
+  console.log(data)
+  console.log(form)
+  console.log("1")
   form.fields = Object.assign({id: {"type": "Id", value : data.id}}, form.fields);
+  console.log("2")
   Object.keys(form.fields).forEach(function(key){
     if(data[key]) {
       if(form.fields[key].type === "Date") form.fields[key].value = checkDataFormat(data[key])
@@ -33,10 +37,14 @@ export function detailEditForm(data, form) {
     }
     else form.fields[key].value = ""
   })
+  console.log("3")
   if("children" in form) {
     Object.keys(form.children).forEach(function(key){
+      console.log("3-1")
+      console.log(key)
       form.children[key].fields = Object.assign({id: {"type": "Id", value : null}}, form.children[key].fields);
       Object.keys(data[key]).forEach(function(children_key) {
+        console.log("3-2")
         if (Object.keys(form.children[key].fields).includes(children_key)){
           if(form.children[key].fields[children_key].type === "Date") form.children[key].fields[children_key].value = checkDataFormat(data[key][children_key])
           else if(form.children[key].fields[children_key].type === "Select") form.children[key].fields[children_key].value =form.children[key].fields[children_key].choices[data[key][children_key]]
@@ -45,9 +53,11 @@ export function detailEditForm(data, form) {
       })
     })
   }
+  console.log("4")
   console.log("RELATION")
   if("relations" in form) {
     Object.keys(form.relations).forEach(function(key){
+      console.log(key)
       form.relations[key].selected = []
       if (Object.keys(data).includes(key)){
         if(form.relations[key].many) {

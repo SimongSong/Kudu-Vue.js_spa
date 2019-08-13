@@ -9,7 +9,9 @@ export default {
     loading: false,
 
     view: "list",
-    model: {},
+    model: {
+        form_fields: {}
+    },
     // detail: {},
     structure: structure,
     form: {},

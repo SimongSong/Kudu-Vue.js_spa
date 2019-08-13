@@ -5,7 +5,7 @@
         <v-toolbar-title> {{$route.params.app.toUpperCase()}} {{$route.params.type.toUpperCase()}} LIST</v-toolbar-title>
         <v-spacer></v-spacer>
         <v-text-field v-model="search" label="Search" class="mx-4"></v-text-field>
-        <v-button>Create New</v-button>
+        
       </v-toolbar>
     </v-timeline-item>
     <v-timeline-item small fill-dot color="pink" >

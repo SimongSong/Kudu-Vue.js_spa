@@ -4,7 +4,6 @@ import {BASE_URL} from '../helpers/util'
 
 export default {
   searchQuery({ commit }, payload) {
-    console.log(payload)
     return new Promise( function(resolve, reject) {
       if (!payload.query) reject("empty")
       axios.get(BASE_URL + 'kudusearch/' + payload.query,{ 
@@ -51,7 +50,6 @@ export default {
 
   loadRelationList({ commit, state }, payload) {
     console.log("LOADRELATIONINFO")
-    console.log(payload)
     let url = state.structure[payload.app][payload.model].list_api
     let list = payload.list.join(",")
     return new Promise( function(resolve, reject) {

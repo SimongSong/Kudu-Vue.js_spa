@@ -2,6 +2,7 @@
 <v-card
   height="calc(100vh - 70px)"
   style="border-radius:0px;"
+  v-if="modelComputed"
 >
     <v-tabs
       color="white"
@@ -79,13 +80,14 @@ export default {
   data: () => ({
     detailData: {},
   }),
-  created() {
-  },
   methods: {
     titleEdit: titleEdit,
-    printNone: printNone
+    printNone: printNone,
+    ifObjectNotEmpty() {
+      Object.keys(yourObject).length === 0
+    }
   },
-  mounted () {
+  created () {
     this.$store.dispatch('refresh',{token : localStorage.getItem('user-token')})
     .then(
       this.$store.dispatch('loadData',{
@@ -98,6 +100,9 @@ export default {
     ).catch( e => { this.$router.push('/login') } )
   },
   computed: {
+    modelComputed () {
+      return Object.keys(this.$store.state.model.form_fields).length !== 0
+    },
     modelTitle () { return this.$store.state.model.title },
     modelFields(){ return this.$store.state.model.form_fields.fields },
     modelChildren(){ return this.$store.state.model.form_fields.children },

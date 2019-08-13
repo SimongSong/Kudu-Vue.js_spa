@@ -1,7 +1,6 @@
 <template>
 
   <div>
-  {{relations}}
     <v-timeline dense> 
     <v-timeline-item small fill-dot  color="pink" v-for="v in relations">
       <SmallList :model="v" />
