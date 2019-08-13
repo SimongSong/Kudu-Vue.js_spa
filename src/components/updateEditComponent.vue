@@ -27,7 +27,7 @@
 
   <div v-if="relations">
     <div v-for="r in relationsDifferences"> 
-      <div class="headline font-weight-light" v-if="r[1].length !== 0 || r[2].length !== 0 ">
+      <div class="headline font-weight-light" >
         Relationship with <span class="pink--text">{{r[0]}}</span> has been updated from <span class="pink--text">[ {{r[1].join(",")}} ]</span> to <span class="pink--text">[ {{r[2].join(",")}} ]</span>.
       </div>
     </div>
@@ -75,13 +75,11 @@ export default {
       Object.keys(this.relations).forEach( key => {
         if(this.structure.relations[key].selected.length == 0 && this.relations[key].selected.length == 0) return
         var title = this.getTitle(this.relations[key].model[0],this.relations[key].model[1])
-     
-        for(var i = 0; i < this.relations[key].selected.length; i++) {
-          if(!this.arraysEqual(this.relations[key].selected,this.structure.relations[key].selected)) {
-            diffObject.push([title, this.relations[key].selected, this.structure.relations[key].selected])
-            return
-          }
+        if(!this.arraysEqual(this.relations[key].selected,this.structure.relations[key].selected)) {
+          diffObject.push([title, this.relations[key].selected, this.structure.relations[key].selected])
+          return
         }
+        
       })
       return diffObject
     },

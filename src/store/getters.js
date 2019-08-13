@@ -31,7 +31,7 @@ export default {
       if (!state.structure[key].summary) child_keys = child_keys.filter(item => item !== 'summary')
       child_keys.forEach(child => {
         var text_value = child.charAt(0).toUpperCase() + child.slice(1)
-        var path = state.structure[key][child].url
+        var path = '/kudu' + state.structure[key][child].url
         if(child=="summary")keys[key.toUpperCase()].push({icon : 'mdi-chart-bar', text: text_value, link: path})
         else keys[key.toUpperCase()].push({icon : 'mdi-folder-open', text: text_value, link: path})
       })

@@ -3,7 +3,7 @@ export const BASE_URL = 'http://127.0.0.1:8000/api/'
 export function checkTokenExpiration(token){
   this.$store.dispatch('login',{token: token})
   .then( response => {console.log(response); },
-    error => { this.$router.push('/') })
+    error => { this.$router.push('/kudu') })
 }
 
 

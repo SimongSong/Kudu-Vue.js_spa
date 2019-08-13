@@ -97,7 +97,7 @@ export default {
         model: this.$route.params.type,
         token : localStorage.getItem('user-token')
       })
-    ).catch( e => { this.$router.push('/login') } )
+    ).catch( e => { this.$router.push('/kudu/login') } )
   },
   computed: {
     modelComputed () {

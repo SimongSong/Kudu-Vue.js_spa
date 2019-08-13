@@ -14,7 +14,7 @@
 
       <v-divider></v-divider>
 
-      <v-list-item @click="$router.push('/')">
+      <v-list-item @click="$router.push('/kudu')">
         <v-list-item-action>
         <v-icon>mdi-pine-tree</v-icon>
         </v-list-item-action>
@@ -100,7 +100,7 @@
   export default {
     methods: {
       getRouterPath(model) {
-        return "/list/" + model
+        return "/kudu/list/" + model
       },
       toAPI() {
         window.location.href = BASE_URL

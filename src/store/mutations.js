@@ -33,7 +33,7 @@ export default {
     state.account.authenticated = false
     localStorage.removeItem('user-token')
     state.account.username = null
-    router.push('/login')
+    router.push('/kudu/login')
   },
 
   UPDATE_AUTH_STATUS(state, payload) {

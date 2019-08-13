@@ -37,7 +37,7 @@ export default {
       .catch( e => {
         console.log("FIRING FAILED")
         console.log(e)})
-    ).catch( e => { this.$router.push('/login') } )
+    ).catch( e => { this.$router.push('/kudu/login') } )
   },
 };
 </script>

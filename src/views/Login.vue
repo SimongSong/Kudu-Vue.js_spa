@@ -76,7 +76,7 @@ export default {
       this.$store.dispatch('login',this.account)
       .then(
         response => {console.log(response);
-        this.$router.push('/') 
+        this.$router.push('/kudu') 
         },
         error => {
           this.credentialsValid = false
