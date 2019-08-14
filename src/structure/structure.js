@@ -36,7 +36,8 @@ export default {
       title : "DLP Analyses",
       url : "/list/dlp/analysis",
       list_api: "kududlpanalysis_list/",
-      detail_api: "analysis/",
+      detail_api: "analysis_information/",
+      form_fields : form.dlpanalysis,
       noteditable: true
     },
     summary : true

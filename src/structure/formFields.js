@@ -19,15 +19,6 @@ export default {
       },
     }
   },
-  // analysis : {
-  //   input_type : { type : "String" },
-  //   version : { type : "String" },
-  //   jira_ticket : { type : "String" },
-  //   run_status : { type : "Select", choices : choices.run_status },
-  //   submission_date : { type : "Date" },
-  //   description : { type : "String" },
-  // },
-
   sample : {
     fields : {
       sample_id : { type : "String", must : true },
@@ -73,6 +64,42 @@ export default {
           treatment_status : { type : "Select", choices : choices.treatment_status },	
           family_information : { type : "String" },
         }
+      }
+    }
+  },
+  dlpanalysis : {
+    fields : {
+      version : { type : "String" },
+      analysis_jira_ticket : { type : "String" },
+      aligner : { type : "Select", choices : choices.aligner },
+      smoothing : { type : "Select", choices : choices.smoothing },
+      montage_status : { type : "Select", choices : choices.montage_status },
+      priority_level : { type : "Select", choices : choices.priority_level },
+      verified : { type : "Select", choices : choices.verified },
+    },
+    relations : {
+      library : {
+        model : ["dlp","library"],
+        name : "pool_id",
+        many : false
+      },
+      sequnecings : {
+        model : ["dlp","sequencing"],
+        name : "id",
+        many : true
+      },
+    },
+    children : {
+      analysis_run : {
+        title : 'Analysis Run',
+        fields : {
+          run_status : { type : "Select", choices : choices.run_status },
+          last_updated : { type : "Date" },
+        }
+      },
+      reference_genome : {
+        title: 'Reference Genome',
+        fields : {reference_genome : { type : "String" }},
       }
     }
   },
@@ -225,6 +252,28 @@ export default {
         many : true
       }
     }
+  },
+  tenxanalysis : {
+    fields : {
+      input_type : { type : "Select", choices : choices.input_type },
+      version : { type : "String" },
+      jira_ticket : { type : "String" },
+      run_status : { type : "Select", choices : choices.run_status },
+      submission_date : { type : "Date" },
+      description : { type : "String" },
+    },
+    relations : {
+      tenxsequencing_set : {
+        model : ["tenx","sequencing"],
+        name : "id",
+        many : true
+      },
+    tenx_library : {
+        model : ["tenx","library"],
+        name : "name",
+        many : false
+      },
+    },
   },
   tenxsequencing : {
     fields : {

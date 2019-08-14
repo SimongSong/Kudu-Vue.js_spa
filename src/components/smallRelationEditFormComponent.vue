@@ -49,7 +49,7 @@ export default {
             this.loading= false
           }
         )
-      ).catch( e => { this.$router.push('/kudu/login') } )
+      ).catch( e => { this.$router.push('/login') } )
     },
     watch: {
       selected: function(newSelected) { Vue.set(this.relation, 'selected',newSelected.map(s => s.id)) }

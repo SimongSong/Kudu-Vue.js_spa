@@ -64,7 +64,7 @@
           },
           error => {}
         )
-      ).catch( e => { this.$router.push('/kudu/login') } )
+      ).catch( e => { this.$router.push('/login') } )
     },
     data () {
       return {

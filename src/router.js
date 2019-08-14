@@ -11,30 +11,30 @@ const router =  new Router({
   base: process.env.BASE_URL,
   routes: [
     {
-      path: '/kudu/login',
+      path: '/login',
       name: 'login',
       component: Login
     },
     {
-      path: '/kudu',
+      path: '/',
       name: 'home',
       component: Home,
       meta: {auth: true},
     },
     {
-      path: '/kudu/detail/:app/:type/:pk',
+      path: '/detail/:app/:type/:pk',
       name: 'detail',
       meta: {auth: true},
       component: () => import('./views/DetailView.vue')
     },
     {
-      path: '/kudu/list/:app/:type/',
+      path: '/list/:app/:type/',
       name: 'list',
       meta: {auth: true},
       component: () => import('./views/ListView.vue')
     },
     {
-      path: '/kudu/search/:query',
+      path: '/search/:query',
       name: 'search',
       meta: {auth: true},
       component: () => import('./views/SearchResult.vue')
@@ -45,7 +45,7 @@ const router =  new Router({
 router.beforeEach((to, from, next) => {
   const authRequired = to.matched.some((route) => route.meta.auth)
   const authorized = !!localStorage.getItem('user-token') || ''
-  if(authRequired && !authorized) next('/kudu/login')
+  if(authRequired && !authorized) next('/login')
   else next()
 })
 

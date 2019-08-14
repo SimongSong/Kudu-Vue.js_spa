@@ -1,9 +1,9 @@
-export const BASE_URL = 'http://127.0.0.1:8000/api/'
+export const BASE_URL = 'http://colossus-test.canadacentral.cloudapp.azure.com:8000/api/'
 
 export function checkTokenExpiration(token){
   this.$store.dispatch('login',{token: token})
   .then( response => {console.log(response); },
-    error => { this.$router.push('/kudu') })
+    error => { this.$router.push('/') })
 }
 
 
@@ -42,6 +42,8 @@ export function detailEditForm(data, form) {
     Object.keys(form.children).forEach(function(key){
       console.log("3-1")
       console.log(key)
+      console.log(form.children[key])
+      console.log(data.children)
       form.children[key].fields = Object.assign({id: {"type": "Id", value : null}}, form.children[key].fields);
       Object.keys(data[key]).forEach(function(children_key) {
         console.log("3-2")

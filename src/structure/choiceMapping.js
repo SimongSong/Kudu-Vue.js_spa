@@ -14,6 +14,40 @@ export default {
   'DP': 'Dysplasia',
   },
   
+  input_type : {
+    'DLP': "DLP",
+    'PBAL': "PBAL",
+    'TENX': "TenX"
+  },
+
+  aligner : {
+    'A': 'bwa-aln',
+    'M': 'bwa-mem',
+  },
+
+  smoothing : {
+    'M': 'modal',
+    'L': 'loess',
+  },
+
+  montage_status : {
+    'Success': 'Success',
+    'Error': 'Error',
+    'Ignore': 'Ignore',
+    'Pending': 'Pending'
+  },
+
+  priority_level : {
+    'L': 'Low',
+    'M': 'Medium',
+    'H': 'High',
+  },
+  
+  verified : {
+    'T': 'True',
+    'F': 'False',
+  },
+
   run_status : {
    "IDLE": 'Idle',
    "ERROR": 'Error',
