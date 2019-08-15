@@ -10,7 +10,12 @@
         >
             <h2 :class="`display-0 font-weight-light pink--text`">{{category}}</h2>
             {{results.total}} results
-            {{results}}
+            <!-- {{results}} -->
+
+            <template v-for="(value, key) in results.results">
+                
+                {{key}}:{{value}}
+            </template>
         </v-card>
         <v-spacer></v-spacer>
         </v-col>
