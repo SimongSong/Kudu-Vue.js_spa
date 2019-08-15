@@ -3,7 +3,8 @@ import structure from '../structure/structure'
 export default {
     account: {
         username: "Simong",
-        authenticated: false
+        authenticated: false,
+        colour: null,
     },
 
     loading: false,

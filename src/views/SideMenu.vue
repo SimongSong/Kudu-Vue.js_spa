@@ -20,6 +20,13 @@
         </v-list-item-action>
         <v-list-item-title>Home</v-list-item-title>
       </v-list-item>
+      <v-list-item @click.stop="picker = true">
+        <v-list-item-action>
+        <v-icon>mdi-palette</v-icon>
+        </v-list-item-action>
+        <v-list-item-title>Colour</v-list-item-title>
+        <ColourPicker :picker='picker' :pickerClose='pickerClose' />
+      </v-list-item>
       <v-list-item @click="" disabled>
         <v-list-item-action>
         <v-icon>mdi-account</v-icon>
@@ -96,14 +103,26 @@
 </template>
 
 <script>
+  import ColourPicker from '../components/colourPickerComponent'
   import {BASE_URL} from "../helpers/util"
   export default {
+    components : {
+      ColourPicker
+    },
     methods: {
       getRouterPath(model) {
         return "/list/" + model
       },
       toAPI() {
         window.location.href = BASE_URL
+      },
+      pickerClose() {
+        this.picker = false
+      }
+    },
+    data() {
+      return {
+        picker : false,
       }
     },
     computed: {

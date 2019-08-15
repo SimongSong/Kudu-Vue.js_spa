@@ -18,7 +18,13 @@ export default {
   //   return null
   // },
 
-
+  colourGetter:state => {
+    console.log("waht do you mean")
+    console.log(state.account.colour)
+    if (state.account.colour === null) return 'pink'
+    else return state.account.colour
+  },
+  
   getModelTitle: state => (app, model) => {
     return state.structure[app][model].title
   },

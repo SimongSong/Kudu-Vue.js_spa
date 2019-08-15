@@ -12,7 +12,7 @@
   >
   <template v-slot:top>
     <v-toolbar flat>
-      <h2 :class="`headline font-weight-light mb-4 pink--text`">{{getTitle(relation.model[0],relation.model[1])}}</h2>
+      <h2 :class="`headline font-weight-light mb-4 `" :style="{'color':colour}">{{getTitle(relation.model[0],relation.model[1])}}</h2>
       <v-spacer></v-spacer>
       <v-flex xs6 md2>
       <v-text-field v-model="search" label="search" ></v-text-field>
@@ -62,6 +62,9 @@ export default {
         selected:  [],
         search: '',
       }
+    },
+    computed: {
+      colour() {  return this.$store.getters.colourGetter }
     },
     methods: {
       getTitle: getTitle,

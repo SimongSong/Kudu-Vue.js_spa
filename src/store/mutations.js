@@ -38,6 +38,10 @@ export default {
 
   UPDATE_AUTH_STATUS(state, payload) {
     state.account.authenticated = payload
+  },
+
+  UPDATE_COLOUR(state, colour) {
+    state.account.colour = colour
   }
   
 }

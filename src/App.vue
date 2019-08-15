@@ -4,12 +4,12 @@
     <v-app-bar
         app
         clipped-left
-        color="#E91E63"
+        :color="colour"
         dense
       >
       <v-app-bar-nav-icon v-if="authorized" @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
       <v-toolbar-title class="mr-12 align-center">
-        <span class="title">Kudu - Colossus BETA</span>
+        <span class="title">Kudu - Colossus BETA{{colour}}</span>
       </v-toolbar-title>
       <v-spacer></v-spacer>
       
@@ -84,7 +84,8 @@
         let val = this.$store.state.account.authenticated 
         this.drawer = false
         return val
-      }
+      },
+      colour() {  return this.$store.getters.colourGetter }
     },
     methods: {
       searchQuery() {
@@ -94,7 +95,7 @@
             params: { query: this.query }
           });
         }
-      }
+      },
     },
     mounted: function() {
       this.authorized = !!localStorage.getItem('user-token')

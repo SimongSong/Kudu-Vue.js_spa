@@ -8,7 +8,7 @@
     >
     <template v-slot:top>
       <v-toolbar flat>
-        <h2 :class="`headline font-weight-light mb-4 pink--text`">{{getTitle(model.model[0],model.model[1])}} LIST</h2>
+        <h2 :class="`headline font-weight-light mb-4`" :style="{'color':colour}">{{getTitle(model.model[0],model.model[1])}} LIST</h2>
         <v-spacer></v-spacer>
         <v-flex xs6 md2>
         <v-text-field v-model="search" label="search" ></v-text-field>
@@ -74,5 +74,6 @@ export default {
       },
       getTitle: getTitle
     },
+    computed: { colour() {  return this.$store.getters.colourGetter } },
 }
 </script>

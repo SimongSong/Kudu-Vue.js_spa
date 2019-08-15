@@ -2,7 +2,7 @@
 
   <div>
     <v-timeline dense> 
-    <v-timeline-item small fill-dot  color="pink" v-for="v in relations">
+    <v-timeline-item small fill-dot  :color="colour" v-for="v in relations">
       <SmallList :model="v" />
     <v-divider></v-divider>
     <br>
@@ -19,5 +19,6 @@
       SmallList
     },
     props: ['relations'],
+    computed: { colour() {  return this.$store.getters.colourGetter } },
   }
 </script>

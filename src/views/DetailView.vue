@@ -56,8 +56,8 @@
       <v-tab-item>
       <v-card flat>
       <v-card-text>
-        <div class="headline font-weight-light"> Are you sure? </div>
-        <div class="display-1 font-weight-light pink--text">Other related entries can be affected by this deletion.</div>
+        <div class="headline font-weight-light"  :style="{'color':colour}"> Are you sure? </div>
+        <div class="display-1 font-weight-light" >Other related entries can be affected by this deletion.</div>
       </v-card-text>
       </v-card>
       </v-tab-item>
@@ -100,6 +100,7 @@ export default {
     ).catch( e => { this.$router.push('/login') } )
   },
   computed: {
+    colour() {  return this.$store.getters.colourGetter },
     modelComputed () {
       if (this.$store.state.model.form_fields === undefined) return false
       return Object.keys(this.$store.state.model.form_fields).length !== 0

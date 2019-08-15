@@ -6,7 +6,6 @@ export function checkTokenExpiration(token){
     error => { this.$router.push('/') })
 }
 
-
 export function titleEdit(title){
   var res = title.split("_")
   res.forEach((r,i) => {res[i] = r.charAt(0).toUpperCase() + r.slice(1);})

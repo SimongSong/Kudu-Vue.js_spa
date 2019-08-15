@@ -4,7 +4,7 @@
     flat
   >
     <v-card-title>
-      <h2 :class="`display-1 font-weight-light mb-4 pink--text`">Welcome to your new website!</h2>
+      <h2 :class="`display-1 font-weight-light mb-4`"  :style="{'color':colour}">Welcome to your new website!</h2>
     </v-card-title>
     <v-card-text>
       <v-icon>mdi-human-greeting</v-icon>
@@ -36,6 +36,7 @@
 export default {
   components: {
   },
+  computed: { colour() {  return this.$store.getters.colourGetter } },
   methods: {
     goToColossus() {
       window.location.href = "https://colossus.canadacentral.cloudapp.azure.com"

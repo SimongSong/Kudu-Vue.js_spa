@@ -1,12 +1,12 @@
 <template>
 <v-card flat>
-  <v-card-title><h2 :class="`display-2 font-weight-light mb-4 pink--text`">Summary</h2></v-card-title>
+  <v-card-title><h2 :class="`display-2 font-weight-light mb-4`"  :style="{'color':colour}">Summary</h2></v-card-title>
 <v-card-text>
 <div v-if="isDifferent"> 
   <div v-if="fields">  
     <v-divider></v-divider>
     <div v-for="f in fieldDifferences" class="headline font-weight-light"> 
-    Value of <span class="pink--text">{{titleEdit(f[0])}}</span> has been updated from <span class="pink--text">{{f[1]}}</span> to <span class="pink--text">{{f[2]}}</span>
+    Value of <span  :style="{'color':colour}">{{titleEdit(f[0])}}</span> has been updated from <span  :style="{'color':colour}">{{f[1]}}</span> to <span :style="{'color':colour}">{{f[2]}}</span>
     </div>
   </div>
 
@@ -15,9 +15,9 @@
     <div v-for="c in childrenDifferences"> 
       <div class="headline font-weight-light" v-if="c.length !== 0">
         <div v-if="c[1].length !== 0"> 
-        For <span class="pink--text">{{c[0]}}</span>:<br>
+        For <span :style="{'color':colour}">{{c[0]}}</span>:<br>
         <div v-for="d in c[1]">
-        &emsp;Field <span class="pink--text">{{titleEdit(d[0])}}</span> has been updated from  <span class="pink--text">{{printNone(d[1])}}</span> to <span class="pink--text">{{printNone(d[2])}}</span>.
+        &emsp;Field <span  :style="{'color':colour}">{{titleEdit(d[0])}}</span> has been updated from  <span  :style="{'color':colour}">{{printNone(d[1])}}</span> to <span :style="{'color':colour}">{{printNone(d[2])}}</span>.
         </div>
         <v-divider></v-divider>
         </div>
@@ -28,7 +28,7 @@
   <div v-if="relations">
     <div v-for="r in relationsDifferences"> 
       <div class="headline font-weight-light" >
-        Relationship with <span class="pink--text">{{r[0]}}</span> has been updated from <span class="pink--text">[ {{r[1].join(",")}} ]</span> to <span class="pink--text">[ {{r[2].join(",")}} ]</span>.
+        Relationship with <span :style="{'color':colour}">{{r[0]}}</span> has been updated from <span :style="{'color':colour}">[ {{r[1].join(",")}} ]</span> to <span  :style="{'color':colour}">[ {{r[2].join(",")}} ]</span>.
       </div>
     </div>
     <v-divider></v-divider>
@@ -57,6 +57,7 @@ export default {
     }
   },
   computed: {
+    colour() {  return this.$store.getters.colourGetter },
     fieldDifferences() { 
       if(!this.fields) return []
       return this.computeDifferences(this.fields, this.structure.fields) 
