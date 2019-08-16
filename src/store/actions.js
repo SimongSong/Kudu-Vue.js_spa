@@ -50,12 +50,11 @@ export default {
 
   loadRelationList({ commit, state }, payload) {
     console.log("LOADRELATIONINFO")
-    let url = state.structure[payload.app][payload.model].list_api
+    console.log(payload)
     let list = payload.list.join(",")
     return new Promise( function(resolve, reject) {
-      console.log(url)
       if (payload.list.length == 0) reject("empty")
-      axios.get(BASE_URL + url,{ 
+      axios.get(BASE_URL + payload.url,{ 
         params : {
           id__in : list
         },

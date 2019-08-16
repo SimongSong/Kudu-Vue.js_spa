@@ -1,6 +1,7 @@
 <template>
+<div>
   <v-timeline dense>
-    <v-timeline-item small fill-dot large :color="colour" >
+    <v-timeline-item small fill-dot :color="colour" >
     <v-toolbar flat>
         <v-toolbar-title> {{$route.params.app.toUpperCase()}} {{$route.params.type.toUpperCase()}} LIST</v-toolbar-title>
         <v-spacer></v-spacer>
@@ -9,6 +10,17 @@
       </v-toolbar>
     </v-timeline-item>
     <v-timeline-item small fill-dot :color="colour" >
+      <v-btn
+        absolute
+        dark
+        fab
+        bottom
+        left
+        :color="colour"
+      >
+        <v-icon>add</v-icon>
+      </v-btn>
+            
     <v-data-table
       fixed-header
       :loading="loading"
@@ -43,6 +55,7 @@
     </v-data-table>
     </v-timeline-item>
   </v-timeline>
+</div>
 </template>
 
 <script>

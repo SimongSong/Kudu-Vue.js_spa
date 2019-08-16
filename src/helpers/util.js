@@ -1,4 +1,4 @@
-export const BASE_URL = 'http://colossus-test.canadacentral.cloudapp.azure.com:8000/api/'
+export const BASE_URL = 'http://127.0.0.1:8000/api/'
 
 export function checkTokenExpiration(token){
   this.$store.dispatch('login',{token: token})
@@ -23,8 +23,8 @@ export function getTitle (app, model) {
 
 export function detailEditForm(data, form) { 
   console.log("DETAIL FORM")
-  console.log(data)
   console.log(form)
+  console.log(data)
   console.log("1")
   form.fields = Object.assign({id: {"type": "Id", value : data.id}}, form.fields);
   console.log("2")
@@ -40,9 +40,6 @@ export function detailEditForm(data, form) {
   if("children" in form) {
     Object.keys(form.children).forEach(function(key){
       console.log("3-1")
-      console.log(key)
-      console.log(form.children[key])
-      console.log(data.children)
       form.children[key].fields = Object.assign({id: {"type": "Id", value : null}}, form.children[key].fields);
       Object.keys(data[key]).forEach(function(children_key) {
         console.log("3-2")
@@ -74,6 +71,23 @@ export function detailEditForm(data, form) {
         }
       }
     })
+
+    console.log("5")
+    console.log("SCHOOLINGS")
+    if("schoolings" in form) {
+      console.log("SHCOLLSIN")
+      Object.keys(form.schoolings).forEach(function(key){
+        console.log(key)
+        console.log( form.schoolings[key])
+        console.log(data[key])
+        if(data[key] != null || data[key] != undefined) 
+        {
+          console.log("FEFE")
+          form.schoolings[key].value = data[key] }
+        else form.schoolings[key].value = (form.schoolings.many) ? [] : ""
+        console.log( form.schoolings[key])
+      })
+    }
   }
   console.log("FORM READY")
   console.log(form)

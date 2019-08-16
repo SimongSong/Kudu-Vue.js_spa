@@ -131,6 +131,22 @@ export default {
         many : true
       }
     },
+    schoolings : {
+      doubletinformation : {
+        title : "Doublet Information",
+        pivot: true,
+      },
+      metadata : {
+        title : "Metadata",
+        many: false,
+      },
+      sublibraryinformation_set : {
+        title : "Sublibrary",
+        many : true,
+        api : "kududlpsublibrary_list/",
+      }
+
+    },
     children : {
       dlplibraryconstructioninformation : {
         title: "DLP Library Construction Information",
@@ -183,7 +199,7 @@ export default {
           qc_check : { type : "Select", choices : choices.qc_check },
           qc_notes : { type : "String" },
         }        
-      }
+      },
     }
   },
   dlpsequencing : {
@@ -206,6 +222,13 @@ export default {
       sequencer_id : { type : "String" },        
       sequencing_center : { type : "Select", choices : choices.sequencing_center },
       sequencer_notes : { type : "String" }
+    },
+    schoolings : {
+      dlplane_set : {
+        title : "DLP Lane",
+        many: true,
+        api: 'kududlplane_list/'
+      }
     },
     relations : {
       dlplibrary : {
@@ -282,6 +305,13 @@ export default {
       submission_date : { type : "Date" },
       sequencer_id : { type : "String" },
       number_of_lanes_requested : { type : "Integer" },
+    },
+    schoolings : {
+      tenxlane_set : {
+        title : "TenX Lane",
+        many: true,
+        api: 'kudutenxlane_list/'
+      }
     },
     relations : {
       tenxlibrary : {
