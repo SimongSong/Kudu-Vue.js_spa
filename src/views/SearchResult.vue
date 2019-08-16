@@ -9,10 +9,39 @@
     </v-card-title>
     <v-card-text>
       <p>Found {{searchResults.total}} results for query "{{query}}" </p> 
-    {{searchResults}}
-    <template v-for="(value, key) in results">   
-        <SearchResult :title="key" :results="value"></SearchResult>
+     {{searchResults}}
+    <template>
+      <v-card flat color="basil">
+
+        <v-tabs
+          v-model="tab"
+          background-color="transparent"
+          color="basil"
+          grow
+        >
+          <v-tab
+            v-for="app in apps"
+            :key="app"
+          >
+            {{ app }} ({{results[app]["total"]}})
+          </v-tab>
+        </v-tabs>
+
+        <v-tabs-items v-model="tab">
+          <v-tab-item
+            v-for="app in apps"
+            :key="app"
+          >
+            <v-card flat color="basil">
+              <SearchResult :title="app" :appResults="results[app]"></SearchResult>
+            </v-card>
+          </v-tab-item>
+        </v-tabs-items>
+      </v-card>
     </template>
+    <!-- <template v-for="(value, key) in results">   
+        <SearchResult :title="key" :results="value"></SearchResult>
+    </template> -->
     </v-card-text>
     
   </v-card>
@@ -28,6 +57,7 @@ export default {
   },
   data() {
     return {
+      tab: null,
       query: this.$route.params.query,
       structure: {},
       results: {},

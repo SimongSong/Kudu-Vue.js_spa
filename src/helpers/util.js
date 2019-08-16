@@ -1,4 +1,4 @@
-export const BASE_URL = 'http://colossus-test.canadacentral.cloudapp.azure.com:8000/api/'
+export const BASE_URL = 'http://127.0.0.1:8000/api/'
 
 export function checkTokenExpiration(token){
   this.$store.dispatch('login',{token: token})
