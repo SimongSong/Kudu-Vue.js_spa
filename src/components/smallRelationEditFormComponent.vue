@@ -36,7 +36,7 @@ export default {
         this.$store.dispatch('loadData',{
           app: this.relation.model[0],
           model: this.relation.model[1],
-          type: "list",
+          type: "relation",
           token : localStorage.getItem('user-token')
         }).
         then(

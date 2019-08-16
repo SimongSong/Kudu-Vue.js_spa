@@ -1,5 +1,4 @@
 <template>
-
   <div>
     <v-timeline dense> 
     <v-timeline-item small fill-dot  :color="colour" v-for="v in relations">

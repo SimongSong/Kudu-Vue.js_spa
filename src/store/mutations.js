@@ -1,7 +1,13 @@
-import {detailDataProcess, detailEditForm} from "../helpers/util"
+import {initCreateForm, detailEditForm} from "../helpers/util"
 import router from '../router'
 
 export default {
+
+  SET_STRUCTURE(state,payload) {
+    state.model = payload.model
+    initCreateForm(state.model.form_fields)
+  },
+
   SET_DETAIL(state,payload) {
     state.model = payload.model
     console.log("DETAIL")

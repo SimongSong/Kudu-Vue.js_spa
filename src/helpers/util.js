@@ -21,6 +21,33 @@ export function getTitle (app, model) {
   return this.$store.getters.getModelTitle(app, model)
 }
 
+export function initCreateForm(form) {
+  console.log("1")
+  Object.keys(form.fields).forEach(function(key){
+    if(form.fields[key].default) form.fields[key].value = form.fields[key].default
+    else form.fields[key].value = ""
+  })
+  console.log("2")
+  if("children" in form) {
+    console.log("2-1")
+    Object.keys(form.children).forEach(function(children){
+      console.log("2-2")
+      if(form.children[children].default) form.children[children].value = form.children[children].default
+      else form.children[children].value = ""
+    })
+  }
+  console.log("3")
+  if("relations" in form) {
+    Object.keys(form.relations).forEach(function(children){
+      Object.keys(form.relations).forEach(function(key){   
+        if(form.relations[key].default) form.relations[key].value = [form.relations[key].default]
+        else form.relations[key].value = []
+      })
+    })
+  }
+
+}
+
 export function detailEditForm(data, form) { 
   console.log("DETAIL FORM")
   console.log(form)

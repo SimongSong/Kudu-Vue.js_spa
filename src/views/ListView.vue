@@ -17,9 +17,14 @@
         bottom
         left
         :color="colour"
+        @click="openCreate = true"
       >
         <v-icon>add</v-icon>
       </v-btn>
+      <CreateNew
+       :openCreate='openCreate' 
+       :closeCreate='closeCreate' 
+      />
             
     <v-data-table
       fixed-header
@@ -59,8 +64,12 @@
 </template>
 
 <script>
+  import CreateNew from '../components/createNewComponent'
   export default {
     name: "ListView",
+    components: {
+      CreateNew
+    },
     created() {
       this.$store.dispatch('refresh',{token : localStorage.getItem('user-token')})
       .then(
@@ -81,6 +90,7 @@
     },
     data () {
       return {
+        openCreate: false,
         loading: true,
         headers: [],
         items: [],
@@ -95,6 +105,9 @@
         })
         this.loading= false
       },
+      closeCreate () {
+        this.openCreate = false
+      }
     },
     computed: {
       colour() {  return this.$store.getters.colourGetter }
