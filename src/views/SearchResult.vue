@@ -18,6 +18,7 @@
                         <v-tabs-items v-model="tab">
                             <v-tab-item v-for="(result, app) in results" :key="app">
                                 <v-card flat>
+                                    <!-- todo: default to tab with greatest num of results -->
                                     <SearchResult :title="app" :appResults="result"></SearchResult>
                                 </v-card>
                             </v-tab-item>

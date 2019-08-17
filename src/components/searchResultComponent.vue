@@ -19,6 +19,7 @@
                                         :href="info.link"
                                     >
                                         <!-- TODO: Pagination or scroll -->
+                                        <!-- TODO: darken row on hover -->
                                         <v-card-text class="pa-0">{{info.label}}</v-card-text>
                                     </v-card>
                                 </v-card-text>
