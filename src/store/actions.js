@@ -34,11 +34,8 @@ export default {
           }
         })
         .then(r => {
-          if (payload.type === "list") {
-            resolve(r.data)
-          }
-          else if (payload.type === "detail") commit('SET_DETAIL', { data: r.data, model: app_model })
-          resolve("success")
+          if (payload.type === "detail") commit('SET_DETAIL', { data: r.data, model: app_model })
+          resolve(r.data)
         })
         .catch(e => {
           console.log(e)
