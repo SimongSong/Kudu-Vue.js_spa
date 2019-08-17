@@ -18,6 +18,7 @@
                                         :key="index"
                                         :href="info.link"
                                     >
+                                        <!-- TODO: Pagination or scroll -->
                                         <v-card-text class="pa-0">{{info.label}}</v-card-text>
                                     </v-card>
                                 </v-card-text>
