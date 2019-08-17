@@ -1,93 +1,101 @@
 <template>
-  <div>
-    <v-row> 
-        <v-col>
-        <v-card
-            class="pa-2"
-            outlined
-            tile
-
-        >
-            <template v-if="resultsTotal === 0">
-                No results for {{title}}
-            </template>
-            <template v-else>
-                <template v-for="(value, key) in results">
-                    <v-card :key="key" flat>
-                        <v-card-text v-if="value.length !==0 " class="pa-0">
-                            <h2 :class="` font-weight-light pink--text`">{{key}} ({{results[key].length}})</h2>
-                            <v-card flat v-for="(result) in value" :key="result" href="www.google.com">
-                                <v-card-text class="pa-0"> 
-                                    {{result}}
+    <div>
+        <v-row>
+            <v-col>
+                <v-card class="pa-2" outlined tile>
+                    <template v-if="resultsTotal === 0">No results for {{title}}</template>
+                    <template v-else>
+                        <template v-for="(infos, model) in resultInfo">
+                            <v-card :key="model" flat style="overflow-y: auto">
+                                <!-- If query returned empty list for model, don't display -->
+                                <v-card-text v-if="infos.length !==0 " class="pa-0">
+                                    <h2
+                                        :class="` font-weight-light pink--text`"
+                                    >{{formatTitle(model)}} ({{resultInfo[model].length}})</h2>
+                                    <v-card
+                                        flat
+                                        v-for="(info, index) in infos"
+                                        :key="index"
+                                        :href="info.link"
+                                    >
+                                        <v-card-text class="pa-0">{{info.label}}</v-card-text>
+                                    </v-card>
                                 </v-card-text>
                             </v-card>
-                        </v-card-text>
-                    </v-card>
-                </template>
-            </template>
-        </v-card>
-        <v-spacer></v-spacer>
-        </v-col>
-    </v-row>
-  </div>
+                        </template>
+                    </template>
+                </v-card>
+                <v-spacer></v-spacer>
+            </v-col>
+        </v-row>
+    </div>
 </template>
 
 
 <script>
-import {getTitle} from "../helpers/util"
-import Vue from 'vue'
+import { getTitle } from "../helpers/util";
+import Vue from "vue";
 export default {
     name: "SearchResult",
-    props: ['title', 'appResults'],
-    data () {
-      return {
-        resultInfo: {}
-      }
+    props: ["title", "appResults"],
+    data() {
+        return {
+            resultInfo: {},
+            modelData: {}
+        };
     },
     created() {
-        this.formatTitle()
-        this.results = this.appResults.results
-        this.resultsTotal = this.appResults.total
-        this.models = Object.keys(this.results)
+        this.results = this.appResults.results;
+        this.resultsTotal = this.appResults.total;
+        this.models = Object.keys(this.results);
 
         var test = this.models.map(model => {
             this.resultInfo[model] = [];
-        })
-        console.log(this.resultInfo)
-        this.getResultInfo()
-        console.log(this.resultInfo)
-    
+        });
+        this.getResultInfo();
     },
     methods: {
-        formatTitle: function() {
-            this.category = this.title.toUpperCase() //format this better core => Core dlp => DLP tenx => Tenx
-            return this.category
+        getModel: function(app, model, pk) {
+            console.log("IN GET MODEL");
+            console.log(app, model, pk);
+            return new Promise((resolve, reject) => {
+                this.$store
+                    .dispatch("loadData", {
+                        app: app,
+                        pk: pk,
+                        model: model,
+                        type: "",
+                        token: localStorage.getItem("user-token")
+                    })
+                    .then(response => {
+                        this.modelData = response;
+                        console.log("THIS MODELEDKSJFLKDS");
+                        resolve(this.modelData);
+                    })
+                    .catch(e => {
+                        reject("failed");
+                        console.log("failed");
+                    });
+            });
+        },
+        formatTitle: function(label) {
+            return label.charAt(0).toUpperCase() + label.slice(1);
         },
 
-        getResultInfo: function() {
-            console.log(Object.keys(this.resultInfo))
-            console.log(`RESULTS INFO IN FUNCTION!!! ${this.resultInfo}`)
-            this.models.forEach((key) => {
-                this.results[key].forEach((id) => {
-                    console.log(`key ${key}`)
-                    console.log(Object.keys(this.resultInfo))
-                    this.resultInfo[key].push({
+        getResultInfo: async function() {
+            console.log(this.models);
+            for (var model in this.results) {
+                for (var i = 0; i < this.results[model].length; i++) {
+                    var id = this.results[model][i]["id"];
+                    var label = this.results[model][i]["name"];
+                    this.resultInfo[model].push({
                         id: id,
-                        label: "test",
-                        link: "testing"
-
-                    })
-                })
-            })
-            // console.log(this.models)
-            // for (var i = 0; i < this.models.length; i++) {
-            //     // var modelResults = this.results[this.models[i]]
-            //     // this.resultInfo[this.models[i]] = {}
-            //     // this.resultInfo[this.models[i]]["subtotal"] = modelResults.length
-            //     this.resultInfo[this.models[i]] = []
-
-            // }
+                        label: label,
+                        link: `detail/${this.title}/${model}/${id}`
+                    });
+                }
+            }
         }
-    },
-}
+    }
+};
 </script>
