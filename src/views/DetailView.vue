@@ -57,7 +57,7 @@
       </v-tab-item>
       
       <v-tab-item style="height: calc(90vh - 70px);">
-        <EditComponent :title="modelTitle" :fields="modelFields" :children="modelChildren" :relations="modelRelations" />
+        <EditComponent :title="modelTitle" :fields="modelFields" :schoolings="schoolingsExist ? modelSchoolings : undefined" :children="modelChildren" :relations="modelRelations" />
       </v-tab-item>
 
       <v-tab-item>

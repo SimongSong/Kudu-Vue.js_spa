@@ -44,7 +44,14 @@ export default {
       noteditable: true,
       name: "analysis_jira_ticket",
     },
-    summary: true
+    lane : {
+      title : "DLP Lane",
+      url : "/list/dlp/lane",
+      list_api: "kududlplane_list/",
+      detail_api: "lane/",
+      form_fields : form.dlplane,
+    },
+    summary : true
   },
   tenx: {
     chip: {
@@ -88,6 +95,13 @@ export default {
       noteditable: true,
       name: "jira_ticket"
     },
-    summary: true
+    lane : {
+      title : "Tenx Lane",
+      url : "/list/tenx/lane",
+      list_api: "kudutenxlane_list/",
+      detail_api: "tenxlane/",
+      form_fields : form.tenxlane,
+    },
+    summary : true
   }
 }

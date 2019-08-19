@@ -144,6 +144,9 @@ export default {
         title : "Sublibrary",
         many : true,
         api : "kududlpsublibrary_list/",
+        fields : {
+          sublibrary_csv : { type : 'File' },
+        }
       }
 
     },
@@ -202,33 +205,40 @@ export default {
       },
     }
   },
-  dlpsequencing: {
-    fields: {
-      rev_comp_override: { type: "Select", choices: choices.rev_comp_override },
-      adapter: { type: "String" },
-      format_for_data_submission: { type: "String" },
-      index_read_type: { type: "String" },
-      index_read1_length: { type: "Integer" },
-      index_read2_length: { type: "Integer" },
-      read_type: { type: "Select", choices: choices.read_type },
-      read1_length: { type: "Integer" },
-      read2_length: { type: "Integer" },
-      sequencing_instrument: { type: "Select", choices: choices.sequencing_instrument },
-      sequencing_output_mode: { type: "Select", choices: choices.sequencing_output_mode },
-      short_description_of_submission: { type: "String" },
-      submission_date: { type: "Date" },
-      number_of_lanes_requested: { type: "Integer" },
-      gsc_library_id: { type: "String" },
-      sequencer_id: { type: "String" },
-      sequencing_center: { type: "Select", choices: choices.sequencing_center },
-      sequencer_notes: { type: "String" }
+  dlplane : {
+    fields : {
+      flow_cell_id : { type : "String" },  
+      sequencing_date : { type : "Date" },
+      path_to_archive : { type : "String" },  
     },
-    schoolings : {
-      dlplane_set : {
-        title : "DLP Lane",
-        many: true,
-        api: 'kududlplane_list/'
-      }
+    relations : {
+      sequencing : {
+        model : ["dlp","sequencing"],
+        name : "id",
+        many : false
+      },
+    }
+  },
+  dlpsequencing : {
+    fields : {
+      rev_comp_override : { type : "Select", choices : choices.rev_comp_override },
+      adapter : { type : "String" },        
+      format_for_data_submission : { type : "String" },        
+      index_read_type : { type : "String" },        
+      index_read1_length : { type : "Integer" },        
+      index_read2_length : { type : "Integer" },
+      read_type : { type : "Select", choices : choices.read_type },
+      read1_length : { type : "Integer" },
+      read2_length : { type : "Integer" },
+      sequencing_instrument : { type : "Select", choices : choices.sequencing_instrument },
+      sequencing_output_mode : { type : "Select", choices : choices.sequencing_output_mode },
+      short_description_of_submission : { type : "String" },        
+      submission_date : { type : "Date" }, 
+      number_of_lanes_requested : { type : "Integer" },        
+      gsc_library_id : { type : "String" },        
+      sequencer_id : { type : "String" },        
+      sequencing_center : { type : "Select", choices : choices.sequencing_center },
+      sequencer_notes : { type : "String" }
     },
     relations : {
       dlplibrary : {
@@ -236,10 +246,15 @@ export default {
         name : "pool_id",
         many : false
       },
-      relates_to: {
-        model: ["dlp", "sequencing"],
-        name: "id",
-        many: true
+      dlplane_set : {
+        model : ["dlp","lane"],
+        name : "flow_cell_id",
+        many : true
+      },
+      relates_to : {
+        model : ["dlp","sequencing"],
+        name : "id",
+        many : true
       }
     }
   },
@@ -298,22 +313,34 @@ export default {
       },
     },
   },
-  tenxsequencing: {
-    fields: {
-      sequencing_instrument: { type: "Select", choices: choices.sequencing_instrument },
-      sequencing_center: { type: "Select", choices: choices.sequencing_center },
-      submission_date: { type: "Date" },
-      sequencer_id: { type: "String" },
-      number_of_lanes_requested: { type: "Integer" },
-    },
-    schoolings : {
-      tenxlane_set : {
-        title : "TenX Lane",
-        many: true,
-        api: 'kudutenxlane_list/'
-      }
+  tenxlane : {
+    fields : {
+      flow_cell_id : { type : "String" },  
+      sequencing_date : { type : "Date" },
+      path_to_archive : { type : "String" },  
     },
     relations : {
+      sequencing : {
+        model : ["tenx","sequencing"],
+        name : "id",
+        many : false
+      },
+    }
+  },
+  tenxsequencing : {
+    fields : {
+      sequencing_instrument : { type : "Select", choices : choices.sequencing_instrument },
+      sequencing_center : { type : "Select", choices : choices.sequencing_center },
+      submission_date : { type : "Date" },
+      sequencer_id : { type : "String" },
+      number_of_lanes_requested : { type : "Integer" },
+    },
+    relations : {
+      tenxlane_set : {
+        model : ["tenx","lane"],
+        name : "flow_cell_id",
+        many : true
+      },
       tenxlibrary : {
         model : ["tenx","library"],
         name : "name",
