@@ -1,21 +1,26 @@
 <template>
     <div>
-        <v-card flat>
+        <v-card flat :loading="loading">
             <v-card-title>
                 <h2 :class="`display-1 font-weight-light pink--text`">Search Results</h2>
             </v-card-title>
-            <v-card-text>
+            <v-card-text v-if="!loading">
                 <p>Found {{searchResults.total}} results for query "{{query}}"</p>
                 <template>
                     <v-card flat>
-                        <v-tabs v-model="tab" background-color="transparent" color="white" grow>
+                        <v-tabs
+                            v-model="active_tab"
+                            background-color="transparent"
+                            color="white"
+                            grow
+                        >
                             <v-tab
                                 v-for="(result, app) in results"
                                 :key="app"
                             >{{ app }} ({{result["total"]}})</v-tab>
                         </v-tabs>
 
-                        <v-tabs-items v-model="tab">
+                        <v-tabs-items v-model="active_tab">
                             <v-tab-item v-for="(result, app) in results" :key="app">
                                 <v-card flat>
                                     <!-- todo: default to tab with greatest num of results -->
@@ -38,13 +43,12 @@ export default {
     },
     data() {
         return {
-            tab: null,
+            active_tab: null,
             query: this.$route.params.query,
             structure: {},
             results: {},
-            apps: {},
             searchResults: {},
-            models: {}
+            loading: true
         };
     },
     created() {
@@ -60,6 +64,9 @@ export default {
                     .then(r => {
                         this.searchResults = r;
                         this.getResults();
+                        // Only do this if we want default tab to be one with most results
+                        // this.active_tab = this.getDefaultTab();
+                        this.loading = false;
                     })
                     .catch(e => {
                         console.log("FIRING FAILED");
@@ -79,7 +86,6 @@ export default {
                 }
 
                 this.results[key] = {};
-                console.log();
                 this.results[key]["results"] = this.searchResults[key];
                 var total = 0;
                 for (var model in this.searchResults[key]) {
@@ -87,6 +93,20 @@ export default {
                 }
                 this.results[key]["total"] = total;
             }
+        },
+
+        getDefaultTab: function() {
+            var defaultTab = 0;
+            var temp = 0;
+            var i = 0;
+            for (var app in this.results) {
+                if (this.results[app]["total"] > temp) {
+                    temp = this.results[app]["total"];
+                    defaultTab = i;
+                }
+                i++;
+            }
+            return defaultTab;
         }
     }
 };
