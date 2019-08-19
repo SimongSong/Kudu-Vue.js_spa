@@ -10,11 +10,9 @@ import getters from './getters'
 Vue.use(Vuex)
 Vue.use(VueAxios, axios)
 
-export default new Vuex.Store(
-  {
+export default new Vuex.Store({
     state,
     mutations,
     actions,
     getters,
-  }
-)
+})
