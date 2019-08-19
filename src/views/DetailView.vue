@@ -9,6 +9,7 @@
       right
     >
       <v-tab>Information</v-tab>
+      <v-tab v-if="schoolingsExist">Additional</v-tab>
       <v-tab>Relations</v-tab>
       <v-tab>Edit</v-tab>
       <v-tab>Delete</v-tab>
@@ -43,6 +44,12 @@
         </v-container>
       </v-tab-item>
       
+      <v-tab-item v-if="schoolingsExist">
+        <v-container style="height: calc(90vh - 70px); overflow-y: scroll;">
+        <SchoolingComponent :schoolings="modelSchoolings" />
+        </v-container>
+      </v-tab-item>
+
       <v-tab-item>
       <v-container style="height: calc(90vh - 70px); overflow-y: scroll;">
         <ListComponent :relations="modelRelations"  />        
@@ -56,8 +63,8 @@
       <v-tab-item>
       <v-card flat>
       <v-card-text>
-        <div class="headline font-weight-light"> Are you sure? </div>
-        <div class="display-1 font-weight-light pink--text">Other related entries can be affected by this deletion.</div>
+        <div class="headline font-weight-light"  :style="{'color':colour}"> Are you sure? </div>
+        <div class="display-1 font-weight-light" >Other related entries can be affected by this deletion.</div>
       </v-card-text>
       </v-card>
       </v-tab-item>
@@ -71,11 +78,13 @@
 import {titleEdit, printNone} from "../helpers/util"
 import ListComponent from "../components/detailPageListComponent"
 import EditComponent from "../components/editFormComponent"
+import SchoolingComponent from "../components/schoolingComponent"
 export default {
   name: 'detail',
   components: {
     ListComponent,
     EditComponent,
+    SchoolingComponent
   },
   data: () => ({
     detailData: {},
@@ -100,6 +109,7 @@ export default {
     ).catch( e => { this.$router.push('/login') } )
   },
   computed: {
+    colour() {  return this.$store.getters.colourGetter },
     modelComputed () {
       if (this.$store.state.model.form_fields === undefined) return false
       return Object.keys(this.$store.state.model.form_fields).length !== 0
@@ -108,6 +118,8 @@ export default {
     modelFields(){ return this.$store.state.model.form_fields.fields },
     modelChildren(){ return this.$store.state.model.form_fields.children },
     modelRelations(){ return this.$store.state.model.form_fields.relations },
+    schoolingsExist(){ return ('schoolings' in this.$store.state.model.form_fields) ? true : false },
+    modelSchoolings(){ return this.$store.state.model.form_fields.schoolings },
     isEditable () { return this.$store.state.model.noteditable }
   },
 }

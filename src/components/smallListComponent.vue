@@ -8,7 +8,7 @@
     >
     <template v-slot:top>
       <v-toolbar flat>
-        <h2 :class="`headline font-weight-light mb-4 pink--text`">{{getTitle(model.model[0],model.model[1])}} LIST</h2>
+        <h2 :class="`headline font-weight-light mb-4`" :style="{'color':colour}">{{title}} LIST</h2>
         <v-spacer></v-spacer>
         <v-flex xs6 md2>
         <v-text-field v-model="search" label="search" ></v-text-field>
@@ -30,20 +30,17 @@
       </tr>
     </template>
   </v-data-table> 
-  
 </template>
 
 
 <script>
-import {getTitle} from "../helpers/util"
 export default {
     name: "SmallList",
-    props: ['model'],
+    props: ['model', 'title', 'url', 'list'],
     created() {
       this.$store.dispatch('loadRelationList',{
-        app: this.model.model[0],
-        model: this.model.model[1],
-        list: this.model.selected,
+        url : this.url,
+        list: this.list,
         token : localStorage.getItem('user-token')
       }).
       then(
@@ -72,7 +69,9 @@ export default {
         })
         this.loading= false
       },
-      getTitle: getTitle
+      
     },
+    computed: { colour() {  return this.$store.getters.colourGetter } },
 }
+
 </script>

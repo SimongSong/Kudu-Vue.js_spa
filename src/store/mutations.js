@@ -1,7 +1,13 @@
-import {detailDataProcess, detailEditForm} from "../helpers/util"
+import {initCreateForm, detailEditForm} from "../helpers/util"
 import router from '../router'
 
 export default {
+
+  SET_STRUCTURE(state,payload) {
+    state.model = payload.model
+    initCreateForm(state.model.form_fields)
+  },
+
   SET_DETAIL(state,payload) {
     state.model = payload.model
     console.log("DETAIL")
@@ -38,6 +44,10 @@ export default {
 
   UPDATE_AUTH_STATUS(state, payload) {
     state.account.authenticated = payload
+  },
+
+  UPDATE_COLOUR(state, colour) {
+    state.account.colour = colour
   }
   
 }

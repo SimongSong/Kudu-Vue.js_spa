@@ -6,7 +6,6 @@ export function checkTokenExpiration(token){
     error => { this.$router.push('/') })
 }
 
-
 export function titleEdit(title){
   var res = title.split("_")
   res.forEach((r,i) => {res[i] = r.charAt(0).toUpperCase() + r.slice(1);})
@@ -22,10 +21,37 @@ export function getTitle (app, model) {
   return this.$store.getters.getModelTitle(app, model)
 }
 
+export function initCreateForm(form) {
+  console.log("1")
+  Object.keys(form.fields).forEach(function(key){
+    if(form.fields[key].default) form.fields[key].value = form.fields[key].default
+    else form.fields[key].value = ""
+  })
+  console.log("2")
+  if("children" in form) {
+    console.log("2-1")
+    Object.keys(form.children).forEach(function(children){
+      console.log("2-2")
+      if(form.children[children].default) form.children[children].value = form.children[children].default
+      else form.children[children].value = ""
+    })
+  }
+  console.log("3")
+  if("relations" in form) {
+    Object.keys(form.relations).forEach(function(children){
+      Object.keys(form.relations).forEach(function(key){   
+        if(form.relations[key].default) form.relations[key].value = [form.relations[key].default]
+        else form.relations[key].value = []
+      })
+    })
+  }
+
+}
+
 export function detailEditForm(data, form) { 
   console.log("DETAIL FORM")
-  console.log(data)
   console.log(form)
+  console.log(data)
   console.log("1")
   form.fields = Object.assign({id: {"type": "Id", value : data.id}}, form.fields);
   console.log("2")
@@ -41,9 +67,6 @@ export function detailEditForm(data, form) {
   if("children" in form) {
     Object.keys(form.children).forEach(function(key){
       console.log("3-1")
-      console.log(key)
-      console.log(form.children[key])
-      console.log(data.children)
       form.children[key].fields = Object.assign({id: {"type": "Id", value : null}}, form.children[key].fields);
       Object.keys(data[key]).forEach(function(children_key) {
         console.log("3-2")
@@ -75,6 +98,23 @@ export function detailEditForm(data, form) {
         }
       }
     })
+
+    console.log("5")
+    console.log("SCHOOLINGS")
+    if("schoolings" in form) {
+      console.log("SHCOLLSIN")
+      Object.keys(form.schoolings).forEach(function(key){
+        console.log(key)
+        console.log( form.schoolings[key])
+        console.log(data[key])
+        if(data[key] != null || data[key] != undefined) 
+        {
+          console.log("FEFE")
+          form.schoolings[key].value = data[key] }
+        else form.schoolings[key].value = (form.schoolings.many) ? [] : ""
+        console.log( form.schoolings[key])
+      })
+    }
   }
   console.log("FORM READY")
   console.log(form)

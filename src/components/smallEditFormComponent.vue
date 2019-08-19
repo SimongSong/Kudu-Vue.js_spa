@@ -1,6 +1,6 @@
 <template>    
     <div style="max-width: 40vw;">
-        <h2 :class="`headline font-weight-light mb-4 pink--text`">{{title}}</h2>
+        <h2 :class="`headline font-weight-light mb-4`" :style="{'color':colour}">{{title}}</h2>
         <div v-for="(f,k) in fields">
           <v-text-field v-if="f.type === 'String'"
             v-model="f.value"
@@ -65,5 +65,6 @@
         return Object.values(choices)
       }
     },
+    computed: { colour() {  return this.$store.getters.colourGetter } },
   }
 </script>

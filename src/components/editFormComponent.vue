@@ -1,6 +1,8 @@
 <template>
   <div>
-     <v-tabs vertical>
+     <v-tabs 
+     :color="colour"
+     vertical>
       <v-tab>
         Properties
       </v-tab>
@@ -55,6 +57,9 @@
       SmallEditComponent,
       SmallRelationEditComponent,
       UpdateComponent
+    },
+    computed: {
+      colour() {  return this.$store.getters.colourGetter },
     },
     data() {
       return {

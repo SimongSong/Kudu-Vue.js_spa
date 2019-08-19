@@ -24,9 +24,10 @@ export default {
 
   loadData({ commit, dispatch, state }, payload) {
     console.log("LOAD DATA")
+    console.log(payload.type)
     let app_model = state.structure[payload.app][payload.model]
-    let url = (payload.type === "list") ? app_model.list_api : (app_model.detail_api + payload.pk + "/")
-    return new Promise(function (resolve, reject) {
+    let url = (payload.type === "list" || payload.type === "relation") ? app_model.list_api : (app_model.detail_api + payload.pk + "/") 
+    return new Promise(function(resolve, reject) {
       axios
         .get(BASE_URL + url, {
           headers: {
@@ -34,8 +35,14 @@ export default {
           }
         })
         .then(r => {
-          if (payload.type === "detail") commit('SET_DETAIL', { data: r.data, model: app_model })
-          resolve(r.data)
+          if(payload.type === "list"){
+            commit('SET_STRUCTURE', {model: app_model} )
+            resolve(r.data)
+          }
+          else if(payload.type === "relation") resolve(r.data)
+          else if(payload.type === "detail") commit('SET_DETAIL', {data: r.data, model: app_model} )
+          resolve("success")
+          
         })
         .catch(e => {
           console.log(e)
@@ -47,14 +54,13 @@ export default {
 
   loadRelationList({ commit, state }, payload) {
     console.log("LOADRELATIONINFO")
-    let url = state.structure[payload.app][payload.model].list_api
+    console.log(payload)
     let list = payload.list.join(",")
-    return new Promise(function (resolve, reject) {
-      console.log(url)
+    return new Promise( function(resolve, reject) {
       if (payload.list.length == 0) reject("empty")
-      axios.get(BASE_URL + url, {
-        params: {
-          id__in: list
+      axios.get(BASE_URL + payload.url,{ 
+        params : {
+          id__in : list
         },
         headers: {
           Authorization: 'JWT ' + payload.token

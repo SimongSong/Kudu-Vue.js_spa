@@ -1,6 +1,7 @@
 <template>
+<div>
   <v-timeline dense>
-    <v-timeline-item small fill-dot large color="pink" >
+    <v-timeline-item small fill-dot :color="colour" >
     <v-toolbar flat>
         <v-toolbar-title> {{$route.params.app.toUpperCase()}} {{$route.params.type.toUpperCase()}} LIST</v-toolbar-title>
         <v-spacer></v-spacer>
@@ -8,7 +9,23 @@
         
       </v-toolbar>
     </v-timeline-item>
-    <v-timeline-item small fill-dot color="pink" >
+    <v-timeline-item small fill-dot :color="colour" >
+      <v-btn
+        absolute
+        dark
+        fab
+        bottom
+        left
+        :color="colour"
+        @click="openCreate = true"
+      >
+        <v-icon>add</v-icon>
+      </v-btn>
+      <CreateNew
+       :openCreate='openCreate' 
+       :closeCreate='closeCreate' 
+      />
+            
     <v-data-table
       fixed-header
       :loading="loading"
@@ -43,11 +60,16 @@
     </v-data-table>
     </v-timeline-item>
   </v-timeline>
+</div>
 </template>
 
 <script>
+  import CreateNew from '../components/createNewComponent'
   export default {
     name: "ListView",
+    components: {
+      CreateNew
+    },
     created() {
       this.$store.dispatch('refresh',{token : localStorage.getItem('user-token')})
       .then(
@@ -68,6 +90,7 @@
     },
     data () {
       return {
+        openCreate: false,
         loading: true,
         headers: [],
         items: [],
@@ -82,6 +105,12 @@
         })
         this.loading= false
       },
+      closeCreate () {
+        this.openCreate = false
+      }
+    },
+    computed: {
+      colour() {  return this.$store.getters.colourGetter }
     },
   }
 </script>

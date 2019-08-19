@@ -131,8 +131,24 @@ export default {
         many: true
       }
     },
-    children: {
-      dlplibraryconstructioninformation: {
+    schoolings : {
+      doubletinformation : {
+        title : "Doublet Information",
+        pivot: true,
+      },
+      metadata : {
+        title : "Metadata",
+        many: false,
+      },
+      sublibraryinformation_set : {
+        title : "Sublibrary",
+        many : true,
+        api : "kududlpsublibrary_list/",
+      }
+
+    },
+    children : {
+      dlplibraryconstructioninformation : {
         title: "DLP Library Construction Information",
         fields: {
           chip_format: { type: "Select", choices: choices.chip_format },
@@ -164,26 +180,26 @@ export default {
       dlplibraryquantificationandstorage: {
         title: "DLP Quantification and Storage",
         fields: {
-          average_size: { type: "Integer" },
-          dna_concentration_nm: { type: "Integer" },
-          dna_concentration_ngul: { type: "Integer" },
-          dna_volume: { type: "String" },
-          freezer: { type: "String" },
-          rack: { type: "Integer" },
-          shelf: { type: "Integer" },
-          box: { type: "Integer" },
-          position_in_box: { type: "Integer" },
-          library_tube_label: { type: "String" },
-          quantification_method: { type: "String" },
-          size_range: { type: "String" },
-          size_selection_method: { type: "String" },
-          storage_medium: { type: "String" },
-          agilent_bioanalyzer_xad: { type: "String" },
-          agilent_bioanalyzer_image: { type: "String" },
-          qc_check: { type: "Select", choices: choices.qc_check },
-          qc_notes: { type: "String" },
-        }
-      }
+          average_size : { type : "Integer" },
+          dna_concentration_nm : { type : "Integer" },
+          dna_concentration_ngul : { type : "Integer" },
+          dna_volume : { type : "String" },
+          freezer : { type : "String" },
+          rack : { type : "Integer" },
+          shelf : { type : "Integer" },
+          box : { type : "Integer" },
+          position_in_box : { type : "Integer" },
+          library_tube_label : { type : "String" },
+          quantification_method : { type : "String" },
+          size_range : { type : "String" },
+          size_selection_method : { type : "String" },
+          storage_medium : { type : "String" },
+          agilent_bioanalyzer_xad : { type : "String" },
+          agilent_bioanalyzer_image : { type : "String" },
+          qc_check : { type : "Select", choices : choices.qc_check },
+          qc_notes : { type : "String" },
+        }        
+      },
     }
   },
   dlpsequencing: {
@@ -207,11 +223,18 @@ export default {
       sequencing_center: { type: "Select", choices: choices.sequencing_center },
       sequencer_notes: { type: "String" }
     },
-    relations: {
-      dlplibrary: {
-        model: ["dlp", "library"],
-        name: "pool_id",
-        many: false
+    schoolings : {
+      dlplane_set : {
+        title : "DLP Lane",
+        many: true,
+        api: 'kududlplane_list/'
+      }
+    },
+    relations : {
+      dlplibrary : {
+        model : ["dlp","library"],
+        name : "pool_id",
+        many : false
       },
       relates_to: {
         model: ["dlp", "sequencing"],
@@ -283,17 +306,24 @@ export default {
       sequencer_id: { type: "String" },
       number_of_lanes_requested: { type: "Integer" },
     },
-    relations: {
-      tenxlibrary: {
-        model: ["tenx", "library"],
-        name: "name",
-        many: false
-      },
-      tenxpool: {
-        model: ["tenx", "pool"],
-        name: "pool_name",
-        many: false
-      },
+    schoolings : {
+      tenxlane_set : {
+        title : "TenX Lane",
+        many: true,
+        api: 'kudutenxlane_list/'
+      }
+    },
+    relations : {
+      tenxlibrary : {
+        model : ["tenx","library"],
+        name : "name",
+        many : false
+      },   
+      tenxpool : {
+        model : ["tenx","pool"],
+        name : "pool_name",
+        many : false
+      },  
     }
   },
   tenxlibrary: {
