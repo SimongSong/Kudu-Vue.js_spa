@@ -18,9 +18,6 @@
                                 v-for="(info, index) in infos"
                                 :key="index"
                                 :href="info.link"
-                                @mouseenter="hover=true"
-                                @mouseleave="hover=false"
-                                :style="cardStyle"
                             >
                                 <v-card-text class="pa-0">{{info.label}}</v-card-text>
                             </v-card>
