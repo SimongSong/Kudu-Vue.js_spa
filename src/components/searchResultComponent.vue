@@ -1,35 +1,34 @@
 <template>
     <div>
-        <v-row>
-            <v-col>
-                <v-card class="pa-2" outlined tile>
-                    <template v-if="resultsTotal === 0">No results for {{title}}</template>
-                    <template v-else>
-                        <template v-for="(infos, model) in resultInfo">
-                            <v-card :key="model" flat style="overflow-y: auto">
-                                <!-- If query returned empty list for model, don't display -->
-                                <v-card-text v-if="infos.length !==0 " class="pa-0">
-                                    <h2
-                                        :class="` font-weight-light pink--text`"
-                                    >{{formatTitle(model)}} ({{resultInfo[model].length}})</h2>
-                                    <v-card
-                                        flat
-                                        v-for="(info, index) in infos"
-                                        :key="index"
-                                        :href="info.link"
-                                    >
-                                        <!-- TODO: Pagination or scroll -->
-                                        <!-- TODO: darken row on hover -->
-                                        <v-card-text class="pa-0">{{info.label}}</v-card-text>
-                                    </v-card>
-                                </v-card-text>
+        <template v-if="resultsTotal === 0">
+            <v-card class="ma-2" :key="model" flat style="overflow-y: auto">
+                <v-card-text class="pa-2">No results for {{title}}</v-card-text>
+            </v-card>
+        </template>
+        <template v-else>
+            <template v-for="(infos, model) in resultInfo">
+                <v-card class="mt-2" v-if="infos.length !==0" :key="model" flat outlined tile>
+                    <v-card-text class="pa-2">
+                        <h2
+                            :class="` font-weight-light pink--text`"
+                        >{{formatTitle(model)}} ({{resultInfo[model].length}})</h2>
+                        <v-card class="pa-0" flat style="max-height: 50vh; overflow-y: auto">
+                            <v-card
+                                flat
+                                v-for="(info, index) in infos"
+                                :key="index"
+                                :href="info.link"
+                                @mouseenter="hover=true"
+                                @mouseleave="hover=false"
+                                :style="cardStyle"
+                            >
+                                <v-card-text class="pa-0">{{info.label}}</v-card-text>
                             </v-card>
-                        </template>
-                    </template>
+                        </v-card>
+                    </v-card-text>
                 </v-card>
-                <v-spacer></v-spacer>
-            </v-col>
-        </v-row>
+            </template>
+        </template>
     </div>
 </template>
 
@@ -43,7 +42,8 @@ export default {
     data() {
         return {
             resultInfo: {},
-            modelData: {}
+            modelData: {},
+            hover: false
         };
     },
     created() {
@@ -55,6 +55,15 @@ export default {
             this.resultInfo[model] = [];
         });
         this.getResultInfo();
+    },
+    computed: {
+        cardStyle() {
+            if (this.hover) {
+                return { backgroundColor: "grey" };
+            } else {
+                return {};
+            }
+        }
     },
     methods: {
         getModel: function(app, model, pk) {
