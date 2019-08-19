@@ -38,6 +38,8 @@ export default {
     name: "SmallList",
     props: ['model', 'title', 'url', 'list'],
     created() {
+      console.log(this.url)
+      console.log(this.list)
       this.$store.dispatch('loadRelationList',{
         url : this.url,
         list: this.list,
@@ -64,6 +66,7 @@ export default {
     },
     methods: {
       computeHeaders () {
+        console.log(this.items)
         Object.keys(this.items[0]).forEach( key => {
           this.headers.push({ align: 'left',text: key.charAt(0).toUpperCase() + key.slice(1), value: key })
         })

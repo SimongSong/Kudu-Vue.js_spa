@@ -144,6 +144,9 @@ export default {
         title : "Sublibrary",
         many : true,
         api : "kududlpsublibrary_list/",
+        fields : {
+          sublibrary_csv : { type : 'File' },
+        }
       }
 
     },
@@ -202,6 +205,20 @@ export default {
       },
     }
   },
+  dlplane : {
+    fields : {
+      flow_cell_id : { type : "String" },  
+      sequencing_date : { type : "Date" },
+      path_to_archive : { type : "String" },  
+    },
+    relations : {
+      sequencing : {
+        model : ["dlp","sequencing"],
+        name : "id",
+        many : false
+      },
+    }
+  },
   dlpsequencing : {
     fields : {
       rev_comp_override : { type : "Select", choices : choices.rev_comp_override },
@@ -223,18 +240,16 @@ export default {
       sequencing_center : { type : "Select", choices : choices.sequencing_center },
       sequencer_notes : { type : "String" }
     },
-    schoolings : {
-      dlplane_set : {
-        title : "DLP Lane",
-        many: true,
-        api: 'kududlplane_list/'
-      }
-    },
     relations : {
       dlplibrary : {
         model : ["dlp","library"],
         name : "pool_id",
         many : false
+      },
+      dlplane_set : {
+        model : ["dlp","lane"],
+        name : "flow_cell_id",
+        many : true
       },
       relates_to : {
         model : ["dlp","sequencing"],
@@ -298,6 +313,20 @@ export default {
       },
     },
   },
+  tenxlane : {
+    fields : {
+      flow_cell_id : { type : "String" },  
+      sequencing_date : { type : "Date" },
+      path_to_archive : { type : "String" },  
+    },
+    relations : {
+      sequencing : {
+        model : ["tenx","sequencing"],
+        name : "id",
+        many : false
+      },
+    }
+  },
   tenxsequencing : {
     fields : {
       sequencing_instrument : { type : "Select", choices : choices.sequencing_instrument },
@@ -306,14 +335,12 @@ export default {
       sequencer_id : { type : "String" },
       number_of_lanes_requested : { type : "Integer" },
     },
-    schoolings : {
-      tenxlane_set : {
-        title : "TenX Lane",
-        many: true,
-        api: 'kudutenxlane_list/'
-      }
-    },
     relations : {
+      tenxlane_set : {
+        model : ["tenx","lane"],
+        name : "flow_cell_id",
+        many : true
+      },
       tenxlibrary : {
         model : ["tenx","library"],
         name : "name",

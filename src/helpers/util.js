@@ -1,4 +1,5 @@
 export const BASE_URL = 'http://127.0.0.1:8000/api/'
+// export const BASE_URL = 'http://colossus-test.canadacentral.cloudapp.azure.com:8000/api/'
 
 export function checkTokenExpiration(token){
   this.$store.dispatch('login',{token: token})
@@ -86,7 +87,8 @@ export function detailEditForm(data, form) {
       form.relations[key].selected = []
       if (Object.keys(data).includes(key)){
         if(form.relations[key].many) {
-          if (Number.isInteger(data[key][0])) form.relations[key].selected = data[key]
+          if (Number.isInteger(data[key][0])) { 
+            form.relations[key].selected = data[key] }
           else {
             data[key].forEach(function(item) {
               form.relations[key].selected = [item.id]
@@ -94,7 +96,8 @@ export function detailEditForm(data, form) {
           }
         }
         else {
-          form.relations[key].selected.push(data[key].id)
+          if (Number.isInteger(data[key])) form.relations[key].selected.push(data[key])
+          else form.relations[key].selected.push(data[key].id)
         }
       }
     })

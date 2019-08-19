@@ -22,6 +22,7 @@
           single-line
           ></v-select>
 
+          <v-file-input v-if="f.type === 'File'" v-model="f.value" label="File input"></v-file-input>
 
           <v-menu v-if="f.type === 'Date'"
           :close-on-content-click="false"

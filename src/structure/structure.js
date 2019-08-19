@@ -40,6 +40,13 @@ export default {
       form_fields : form.dlpanalysis,
       noteditable: true
     },
+    lane : {
+      title : "DLP Lane",
+      url : "/list/dlp/lane",
+      list_api: "kududlplane_list/",
+      detail_api: "lane/",
+      form_fields : form.dlplane,
+    },
     summary : true
   },
   tenx : {
@@ -78,6 +85,13 @@ export default {
       detail_api:"tenxanalysis/",
       form_fields : form.tenxanalysis,
       noteditable: true
+    },
+    lane : {
+      title : "Tenx Lane",
+      url : "/list/tenx/lane",
+      list_api: "kudutenxlane_list/",
+      detail_api: "tenxlane/",
+      form_fields : form.tenxlane,
     },
     summary : true
   }
