@@ -16,29 +16,29 @@ import vuetify from './plugins/vuetify';
 
 
 Vue.use(Vuetify)
-// Vue.use(VueMaterial)
+    // Vue.use(VueMaterial)
 Vue.use(VueSession)
 
 Vue.config.productionTip = false
 
 export default new Vuetify({
-  icons: {
-    iconfont: 'md',
-  },
-  theme : {
-    dark: {
-      primary: '#3f51b5',
-      secondary: '#b0bec5',
-      accent: '#8c9eff',
-      error: '#b71c1c',
-      backgroundColor: '#fffff'
+    icons: {
+        iconfont: 'md',
     },
-  }
+    theme: {
+        dark: {
+            primary: '#3f51b5',
+            secondary: '#b0bec5',
+            accent: '#8c9eff',
+            error: '#b71c1c',
+            backgroundColor: '#fffff'
+        },
+    }
 })
 
 new Vue({
-  router,
-  store,
-  vuetify,
-  render: h => h(App)
+    router,
+    store,
+    vuetify,
+    render: h => h(App)
 }).$mount('#app')
