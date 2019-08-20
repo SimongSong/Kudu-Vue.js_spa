@@ -14,7 +14,7 @@
 							<v-tab-item v-for="(result, app) in results" :key="app">
 								<v-card flat height="calc(83vh - 45px)">
 									<!-- todo: default to tab with greatest num of results -->
-									<SearchResult :title="app" :appResults="result"></SearchResult>
+									<SearchResult :title="app" :total="total" :appResults="result"></SearchResult>
 								</v-card>
 							</v-tab-item>
 						

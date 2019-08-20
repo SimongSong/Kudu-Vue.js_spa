@@ -35,44 +35,25 @@
 	export default {
 		name: "SearchResult",
 		props: ["title", "appResults", "total"],
-		created() {
-			// this.results = this.appResults.results;
-			// this.resultsTotal = this.appResults.total;
-			// this.models = Object.keys(this.results);
 
-			// var test = this.models.map(model => {
-			// 	this.resultInfo[model] = [];
-			// });
-			// this.getResultInfo();
-		},
 		computed: {
 			colour() {
 				return this.$store.getters.colourGetter;
-            },
-            results () {return this.appResults.results},
+			},
+			results() {
+				return this.appResults.results;
+			}
 		},
 
 		methods: {
 			formatTitle: function(label) {
 				return label.charAt(0).toUpperCase() + label.slice(1);
-            },
-            routeTo: function(model,pk){
-                this.$router.push({name: 'detail', params: { app: this.title, type : model, pk: pk}});
-            },
-            
-			getResultInfo: async function() {
-				console.log(this.models);
-				// for (var model in this.results) {
-				// 	for (var i = 0; i < this.results[model].length; i++) {
-				// 		var id = this.results[model][i]["id"];
-				// 		var label = this.results[model][i]["name"];
-				// 		this.resultInfo[model].push({
-				// 			id: id,
-				// 			label: label,
-				// 			link: `detail/${this.title}/${model}/${id}`
-				// 		});
-				// 	}
-				// }
+			},
+			routeTo: function(model, pk) {
+				this.$router.push({
+					name: "detail",
+					params: { app: this.title, type: model, pk: pk }
+				});
 			}
 		}
 	};

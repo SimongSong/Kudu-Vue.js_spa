@@ -21,7 +21,15 @@ export default {
                 })
         })
     },
+    updateData({}, payload) {
 
+    },
+    deleteData({}, payload) {
+
+    },
+    createData({}, payload) {
+
+    },
     loadData({ commit, dispatch, state }, payload) {
         console.log("LOAD DATA")
         console.log(payload.type)
