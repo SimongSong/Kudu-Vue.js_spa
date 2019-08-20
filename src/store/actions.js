@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { BASE_URL } from '../helpers/util'
+import { BASE_URL, JIRA_URL } from '../helpers/util'
 
 
 export default {
@@ -93,16 +93,36 @@ export default {
 
     },
 
-    refresh({ commit }, payload) {
-        return new Promise(function(resolve, reject) {
-            axios.post(BASE_URL + "auth/refresh/", {
-                token: payload.token,
-            }).then(res => {
-                resolve('refreshed');
-            }).catch(e => {
-                commit('LOGOUT')
-            })
-        });
-    }
+  refresh({ commit }, payload) {
+    return new Promise(function (resolve, reject) {
+      axios.post(BASE_URL + "auth/refresh/", {
+        token: payload.token,
+      }).then(res => {
+        resolve('refreshed');
+      }).catch(e => {
+        commit('LOGOUT')
+      })
+    });
+  },
+
+  jiraLogin({ commit }, payload) {
+    console.log("JIRA LOGIN")
+    return new Promise(function (resolve, reject) {
+      axios.post(JIRA_URL, {
+        username: payload.username,
+        password: payload.password
+      }).then(res => {
+        localStorage.setItem('jira-user-token', res.data.token)
+        resolve('authenticated');
+        commit('AUTHENTICATE', { username: payload.username })
+      }).catch(e => {
+        console.log("ERROR")
+        commit('LOGOUT')
+        console.log(e)
+        reject('wrong username or password')
+      })
+    });
+
+  }
 
 }
