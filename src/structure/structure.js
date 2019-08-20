@@ -60,7 +60,7 @@ export default {
             list_api: "kudutenxchip_list/",
             detail_api: "tenxchip/",
             form_fields: form.tenxchip,
-            name: "name",
+            name: "",
         },
         pool: {
             title: "Tenx Pools",
