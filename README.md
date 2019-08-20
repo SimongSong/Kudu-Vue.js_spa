@@ -5,3 +5,4 @@ providing users with datatable, edit form, detail page and summary.
 
 Made using Vue JS with Vuex and Veutify UI.
 
+With Jira Integration.
