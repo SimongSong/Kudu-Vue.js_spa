@@ -1,16 +1,17 @@
 import axios from 'axios'
 import { BASE_URL, JIRA_URL } from '../helpers/util'
+import Cookies from "js-cookie"
 
 
 export default {
     searchQuery({ commit }, payload) {
-        return new Promise(function(resolve, reject) {
+        return new Promise(function (resolve, reject) {
             if (!payload.query) reject("empty")
             axios.get(BASE_URL + 'kudusearch/' + payload.query, {
-                    headers: {
-                        Authorization: 'JWT ' + payload.token
-                    }
-                })
+                headers: {
+                    Authorization: 'JWT ' + payload.token
+                }
+            })
                 .then(r => {
                     console.log("FFEE")
                     resolve(r.data)
@@ -27,7 +28,7 @@ export default {
         console.log(payload.type)
         let app_model = state.structure[payload.app][payload.model]
         let url = (payload.type === "list" || payload.type === "relation") ? app_model.list_api : (app_model.detail_api + payload.pk + "/")
-        return new Promise(function(resolve, reject) {
+        return new Promise(function (resolve, reject) {
             axios
                 .get(BASE_URL + url, {
                     headers: {
@@ -44,7 +45,7 @@ export default {
                 .catch(e => {
                     console.log(e)
                     reject('fefe')
-                        // if(e.response.data.detail.includes("expired")) commit('LOGOUT')
+                    // if(e.response.data.detail.includes("expired")) commit('LOGOUT')
                 })
         })
     },
@@ -53,16 +54,16 @@ export default {
         console.log("LOADRELATIONINFO")
         console.log(payload)
         let list = payload.list.join(",")
-        return new Promise(function(resolve, reject) {
+        return new Promise(function (resolve, reject) {
             if (payload.list.length == 0) reject("empty")
             axios.get(BASE_URL + payload.url, {
-                    params: {
-                        id__in: list
-                    },
-                    headers: {
-                        Authorization: 'JWT ' + payload.token
-                    }
-                })
+                params: {
+                    id__in: list
+                },
+                headers: {
+                    Authorization: 'JWT ' + payload.token
+                }
+            })
                 .then(r => {
                     console.log(r)
                     resolve(r.data)
@@ -75,7 +76,7 @@ export default {
     },
 
     login({ commit }, payload) {
-        return new Promise(function(resolve, reject) {
+        return new Promise(function (resolve, reject) {
             axios.post(BASE_URL + "auth/", {
                 username: payload.username,
                 password: payload.password
@@ -93,36 +94,74 @@ export default {
 
     },
 
-  refresh({ commit }, payload) {
-    return new Promise(function (resolve, reject) {
-      axios.post(BASE_URL + "auth/refresh/", {
-        token: payload.token,
-      }).then(res => {
-        resolve('refreshed');
-      }).catch(e => {
-        commit('LOGOUT')
-      })
-    });
-  },
+    refresh({ commit }, payload) {
+        return new Promise(function (resolve, reject) {
+            axios.post(BASE_URL + "auth/refresh/", {
+                token: payload.token,
+            }).then(res => {
+                resolve('refreshed');
+            }).catch(e => {
+                commit('LOGOUT')
+            })
+        });
+    },
 
-  jiraLogin({ commit }, payload) {
-    console.log("JIRA LOGIN")
-    return new Promise(function (resolve, reject) {
-      axios.post(JIRA_URL, {
-        username: payload.username,
-        password: payload.password
-      }).then(res => {
-        localStorage.setItem('jira-user-token', res.data.token)
-        resolve('authenticated');
-        commit('AUTHENTICATE', { username: payload.username })
-      }).catch(e => {
-        console.log("ERROR")
-        commit('LOGOUT')
-        console.log(e)
-        reject('wrong username or password')
-      })
-    });
+    // jiraLogin({ commit }, payload) {
+    //     console.log("JIRA LOGIN")
+    //     return new Promise(function (resolve, reject) {
+    //         console.log(payload)
+    //         if ((!payload.username) || (!payload.password)) {
+    //             console.log("emptyyyy")
+    //             reject("empty")
+    //         }
+    //         axios.post(BASE_URL + "auth/jira/", {
+    //                 "username": payload.username,
+    //                 "password": payload.password,
+    //         })
+    //             .then(r => {
+    //                 console.log("jira works")
+    //                 console.log(r.data)
+    //                 resolve(r.data)
+    //             })
+    //             .catch(e => {
+    //                 console.log(e.response)
+    //                 reject(e.response)
+    //             })
+    //     })
+    // },
 
-  }
+    jiraLogin({ commit }, payload) {
+        console.log("JIRA LOGIN")
+        console.log("token")
+        // console.log(Cookies.get('csrftoken'))
+        return new Promise(function (resolve, reject) {
+            console.log(payload)
+            if ((!payload.username) || (!payload.password)) {
+                console.log("emptyyyy")
+                reject("empty")
+            }
+            axios.post(BASE_URL + 'auth/jira/', {
+            // axios.get('https://www.bcgsc.ca/jira/', {
+                headers: {
+                    "X-CSRFToken": Cookies.get('csrftoken'),
+                    "Content-Type": "application/json",
+                },
+                auth: {
+                    "username": payload.username,
+                    "password": payload.password,
+                }
+            })
+                .then(r => {
+                    console.log("jira works")
+                    console.log(r.data)
+                    resolve(r.data)
+                })
+                .catch(e => {
+                    console.log(e.response)
+                    reject(e.response)
+                })
+        })
+    },
 
 }
+
