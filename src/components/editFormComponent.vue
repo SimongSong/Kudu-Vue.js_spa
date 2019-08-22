@@ -1,10 +1,12 @@
 <template>
 	<div>
+		{{title}} {{title}}
 		<v-tabs :color="colour" vertical>
 			<v-tab>Properties</v-tab>
 			<v-tab v-if="children !== undefined">Children</v-tab>
 			<v-tab :disabled="typeof this.relations === 'undefined'">Relations</v-tab>
-			<v-tab>SUBMIT</v-tab>
+
+			<v-tab><v-button @click="verifyJira">SUBMIT</v-button></v-tab>
 
 			<v-tab-item>
 				<v-card flat height="calc(90vh - 70px)" style="overflow-y: scroll">
@@ -79,6 +81,11 @@
 				},
 				submit: false
 			};
+		},
+		method: {
+			verifyJira() {
+				
+			}
 		}
 	};
 </script>

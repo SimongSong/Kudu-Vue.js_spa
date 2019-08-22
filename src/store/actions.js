@@ -106,57 +106,31 @@ export default {
         });
     },
 
-    // jiraLogin({ commit }, payload) {
-    //     console.log("JIRA LOGIN")
-    //     return new Promise(function (resolve, reject) {
-    //         console.log(payload)
-    //         if ((!payload.username) || (!payload.password)) {
-    //             console.log("emptyyyy")
-    //             reject("empty")
-    //         }
-    //         axios.post(BASE_URL + "auth/jira/", {
-    //                 "username": payload.username,
-    //                 "password": payload.password,
-    //         })
-    //             .then(r => {
-    //                 console.log("jira works")
-    //                 console.log(r.data)
-    //                 resolve(r.data)
-    //             })
-    //             .catch(e => {
-    //                 console.log(e.response)
-    //                 reject(e.response)
-    //             })
-    //     })
-    // },
-
     jiraLogin({ commit }, payload) {
         console.log("JIRA LOGIN")
-        console.log("token")
-        // console.log(Cookies.get('csrftoken'))
         return new Promise(function (resolve, reject) {
-            console.log(payload)
             if ((!payload.username) || (!payload.password)) {
                 console.log("emptyyyy")
                 reject("empty")
             }
-            axios.post(BASE_URL + 'auth/jira/', {
-            // axios.get('https://www.bcgsc.ca/jira/', {
-                headers: {
-                    "X-CSRFToken": Cookies.get('csrftoken'),
-                    "Content-Type": "application/json",
-                },
-                auth: {
-                    "username": payload.username,
-                    "password": payload.password,
-                }
-            })
+            axios.post(BASE_URL + 'auth/jira/', {},
+                {
+                    auth: {
+                        "username": payload.username,
+                        "password": payload.password,
+                    }
+                })
                 .then(r => {
                     console.log("jira works")
                     console.log(r.data)
+                    localStorage.setItem('jira-token', r.data)
+                    console.log("set item okay")
+                    commit('JIRA', { authenticated: true, token: r.data})
+                    console.log('commit jira ok')
                     resolve(r.data)
                 })
                 .catch(e => {
+                    console.log('failed')
                     console.log(e.response)
                     reject(e.response)
                 })

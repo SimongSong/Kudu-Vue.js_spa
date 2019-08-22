@@ -23,6 +23,11 @@ export default {
         state.account.username = payload.username
     },
 
+    JIRA(state, payload) {
+        state.jira.authenticated = true
+        state.jira.token = payload.token
+    },
+
     LOADING(state) {
         state.loading = !state.loading
     },

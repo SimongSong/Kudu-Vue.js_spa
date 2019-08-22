@@ -8,6 +8,10 @@ export default {
     },
 
     loading: false,
+    jira: {
+        authenticated: false,
+        token: null,
+    },
 
     view: "list",
     model: {

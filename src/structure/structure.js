@@ -27,6 +27,7 @@ export default {
             detail_api: "library/",
             form_fields: form.dlplibrary,
             name: "pool_id",
+            jira: true,
         },
         sequencing: {
             title: "DLP Sequencings",
@@ -35,6 +36,7 @@ export default {
             detail_api: "sequencing/",
             form_fields: form.dlpsequencing,
             name: "",
+            jira: true,
         },
         analysis: {
             title: "DLP Analyses",
@@ -43,6 +45,7 @@ export default {
             detail_api: "analysis/",
             noteditable: true,
             name: "analysis_jira_ticket",
+            jira: true,
         },
         lane: {
             title: "DLP Lane",
@@ -77,6 +80,7 @@ export default {
             detail_api: "tenxlibrary/",
             form_fields: form.tenxlibrary,
             name: "name",
+            jira: true,
         },
         sequencing: {
             title: "Tenx Sequencings",
@@ -84,7 +88,8 @@ export default {
             list_api: "kudutenxsequencing_list/",
             detail_api: "tenxsequencing/",
             form_fields: form.tenxsequencing,
-            name: ""
+            name: "",
+            jira: true,
         },
         analysis: {
             title: "Tenx Analyses",
@@ -93,7 +98,8 @@ export default {
             detail_api: "tenxanalysis/",
             form_fields: form.tenxanalysis,
             noteditable: true,
-            name: "jira_ticket"
+            name: "jira_ticket",
+            jira: true,
         },
         lane: {
             title: "Tenx Lane",
