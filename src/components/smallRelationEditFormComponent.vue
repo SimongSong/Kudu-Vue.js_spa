@@ -45,6 +45,7 @@
 						.then(
 							response => {
 								this.items = response;
+								console.log(this.relation)
 								this.selected = this.items.filter(item =>
 									this.relation.selected.includes(item.id)
 								);

@@ -9,7 +9,7 @@
 				</v-toolbar>
 			</v-timeline-item>
 			<v-timeline-item small fill-dot :color="colour">
-				<v-btn absolute dark fab bottom left :color="colour" @click="openCreate = true">
+				<v-btn absolute dark fab bottom left :disabled="$store.state.model.form_fields.fields === undefined" :color="colour" @click="openCreate = true">
 					<v-icon>add</v-icon>
 				</v-btn>
 				<CreateNew :openCreate="openCreate" :closeCreate="closeCreate" />

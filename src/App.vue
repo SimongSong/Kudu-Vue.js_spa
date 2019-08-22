@@ -84,7 +84,7 @@
 						params: { query: this.query }
 					});
 				}
-			}
+			},
 		},
 		mounted: function() {
 			this.authorized = !!localStorage.getItem("user-token");

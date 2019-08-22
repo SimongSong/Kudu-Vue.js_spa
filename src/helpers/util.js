@@ -41,12 +41,37 @@ export function initCreateForm(form) {
     if ("relations" in form) {
         Object.keys(form.relations).forEach(function(children) {
             Object.keys(form.relations).forEach(function(key) {
-                if (form.relations[key].default) form.relations[key].value = [form.relations[key].default]
-                else form.relations[key].value = []
+                if (form.relations[key].default) form.relations[key].selected = [form.relations[key].default]
+                else form.relations[key].selected = []
             })
         })
     }
 
+}
+
+// create JSON structure to be sent to backend for creating or updating model instance 
+export function createModelJSON(field, relation, children) {
+    returnJson = {
+        fields: {},
+        relations: {},
+        children: {}
+    }
+    if (field)
+        Object.keys(fields).forEach(field => {
+            returnJson.fields[fields[field]] = fields[field].value
+        })
+    if (relations)
+        Object.keys(relations).forEach(relation => {
+            returnJson.relations[relation] = relations[relation].value
+        })
+    if (children)
+        Object.keys(children).forEach(child => {
+            returnJson.children[child] = {}
+            Object.keys(child).forEach(field => {
+                returnJson.children[child][field] = children[child][field].value
+            })
+        })
+    return returnJson
 }
 
 export function detailEditForm(data, form) {
