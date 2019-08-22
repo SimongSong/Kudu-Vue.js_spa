@@ -19,6 +19,11 @@ Vue.use(Vuetify)
     // Vue.use(VueMaterial)
 Vue.use(VueSession)
 
+
+// var Vue = require('vue');
+var VueCookie = require('vue-cookie');
+Vue.use(VueCookie);
+
 Vue.config.productionTip = false
 
 export default new Vuetify({

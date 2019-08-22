@@ -27,7 +27,21 @@ export default {
     deleteData({}, payload) {
 
     },
-    createData({}, payload) {
+    createData({ state }, payload) {
+        let base = state.structure[payload.app][payload.model].detail_api
+        let url = (payload.type === "post") ? base : base + payload.pk + "/"
+        return new Promise(function(resolve, reject) {
+            axios({
+                method: payload.type,
+                url: BASE_URL + url,
+                dataType: "json",
+                data: { sample_id: "HEL33LO", fefe: "f22" },
+                headers: {
+                    "X-CSRFToken": payload.token,
+                    "content-type": "application/json"
+                }
+            }).then((response) => resolve(response.data)).catch((e) => console.log(e.response))
+        })
 
     },
     loadData({ commit, dispatch, state }, payload) {

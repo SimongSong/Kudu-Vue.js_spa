@@ -27,6 +27,11 @@ export default {
             anonymous_patient_id: { type: "String" },
             cell_line_id: { type: "String" },
             xenograft_id: { type: "String" },
+            xenograft_recipient_taxonomy_id: { type: "String" },
+            xenograft_treatment_status: { type: "String" },
+            strain: { type: "String" },
+            xenograft_biopsy_date: { type: "String" },
+            notes: { type: "String" },
         },
         relations: {
             tenxlibrary_set: {

@@ -25,6 +25,7 @@
 				<v-card flat height="calc(90vh - 70px)" width="80vw" style="overflow-y: scroll">
 					<v-card-text>
 						<SmallRelationEditComponent v-for="r in structure.relations" v-bind:relation="r" />
+						<v-btn @click="create">SUBMIT</v-btn>
 					</v-card-text>
 				</v-card>
 			</v-tab-item>
@@ -58,6 +59,32 @@
 		computed: {
 			colour() {
 				return this.$store.getters.colourGetter;
+			}
+		},
+		methods: {
+			create() {
+				this.$store
+					.dispatch("refresh", { token: localStorage.getItem("user-token") })
+					.then(
+						this.$store
+							.dispatch("createData", {
+								app: this.$route.params.app,
+								type: "post",
+								model: this.$route.params.type,
+								token: this.$cookie.get("csrftoken")
+							})
+							.then(
+								response => {
+									this.items = response;
+									this.computeHeaders();
+									console.log(this.items);
+								},
+								error => {}
+							)
+					)
+					.catch(e => {
+						this.$router.push("/login");
+					});
 			}
 		},
 		data() {

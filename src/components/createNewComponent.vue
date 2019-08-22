@@ -1,5 +1,5 @@
 <template>
-	<v-dialog v-model="openCreate">
+	<v-dialog persistent v-model="openCreate">
 		<EditComponent
 			:title="modelTitle"
 			:fields="modelFields"
@@ -12,6 +12,7 @@
 
 <script>
 	import EditComponent from "../components/editFormComponent";
+	import {createModelJSON} from "../helpers/util"
 	export default {
 		name: "CreateNew",
 		components: {
