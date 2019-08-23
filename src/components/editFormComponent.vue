@@ -1,13 +1,11 @@
 <template>
 	<div>
-		{{title}} {{title}}
 		<v-tabs :color="colour" vertical>
 			<v-tab>Properties</v-tab>
 			<v-tab v-if="children !== undefined">Children</v-tab>
 			<v-tab :disabled="typeof this.relations === 'undefined'">Relations</v-tab>
-
-			<v-tab><v-button @click="verifyJira">SUBMIT</v-button></v-tab>
-
+			<v-tab>SUBMIT</v-tab>
+			<!-- <v-tab><v-btn @click="verifyJira">SUBMIT</v-btn></v-tab> -->
 			<v-tab-item>
 				<v-card flat height="calc(90vh - 70px)" style="overflow-y: scroll">
 					<v-card-text>
@@ -27,19 +25,26 @@
 				<v-card flat height="calc(90vh - 70px)" width="80vw" style="overflow-y: scroll">
 					<v-card-text>
 						<SmallRelationEditComponent v-for="r in structure.relations" v-bind:relation="r" />
-						<v-btn @click="create">SUBMIT</v-btn>
+						<!-- <v-btn @click="create">SUBMIT</v-btn> -->
 					</v-card-text>
 				</v-card>
 			</v-tab-item>
 			<v-tab-item>
-				<UpdateComponent
-					:title="title"
-					:fields="fields"
-					:children="children"
-					:relations="relations"
-					:structure="structure"
-				/>
+					<v-card v-if="(this.$store.state.structure[this.app][this.model].jira && !this.$store.state.jira.authenticated)" flat height="calc(90vh - 70px)" width="80vw">
+						<Jira/>
+					</v-card>
+					<v-card v-else flat height="calc(90vh - 70px)" width="80vw"> 
+						<UpdateComponent
+							:title="title"
+							:fields="fields"
+							:children="children"
+							:relations="relations"
+							:structure="structure"
+						/>
+						<CreateTicket/>
+					</v-card>
 			</v-tab-item>
+
 		</v-tabs>
 	</div>
 </template>
@@ -48,6 +53,8 @@
 	import SmallEditComponent from "../components/smallEditFormComponent";
 	import SmallRelationEditComponent from "../components/smallRelationEditFormComponent";
 	import UpdateComponent from "../components/updateEditComponent";
+	import CreateTicket from "../components/createJiraTicket";
+	import Jira from "../views/Jira"
 	import { getTitle } from "../helpers/util";
 	import Vue from "vue";
 	export default {
@@ -56,11 +63,65 @@
 		components: {
 			SmallEditComponent,
 			SmallRelationEditComponent,
-			UpdateComponent
+			UpdateComponent,
+			Jira,
+			CreateTicket
+		},
+		data() {
+			return {
+				app: this.$route.params.app,
+				model: this.$route.params.type, 
+				jiraAuthenticated: false,
+				structure: {
+					fields: JSON.parse(JSON.stringify(this.fields)),
+					children:
+						typeof this.children === "undefined"
+							? null
+							: JSON.parse(JSON.stringify(this.children)),
+					relations:
+						typeof this.relations === "undefined"
+							? null
+							: JSON.parse(JSON.stringify(this.relations)),
+					schoolings:
+						typeof this.schoolings === "undefined"
+							? null
+							: JSON.parse(JSON.stringify(this.schoolings))
+				},
+				submit: false,
+				closeJira: false, 
+
+			};
+		},
+		watch: {
+			jiraAuthenticated: function() {
+				console.log("jira authenticated variables changed")
+			},
 		},
 		computed: {
 			colour() {
 				return this.$store.getters.colourGetter;
+			},
+			verifyJira: function() {
+				this.jiraAuthenticated = this.$store.state.jira.authenticated;
+				console.log("in verify jira")
+				console.log(this.jiraAuthenticated)
+				// console.log(this.$store.state.structure)
+				// console.log(this.$store.state.structure[this.app][this.model]["jira"])
+
+				if (this.$store.state.structure[this.app][this.model]["jira"]){
+					if (!this.jiraAuthenticated){
+						console.log("NO JIRA!! validate now!")
+					}
+
+					else {
+						this.closeJira = true;
+					}
+				}
+				// if (this.$store.structure.app.model.jira) {}
+				// if (!this.$store.state.jira.authenticated){
+
+				// }
+				
 			}
 		},
 		methods: {
@@ -87,32 +148,7 @@
 					.catch(e => {
 						this.$router.push("/login");
 					});
-			}
+			},
 		},
-		data() {
-			return {
-				structure: {
-					fields: JSON.parse(JSON.stringify(this.fields)),
-					children:
-						typeof this.children === "undefined"
-							? null
-							: JSON.parse(JSON.stringify(this.children)),
-					relations:
-						typeof this.relations === "undefined"
-							? null
-							: JSON.parse(JSON.stringify(this.relations)),
-					schoolings:
-						typeof this.schoolings === "undefined"
-							? null
-							: JSON.parse(JSON.stringify(this.schoolings))
-				},
-				submit: false
-			};
-		},
-		method: {
-			verifyJira() {
-				
-			}
-		}
 	};
 </script>

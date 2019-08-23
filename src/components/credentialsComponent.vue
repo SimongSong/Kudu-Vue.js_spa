@@ -1,42 +1,43 @@
 <template>
-    <v-container class="pa-0" fluid fill >
-        <v-alert dense outlined type="error" v-if="!credentialsValid">Invalid username or password</v-alert>
-                <v-card class="elevation-12" style="align: center">
+    <!-- <v-dialog v-model="isModal" max-width="600px"> -->
+        <v-container class="pa-0" fluid fill v-if="showCard">
+            <v-alert dense outlined type="error" v-if="!credentialsValid">Invalid username or password</v-alert>
+                <v-card class="elevation-12" style="align: center" :loading="loading">
                     <v-toolbar color="#E91E63" flat>
-                    <v-toolbar-title>{{title}}</v-toolbar-title>
-                    <v-spacer></v-spacer>
-                </v-toolbar>
-                <v-card-text>
-                    <v-form>
-                        <v-text-field
-                            prepend-icon="person"
-                            v-model="account.username"
-                            label="Username"
-                            v-on:keyup.enter="submitAction"
-                        ></v-text-field>
+                        <v-toolbar-title>{{title}}</v-toolbar-title>
+                        <v-spacer></v-spacer>
+                    </v-toolbar>
+                    <v-card-text>
+                        <v-form >
+                            <v-text-field
+                                prepend-icon="person"
+                                v-model="account.username"
+                                label="Username"
+                                v-on:keyup.enter="submitAction"
+                            ></v-text-field>
 
-                        <v-text-field
-                            id="password"
-                            label="Password"
-                            name="password"
-                            prepend-icon="lock"
-                            :append-icon="show ? 'visibility' : 'visibility_off'"
-                            :type="show ? 'text' : 'password'"
-                            v-model="account.password"
-                            :rules="rules.password"
-                            hint="At least 5 characters"
-                            counter
-                            @click:append="show = !show"
-                            v-on:keyup.enter="login"
-                        ></v-text-field>
-                    </v-form>
-                </v-card-text>
-                <v-card-actions>
-                    <v-spacer></v-spacer>
-                    <v-btn color="info" @click="submitAction">{{submit}}</v-btn>
-                </v-card-actions>
-            </v-card>
-    </v-container>
+                            <v-text-field
+                                id="password"
+                                label="Password"
+                                name="password"
+                                prepend-icon="lock"
+                                :append-icon="show ? 'visibility' : 'visibility_off'"
+                                :type="show ? 'text' : 'password'"
+                                v-model="account.password"
+                                :rules="rules.password"
+                                counter
+                                @click:append="show = !show"
+                                v-on:keyup.enter="submitAction"
+                            ></v-text-field>
+                        </v-form>
+                    </v-card-text>
+                    <v-card-actions>
+                        <v-spacer></v-spacer>
+                        <v-btn color="info" @click="submitAction">{{submit}}</v-btn>
+                    </v-card-actions>
+                </v-card>
+        </v-container>
+    <!-- </v-dialog> -->
 </template>
 
 <script>
@@ -47,17 +48,26 @@
 		computed: {},
 		methods: {
 			submitAction() {
+                this.loading = true;
 				this.$store.dispatch(this.action, this.account).then(
 					response => {
-                        console.log(response);
+                        this.loading = false;
                         if (this.reroute) {
                             this.$router.push(this.reroute);
                         }
+
+                        console.log("jira authenticated?")
+                        console.log(this.$store.state.jira.authenticated)
+                        console.log("STOP SHOWING CARD")
+                        this.showCard = false;
+                        console.log(this.showCard)
 					},
 					error => {
+                        this.loading = false;
+                        console.log("wrong!")
 						this.credentialsValid = false;
 					}
-				);
+                );
 			}
 		},
 		data() {
@@ -68,6 +78,9 @@
                     username: "",
                     password: ""
                 },
+                showCard: true,
+                isModal: true,
+                loading: false,
 			};
 		}
 	};

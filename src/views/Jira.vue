@@ -1,16 +1,24 @@
 <template>
-    <v-dialog v-model="isModal" max-width="600px">
+    <!-- <v-dialog v-model="isModal" max-width="600px"> -->
+    <v-container fluid fill-height>
+      <v-layout align-center justify-center>
+        <v-flex xs12 sm8 md4>
+          <!-- Showcard: {{showCard}} -->
         <credentialsComponent title="Authenticate Jira Credentials" submit="Authenticate" :reroute="rerouteURL" :rules="rules" :action="action"></credentialsComponent>
-    </v-dialog>
+    <!-- </v-dialog> -->
+        </v-flex>
+        </v-layout>
+     </v-container>
 </template>
 
 <script>
 import credentialsComponent from "../components/credentialsComponent";
 export default {
+  name: "Jira",
   components: {
     credentialsComponent,
   },
-  name: "Jira",
+  props: ["showCard"],
   data() {
     return {
       action: "jiraLogin",

@@ -42,8 +42,11 @@ export default {
     LOGOUT(state) {
         console.log(this._vm.$session)
         state.account.authenticated = false
+        state.jira.authenticated = false
         localStorage.removeItem('user-token')
+        localStorage.removeItem('jira-token')
         state.account.username = null
+        state.jira.token = null
         router.push('/login')
     },
 
