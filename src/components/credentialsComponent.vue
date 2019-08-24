@@ -33,7 +33,7 @@
                     </v-card-text>
                     <v-card-actions>
                         <v-spacer></v-spacer>
-                        <v-btn color="info" @click="submitAction">{{submit}}</v-btn>
+                        <v-btn @click="submitAction">{{submit}}</v-btn>
                     </v-card-actions>
                 </v-card>
         </v-container>

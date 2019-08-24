@@ -135,7 +135,7 @@ export default {
                 console.log("emptyyyy")
                 reject("empty")
             }
-            axios.post(BASE_URL + 'auth/jira/', {},
+            axios.post(BASE_URL + 'jira/authenticate/', {},
                 {
                     auth: {
                         "username": payload.username,
@@ -158,6 +158,38 @@ export default {
                 })
         })
     },
+
+
+    createTicket({commit}, payload){
+        return new Promise(function (resolve, reject) {
+            console.log("create ticket")
+            resolve("resolved")
+        })
+
+    },
+
+    jiraProjects({ commit }) {
+        return new Promise(function (resolve, reject) {
+
+            var jira_token = localStorage.getItem("jira-token")
+            
+            axios.get(BASE_URL + "jira/projects/", {}, {
+                token: jira_token,
+            })
+            .then(r => {
+                console.log("getting projects")
+                console.log(r)
+                resolve("resolved")
+            })
+            .catch(e => {
+                console.log("failed to get projects")
+                reject("e.response")
+            })
+
+        })
+
+    }
+
 
 }
 

@@ -1,5 +1,6 @@
 <template>
 	<div>
+		{{newInstance}}
 		<v-tabs :color="colour" vertical>
 			<v-tab>Properties</v-tab>
 			<v-tab v-if="children !== undefined">Children</v-tab>
@@ -34,14 +35,18 @@
 						<Jira/>
 					</v-card>
 					<v-card v-else flat height="calc(90vh - 70px)" width="80vw"> 
-						<UpdateComponent
-							:title="title"
-							:fields="fields"
-							:children="children"
-							:relations="relations"
-							:structure="structure"
-						/>
-						<CreateTicket/>
+						<v-card flat v-if="!newInstance">
+							<UpdateComponent
+								:title="title"
+								:fields="fields"
+								:children="children"
+								:relations="relations"
+								:structure="structure"
+							/>
+						</v-card>
+						<v-card flat v-else>
+							<CreateTicket/>
+						</v-card>
 					</v-card>
 			</v-tab-item>
 
@@ -58,7 +63,7 @@
 	import { getTitle } from "../helpers/util";
 	import Vue from "vue";
 	export default {
-		props: ["title", "fields", "children", "relations", "schoolings"],
+		props: ["title", "fields", "children", "relations", "schoolings", "new"],
 		name: "EditComponent",
 		components: {
 			SmallEditComponent,
@@ -89,6 +94,7 @@
 				},
 				submit: false,
 				closeJira: false, 
+				newInstance: this.new,
 
 			};
 		},
