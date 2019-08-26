@@ -25,7 +25,6 @@
 				<v-card flat height="calc(90vh - 70px)" width="80vw" style="overflow-y: scroll">
 					<v-card-text>
 						<SmallRelationEditComponent v-for="r in structure.relations" v-bind:relation="r" />
-						<v-btn @click="create">SUBMIT</v-btn>
 					</v-card-text>
 				</v-card>
 			</v-tab-item>
@@ -35,8 +34,10 @@
 					:fields="fields"
 					:children="children"
 					:relations="relations"
-					:structure="structure"
+					:structure="structure"	
+					:errors="errors"
 				/>
+				<v-btn @click="create">SUBMIT</v-btn>
 			</v-tab-item>
 		</v-tabs>
 	</div>
@@ -46,10 +47,10 @@
 	import SmallEditComponent from "../components/smallEditFormComponent";
 	import SmallRelationEditComponent from "../components/smallRelationEditFormComponent";
 	import UpdateComponent from "../components/updateEditComponent";
-	import { getTitle } from "../helpers/util";
+	import { getTitle, createModelJSON } from "../helpers/util";
 	import Vue from "vue";
 	export default {
-		props: ["title", "fields", "children", "relations", "schoolings"],
+		props: ["title", "fields", "children", "relations", "schoolings", "isCreate"],
 		name: "EditComponent",
 		components: {
 			SmallEditComponent,
@@ -63,13 +64,31 @@
 		},
 		methods: {
 			create() {
-				this.$store
+				console.log("FEFEC")
+				try {
+					console.log("FEFE")
+					let data = createModelJSON(this.structure.fields, this.structure.relations, this.structure.children)
+					console.log(data)
+				}
+				catch(e) {
+					console.log("CREATE ERROR")
+					this.errors = e
+					this.caly ="changed"
+					console.log(e)
+				}
+				console.log("DATA?")
+				// if(data !== undefined) this.sendAxios(data)
+			},
+			sendAxios(data) {
+					this.$store
 					.dispatch("refresh", { token: localStorage.getItem("user-token") })
 					.then(
 						this.$store
 							.dispatch("createData", {
 								app: this.$route.params.app,
-								type: "post",
+								type: (this.isCreate) ? "post" : "patch",
+								pk: (this.isCreate) ? null : this.$route.params.pk,
+								data: data,
 								model: this.$route.params.type,
 								token: this.$cookie.get("csrftoken")
 							})
@@ -89,6 +108,7 @@
 		},
 		data() {
 			return {
+				errors: null,
 				structure: {
 					fields: JSON.parse(JSON.stringify(this.fields)),
 					children:

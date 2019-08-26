@@ -25,6 +25,7 @@ export function getTitle(app, model) {
 export function initCreateForm(form) {
     console.log("1")
     Object.keys(form.fields).forEach(function(key) {
+        console.log(form.fields[key])
         if (form.fields[key].default) form.fields[key].value = form.fields[key].default
         else form.fields[key].value = ""
     })
@@ -49,28 +50,58 @@ export function initCreateForm(form) {
 
 }
 
+function checkValidity(value) {
+    if (Array.isArray(value)) {
+        if (value.length < 1 || value == undefined) return false
+        else return true
+    }
+    if ((!value) || value == undefined || value == "" || value == null)
+        return false
+    else return true
+}
+
 // create JSON structure to be sent to backend for creating or updating model instance 
-export function createModelJSON(field, relation, children) {
-    returnJson = {
+export function createModelJSON(fields, relations, children) {
+    console.log("INIT CREATE MODEL")
+    console.log(fields)
+    console.log(relations)
+    console.log(children)
+    let returnJson = {
         fields: {},
         relations: {},
         children: {}
     }
-    if (field)
+    let errors = [
+        [],
+        [],
+        []
+    ]
+    if (fields)
         Object.keys(fields).forEach(field => {
-            returnJson.fields[fields[field]] = fields[field].value
+            if (fields[field].must) {
+                if (!checkValidity(fields[field].value)) errors[0].push(field)
+            }
+            returnJson.fields[field] = fields[field].value
         })
     if (relations)
         Object.keys(relations).forEach(relation => {
-            returnJson.relations[relation] = relations[relation].value
+            if (relations[relation].must) {
+                if (!checkValidity(relations[relation].selected)) errors[1].push(getTitle(relations[relation].model[0], relations[relation].model[1]))
+            }
+            returnJson.relations[relation] = relations[relation].selected
         })
     if (children)
         Object.keys(children).forEach(child => {
             returnJson.children[child] = {}
-            Object.keys(child).forEach(field => {
-                returnJson.children[child][field] = children[child][field].value
+            Object.keys(children[child].fields).forEach(field => {
+                if (children[child].fields[field].must) {
+                    if (!checkValidity(children[child].fields[field].value)) errors[2].push([children[child].title, field])
+                }
+                returnJson.children[child][field] = children[child].fields[field].value
             })
         })
+
+    if (errors[0].length > 0 || errors[1].length > 0 || errors[2].length > 0) throw errors
     return returnJson
 }
 

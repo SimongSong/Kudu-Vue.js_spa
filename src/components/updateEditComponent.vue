@@ -4,6 +4,31 @@
 			<h2 :class="`display-2 font-weight-light mb-4`" :style="{'color':colour}">Summary</h2>
 		</v-card-title>
 		<v-card-text>
+				<v-alert
+					dense
+					outlined
+					type="error"
+					v-if="errorsComputed"
+				>
+					You have not filled the form completely. Please fill in the following fields:<br>
+					<div v-if="errorsComputed[0].length > 0">
+						<div v-for="f in errorsComputed[0]">
+							<strong>{{f}}</strong> in <strong>PROPERTIES</strong>
+						</div>
+					</div>
+					<div v-if="errorsComputed[1].length > 0">
+						<div v-for="r in errorsComputed[1]">
+							Select <strong>{{r}}</strong> in <strong>RELATIONS</strong>
+						</div>
+					</div>
+					<div v-if="errorsComputed[2].length > 0">
+						<div v-for="c in errorsComputed[2]">
+							<strong>{{c[1]}}</strong> of <strong>{{c[0]}}</strong> in <strong>CHILDREN</strong>
+						</div>
+					</div>
+
+				</v-alert>
+
 			<div v-if="isDifferent">
 				<div v-if="fields">
 					<v-divider></v-divider>
@@ -58,15 +83,14 @@
 	import { getTitle, printNone, titleEdit } from "../helpers/util";
 	export default {
 		name: "UpdateEdit",
-		props: ["title", "fields", "children", "relations", "structure"],
+		props: ["title", "fields", "children", "relations", "structure", "errors"],
 		created() {},
-
-		data() {
-			return {};
-		},
 		computed: {
 			colour() {
 				return this.$store.getters.colourGetter;
+			},
+			errorsComputed() {
+				return this.errors
 			},
 			fieldDifferences() {
 				if (!this.fields) return [];

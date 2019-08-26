@@ -120,6 +120,15 @@ export default {
         'rev(i7),rev(i5)': 'Reverse Complement i7 and i5'
     },
 
+    sequencing_instrument_choices: {
+        'HX': 'HiSeqX',
+        'H2500': 'HiSeq2500',
+        'N500': 'NextSeq500',
+        'N550': 'NextSeq550',
+        'MI': 'MiSeq',
+        'O': 'other',
+    },
+
     sequencing_output_mode: {
         'L': 'Low',
         'M': 'Medium',
