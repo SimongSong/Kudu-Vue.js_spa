@@ -26,7 +26,6 @@
 				<v-card flat height="calc(90vh - 70px)" width="80vw" style="overflow-y: scroll">
 					<v-card-text>
 						<SmallRelationEditComponent v-for="r in structure.relations" v-bind:relation="r" />
-						<!-- <v-btn @click="create">SUBMIT</v-btn> -->
 					</v-card-text>
 				</v-card>
 			</v-tab-item>
@@ -45,7 +44,7 @@
 							/>
 						</v-card>
 						<v-card flat v-else>
-							<CreateTicket/>
+							<CreateTicket :structure="structure"/>
 						</v-card>
 					</v-card>
 			</v-tab-item>

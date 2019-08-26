@@ -41,6 +41,7 @@
 </template>
 
 <script>
+    import { BASE_URL } from '../helpers/util'
 	import Vue from "vue";
 	export default {
         name: "credentialsComponent",

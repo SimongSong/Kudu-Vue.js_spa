@@ -173,22 +173,46 @@ export default {
 
             var jira_token = localStorage.getItem("jira-token")
             
-            axios.get(BASE_URL + "jira/projects/", {}, {
+            axios.post(BASE_URL + "jira/projects/", {
                 token: jira_token,
             })
             .then(r => {
                 console.log("getting projects")
-                console.log(r)
-                resolve("resolved")
+                console.log(r.data.projects)
+                resolve(r.data.projects)
             })
             .catch(e => {
+                console.log(e)
                 console.log("failed to get projects")
                 reject("e.response")
             })
 
         })
 
-    }
+    },
+
+    jiraUsers({ commit }) {
+        return new Promise(function (resolve, reject) {
+
+            var jira_token = localStorage.getItem("jira-token")
+
+            axios.post(BASE_URL + "jira/users/", {
+                token: jira_token,
+            })
+                .then(r => {
+                    console.log("getting users")
+                    console.log(r.data.users)
+                    resolve(r.data.users)
+                })
+                .catch(e => {
+                    console.log(e)
+                    console.log("failed to get users")
+                    reject("e.response")
+                })
+
+        })
+
+    },
 
 
 }
