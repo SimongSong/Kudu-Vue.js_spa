@@ -34,7 +34,10 @@
 						<Jira/>
 					</v-card>
 					<v-card v-else flat height="calc(90vh - 70px)" width="80vw"> 
-						<v-card flat v-if="!newInstance">
+						<v-card flat v-if="this.$store.state.structure[this.app][this.model].jira">
+							<CreateTicket :structure="structure"/>
+						</v-card>
+						<v-card flat v-else>
 							<UpdateComponent
 								:title="title"
 								:fields="fields"
@@ -43,9 +46,7 @@
 								:structure="structure"
 							/>
 						</v-card>
-						<v-card flat v-else>
-							<CreateTicket :structure="structure"/>
-						</v-card>
+
 					</v-card>
 			</v-tab-item>
 
@@ -92,7 +93,7 @@
 							: JSON.parse(JSON.stringify(this.schoolings))
 				},
 				submit: false,
-				closeJira: false, 
+				// closeJira: false, 
 				newInstance: this.new,
 
 			};
@@ -110,23 +111,17 @@
 				this.jiraAuthenticated = this.$store.state.jira.authenticated;
 				console.log("in verify jira")
 				console.log(this.jiraAuthenticated)
-				// console.log(this.$store.state.structure)
-				// console.log(this.$store.state.structure[this.app][this.model]["jira"])
 
 				if (this.$store.state.structure[this.app][this.model]["jira"]){
 					if (!this.jiraAuthenticated){
 						console.log("NO JIRA!! validate now!")
 					}
 
-					else {
-						this.closeJira = true;
-					}
+					// else {
+					// 	this.closeJira = true;
+					// }
 				}
-				// if (this.$store.structure.app.model.jira) {}
-				// if (!this.$store.state.jira.authenticated){
 
-				// }
-				
 			}
 		},
 		methods: {

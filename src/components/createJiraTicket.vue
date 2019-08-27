@@ -1,26 +1,24 @@
 <template>
     <v-container fluid>  
         {{this.$route.params}}  
-        {{this.info.relations.sample.selected}}
-        <!-- {{structure}} -->
-        {{this.info.fields.pool_id.value}}
         <v-card flat>
             <v-card-title>
                 <h2 :class="`display-2 font-weight-light mb-4`" :style="{'color':colour}">Confirm</h2>
             </v-card-title>
         </v-card>
-
+        title: {{defaultTitle}}  description: {{defaultDescription}}
         <v-form class="pl-4 pr-4" >
             <v-text-field
+                :value="getTitle"
                 id="title"
                 label="Title"
                 name="title"
-                v-model="defaultTitle"
                 clearable
+                :color="colour"
             ></v-text-field>
 
             <v-textarea
-                v-model="defaultDescription"
+                v-model="getDescription"
                 label="Description"
                 counter
                 maxlength="120"
@@ -29,9 +27,11 @@
                 outlined
                 clearable
                 no-resize
+                :color="colour"
             ></v-textarea>
-
+            {{projectSelected}} {{reporterSelected}}
             <v-overflow-btn
+                v-model="projectSelected"
                 class="my-2"
                 :items="projects"
                 label="Project"
@@ -46,15 +46,9 @@
                     </v-alert>
                 </template>
             </v-overflow-btn>
-            <!-- <v-select
-                :items="projects"
-                label="Project"
-                item-text="name"
-                item-value="key"
-                editable
-            ></v-select> -->
 
             <v-overflow-btn
+                v-model="reporterSelected"
                 class="my-2"
                 :items="users"
                 label="Reporter"
@@ -94,29 +88,117 @@
                 model: this.$route.params.type,
                 info: this.structure,
                 sampleName: "",
+                libraryName: "",
+                projectSelected: "",
+                reporterSelected: "",
             }
         },
         created() {
+            if (this.model == "library") {
+                this.getSample
+            }
+            else if (this.model == "analysis") {
+                this.getLibrary
+            }
+            // this.getSample
             this.getProjects()
             this.getUsers()
-            this.sampleName = this.getSample()
-            this.defaultTitle = `${this.sampleName} - ${this.info.fields.pool_id.value} - ${this.info.fields.description.value}`
-            this.defaultDescription = `For more information about this ${this.model}, visit ${BASE_URL}`
             
         },
 		computed: {
+            getTitle() {
+                if (this.model === "library") {
+                    this.getSample
+                    console.log("model is library")
+                    this.defaultTitle = `${this.sampleName} - ${this.info.fields.pool_id.value} - ${this.info.fields.description.value}`
+                }
+                else if (this.model === "analysis") {
+                    console.log("model is analysis")
+                    this.defaultTitle = `Analysis for ${this.libraryName} with ${this.info.fields.aligner.value}`
+                }
+                return (this.defaultTitle)
+            },
 			colour() {
 				return this.$store.getters.colourGetter;
+            },
+
+            getModelName() {
+                if (this.model === "library") {
+                    console.log("model is library")
+                    this.getSample()
+                }
+                else if (this.model === "analysis") {
+                    console.log("model is analysis")
+                    this.getLibrary()
+                }
+            },
+            async getSample(){
+                return new Promise((resolve, reject) => {
+                    console.log("in get sample")
+                    this.$store
+                    .dispatch("loadData", {
+                        app: "core",
+                        type: "detail",
+                        model: "sample",
+                        token: localStorage.getItem("user-token"),
+                        pk: this.info.relations.sample.selected,
+                    })
+                    .then(
+                        response => {
+                            console.log(response)
+                            this.sampleName = response["sample_id"]
+                            console.log(this.sampleName)
+                            console.log("ok")
+                            resolve(this.sampleName)
+                        },
+                        error => {
+                            console.log("failed to get sample")
+                            reject("not ok")
+                        }
+                    )
+                })
+
+            },
+            // getTitle: {
+            //     get() {
+            //         return this.defaultTitle
+            //     },
+            //     set(input){
+            //         if (input) {
+            //             console.log(input)
+            //             this.defaultTitle = input
+            //             console.log(this.defaultTitle)
+            //         }
+            //         else if (this.model === "library") {
+            //             console.log("model is library")
+            //             this.defaultTitle = `${this.sampleName} - ${this.info.fields.pool_id.value} - ${this.info.fields.description.value}`
+            //         }
+            //         else if (this.model === "analysis") {
+            //             console.log("model is analysis")
+            //             this.defaultDescription = `Analysis for ${this.libraryName} with ${this.info.fields.aligner.value}`
+
+            //         }
+
+
+
+            //     }
+            // },
+
+            getDescription() {
+                this.defaultDescription = `For more information about this ${this.model}, visit ${BASE_URL}`
+                return (this.defaultDescription)
+
             },
         },
 
         methods: {
+
             create() {
                 var properties = {
                     title: this.defaultTitle,
                     description: this.defaultDescription,
-                    project: "",
-                    reporter: "",
+                    project: this.projectSelected,
+                    reporter: this.reporterSelected,
                 }
                 this.$store.dispatch("createTicket", properties).then(
                     response => {
@@ -156,22 +238,25 @@
                     }
                 )
             },
-            async getSample(){
-                return new Promise(function (resolve, reject){
+
+            async getLibrary(){
+                return new Promise((resolve, reject) => {
                     console.log("in get sample")
                     this.$store
                     .dispatch("loadData", {
-                        app: "core",
+                        app: this.app,
                         type: "detail",
-                        model: "sample",
+                        model: "library",
                         token: localStorage.getItem("user-token"),
-                        pk: this.info.relations.sample.selected,
+                        pk: this.info.relations.library.selected,
                     })
                     .then(
                         response => {
-                            this.sampleName = response["sample_id"]
-                            console.log(this.sampleName)
-                            resolve(this.sampleName)
+                            console.log(response)
+                            this.libraryName = response[this.$store.state.structure[this.app]["library"]["name"]]
+                            console.log(this.libraryName)
+                            console.log("ok")
+                            resolve(this.libraryName)
                         },
                         error => {
                             console.log("failed to get sample")

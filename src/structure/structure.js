@@ -36,7 +36,6 @@ export default {
             detail_api: "kududlpsequencing_detail/",
             form_fields: form.dlpsequencing,
             name: "",
-            jira: true,
         },
         analysis: {
             title: "DLP Analyses",
@@ -90,7 +89,6 @@ export default {
             detail_api: "kudutenxsequencing_detail/",
             form_fields: form.tenxsequencing,
             name: "",
-            jira: true,
         },
         analysis: {
             title: "Tenx Analyses",

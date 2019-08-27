@@ -162,8 +162,23 @@ export default {
 
     createTicket({commit}, payload){
         return new Promise(function (resolve, reject) {
+            var jira_token = localStorage.getItem("jira-token")
             console.log("create ticket")
-            resolve("resolved")
+            axios.post(BASE_URL + "jira/create/", {
+                token: jira_token,
+                project: payload.project,
+                title: payload.title,
+                description: payload.description,
+                reporter: payload.reporter,
+            })
+            .then(r => {
+                console.log("created ticket")
+                resolve("ok")
+            })
+            .catch(e => {
+                console.log(e)
+                reject(e.response)
+            })
         })
 
     },
