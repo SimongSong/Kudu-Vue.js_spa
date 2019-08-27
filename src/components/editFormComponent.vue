@@ -1,6 +1,5 @@
 <template>
 	<div>
-		{{newInstance}}
 		<v-tabs :color="colour" vertical>
 			<v-tab>Properties</v-tab>
 			<v-tab v-if="children !== undefined">Children</v-tab>
@@ -34,7 +33,7 @@
 						<Jira/>
 					</v-card>
 					<v-card v-else flat height="calc(90vh - 70px)" width="80vw"> 
-						<v-card flat v-if="this.$store.state.structure[this.app][this.model].jira">
+						<v-card flat v-if="(this.$store.state.structure[this.app][this.model].jira && isCreate)">
 							<CreateTicket :structure="structure"/>
 						</v-card>
 						<v-card flat v-else>
@@ -64,7 +63,7 @@
 	import { getTitle, createModelJSON} from "../helpers/util";
 	import Vue from "vue";
 	export default {
-		props: ["title", "fields", "children", "relations", "schoolings", "new", "isCreate"],
+		props: ["title", "fields", "children", "relations", "schoolings", "isCreate"],
 		name: "EditComponent",
 		components: {
 			SmallEditComponent,
@@ -162,7 +161,6 @@
 							: JSON.parse(JSON.stringify(this.schoolings))
 				},
 				submit: false,
-				newInstance: this.new,
 			};
 		}
 	};

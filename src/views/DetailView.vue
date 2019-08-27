@@ -71,7 +71,6 @@
 					:schoolings="schoolingsExist ? modelSchoolings : undefined"
 					:children="modelChildren"
 					:relations="modelRelations"
-          :new="false"
 					:isCreate="false"
 				/>
 			</v-tab-item>

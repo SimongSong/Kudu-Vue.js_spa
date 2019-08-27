@@ -5,7 +5,6 @@
 			:fields="modelFields"
 			:children="modelChildren"
 			:relations="modelRelations"
-			:new="true"
 			:isCreate="true"
 		/>
 		<v-btn @click="closeCreate">CLOSE THIS MONSTROSITY</v-btn>
