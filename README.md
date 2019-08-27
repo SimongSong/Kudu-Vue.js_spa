@@ -60,7 +60,19 @@ Where a project would have multiple Apps, each with their own models.
                     disease_condition: { type: "String" },
                     sex: { type: "String" },
                     patient_biopsy_date: { type: "Date" },
-          }
+         },
+         schoolings: {
+             //CAN BE EITHER ONE OF OEN TO ONE, MANY TO MANY OR FOREIGN KEY, BUT MODEL DOES NOT HAVE A LIST OR DETAIL PAGE
+             //AND ARE JUST DISPLAYED AS PART OF DETAIL PAGE OF PARENT MODEL
+             doubletinformation: {
+                title: "Doublet Information",
+                pivot: true,
+            },
+            metadata: {
+                title: "Metadata",
+                many: false,
+            },
+         }
     },
 ```
 `choiceMapping.js`:
