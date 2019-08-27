@@ -1,4 +1,7 @@
 # kudu
+
+**README NOT YET UPDATED COMPLETELY**
+
 Webiste generator for effectively displaying ORM Database(Ideally for **Django** Backend). 
 This was initally designed to serve as a front end for https://github.com/shahcompbio/colossus.
 
