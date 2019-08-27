@@ -3,7 +3,7 @@ import choices from './choiceMapping'
 export default {
     project: {
         fields: {
-            name: { type: "String" },
+            name: { type: "String", must: true },
             description: { type: "String" },
         },
         relations: {
@@ -22,7 +22,7 @@ export default {
     sample: {
         fields: {
             sample_id: { type: "String", must: true },
-            taxonomy_id: { type: "Integer" },
+            taxonomy_id: { type: "Integer", default: 9606 },
             sample_type: { type: "Select", choices: choices.sample_type },
             anonymous_patient_id: { type: "String" },
             cell_line_id: { type: "String" },
@@ -55,12 +55,12 @@ export default {
                     disease_condition: { type: "String" },
                     sex: { type: "String" },
                     patient_biopsy_date: { type: "Date" },
-                    anatomic_site: { type: "String" },
+                    anatomic_site: { type: "String", must: true },
                     anatomic_sub_site: { type: "String" },
                     developmental_stage: { type: "String" },
-                    tissue_type: { type: "Select", choices: choices.tissue_type },
+                    tissue_type: { type: "Select", choices: choices.tissue_type, must: true },
                     cell_type: { type: "String" },
-                    pathology_disease_name: { type: "String" },
+                    pathology_disease_name: { type: "String", must: true },
                     additional_pathology_information: { type: "String" },
                     grade: { type: "String" },
                     stage: { type: "String" },
@@ -74,18 +74,20 @@ export default {
     },
     dlpanalysis: {
         fields: {
-            version: { type: "String" },
+            version: { type: "String", must: true, default: 'v0.3.1' },
             analysis_jira_ticket: { type: "String" },
-            aligner: { type: "Select", choices: choices.aligner },
-            smoothing: { type: "Select", choices: choices.smoothing },
+            analysis_submission_date: { type: "Date", default: Date.now() },
+            aligner: { type: "Select", choices: choices.aligner, default: "A" },
+            smoothing: { type: "Select", choices: choices.smoothing, default: "M" },
             montage_status: { type: "Select", choices: choices.montage_status },
             priority_level: { type: "Select", choices: choices.priority_level },
-            verified: { type: "Select", choices: choices.verified },
+            verified: { type: "Select", choices: choices.verified, default: "F" },
         },
         relations: {
             library: {
                 model: ["dlp", "library"],
                 name: "pool_id",
+                must: true,
                 many: false
             },
             sequnecings: {
@@ -104,18 +106,18 @@ export default {
             },
             reference_genome: {
                 title: 'Reference Genome',
-                fields: { reference_genome: { type: "String" } },
+                fields: { reference_genome: { type: "String", must: true }, },
             }
         }
     },
     dlplibrary: {
         fields: {
-            pool_id: { type: "String" },
+            pool_id: { type: "String", must: true },
             jira_ticket: { type: "String" },
             description: { type: "String" },
             result: { type: "String" },
             title: { type: "String" },
-            quality: { type: "Integer" },
+            quality: { type: "Integer", default: 0.75 },
             exclude_from_analysis: { type: "Bool" },
             failed: { type: "Bool" },
         },
@@ -128,6 +130,7 @@ export default {
             sample: {
                 model: ["core", "sample"],
                 name: "sample_id",
+                must: true,
                 many: false
             },
             dlpsequencing_set: {
@@ -172,7 +175,7 @@ export default {
             dlplibrarysampledetail: {
                 title: "DLP Library Sample Detail",
                 fields: {
-                    sample_spot_date: { type: "Date" },
+                    sample_spot_date: { type: "Date", default: Date.now() },
                     spotting_location: { type: "Select", choices: choices.spotting_location },
                     cell_state: { type: "Select", choices: choices.cell_state },
                     estimated_percent_viability: { type: "Integer" },
@@ -198,12 +201,12 @@ export default {
                     box: { type: "Integer" },
                     position_in_box: { type: "Integer" },
                     library_tube_label: { type: "String" },
-                    quantification_method: { type: "String" },
+                    quantification_method: { type: "String", default: "Bioanalyzer" },
                     size_range: { type: "String" },
-                    size_selection_method: { type: "String" },
-                    storage_medium: { type: "String" },
-                    agilent_bioanalyzer_xad: { type: "String" },
-                    agilent_bioanalyzer_image: { type: "String" },
+                    size_selection_method: { type: "String", default: "AmpureXP" },
+                    storage_medium: { type: "String", default: "TE 10:0.1" },
+                    agilent_bioanalyzer_xad: { type: "File" },
+                    agilent_bioanalyzer_image: { type: "File" },
                     qc_check: { type: "Select", choices: choices.qc_check },
                     qc_notes: { type: "String" },
                 }
@@ -227,29 +230,30 @@ export default {
     dlpsequencing: {
         fields: {
             rev_comp_override: { type: "Select", choices: choices.rev_comp_override },
-            adapter: { type: "String" },
-            format_for_data_submission: { type: "String" },
-            index_read_type: { type: "String" },
-            index_read1_length: { type: "Integer" },
-            index_read2_length: { type: "Integer" },
-            read_type: { type: "Select", choices: choices.read_type },
-            read1_length: { type: "Integer" },
-            read2_length: { type: "Integer" },
-            sequencing_instrument: { type: "Select", choices: choices.sequencing_instrument },
+            adapter: { type: "String", default: "CTGTCTCTTATACACATCT" },
+            format_for_data_submission: { type: "String", default: "fastq" },
+            index_read_type: { type: "String", default: "Dual Index (i7 and i5)" },
+            index_read1_length: { type: "Integer", default: 6 },
+            index_read2_length: { type: "Integer", default: 6 },
+            read_type: { type: "Select", choices: choices.read_type, default: "P" },
+            read1_length: { type: "Integer", default: 150 },
+            read2_length: { type: "Integer", default: 150 },
+            sequencing_instrument: { type: "Select", choices: choices.sequencing_instrument_choices, default: "HX" },
             sequencing_output_mode: { type: "Select", choices: choices.sequencing_output_mode },
             short_description_of_submission: { type: "String" },
-            submission_date: { type: "Date" },
-            number_of_lanes_requested: { type: "Integer" },
+            submission_date: { type: "Date", default: Date.now() },
+            number_of_lanes_requested: { type: "Integer", default: 1 },
             gsc_library_id: { type: "String" },
             sequencer_id: { type: "String" },
-            sequencing_center: { type: "Select", choices: choices.sequencing_center },
+            sequencing_center: { type: "Select", choices: choices.sequencing_center, default: "BCCAGSC" },
             sequencer_notes: { type: "String" }
         },
         relations: {
             dlplibrary: {
                 model: ["dlp", "library"],
                 name: "pool_id",
-                many: false
+                many: false,
+                must: true,
             },
             dlplane_set: {
                 model: ["dlp", "lane"],
@@ -266,7 +270,7 @@ export default {
     tenxchip: {
         fields: {
             name: { type: "String" },
-            lab_name: { type: "Select", choices: choices.lab_name },
+            lab_name: { type: "Select", choices: choices.lab_name, must: true },
         },
         relations: {
             tenxlibrary: {
@@ -287,7 +291,8 @@ export default {
             tenxlibrary_set: {
                 model: ["tenx", "library"],
                 name: "name",
-                many: true
+                many: true,
+                must: true
             },
             tenxsequencing: {
                 model: ["tenx", "sequencing"],
@@ -309,6 +314,7 @@ export default {
             tenxsequencing_set: {
                 model: ["tenx", "sequencing"],
                 name: "id",
+                dependent: 'tenx_library',
                 many: true
             },
             tenx_library: {
@@ -334,11 +340,11 @@ export default {
     },
     tenxsequencing: {
         fields: {
-            sequencing_instrument: { type: "Select", choices: choices.sequencing_instrument },
-            sequencing_center: { type: "Select", choices: choices.sequencing_center },
-            submission_date: { type: "Date" },
+            sequencing_instrument: { type: "Select", choices: choices.sequencing_instrument_choices, default: "HX" },
+            sequencing_center: { type: "Select", choices: choices.sequencing_center, default: "BCCAGSC" },
+            submission_date: { type: "Date", default: Date.now() },
             sequencer_id: { type: "String" },
-            number_of_lanes_requested: { type: "Integer" },
+            number_of_lanes_requested: { type: "Integer", default: 1 },
         },
         relations: {
             tenxlane_set: {
@@ -354,7 +360,8 @@ export default {
             tenxpool: {
                 model: ["tenx", "pool"],
                 name: "pool_name",
-                many: false
+                many: false,
+                must: true,
             },
         }
     },
@@ -364,7 +371,7 @@ export default {
             jira_ticket: { type: "String" },
             description: { type: "String" },
             result: { type: "String" },
-            num_sublibraries: { type: "String" },
+            num_sublibraries: { type: "Integer", default: "0" },
             experimental_condition: { type: "String" },
             chip_well: { type: "Integer" },
             condition: { type: "String" },
@@ -380,12 +387,14 @@ export default {
             tenxchip: {
                 model: ["tenx", "chip"],
                 name: "name",
-                many: false
+                many: false,
+                must: true
             },
             sample: {
                 model: ["core", "sample"],
                 name: "sample_id",
-                many: false
+                many: false,
+                must: true
             },
             tenxpool: {
                 model: ["tenx", "pool"],
@@ -402,24 +411,25 @@ export default {
             tenxlibraryconstructioninformation: {
                 title: "TenX Library Construction Information",
                 fields: {
-                    library_construction_method: { type: "String" },
+                    library_construction_method: { type: "String", default: "10x Genomics" },
                     submission_date: { type: "Date" },
-                    library_prep_location: { type: "String" },
+                    library_prep_location: { type: "String", default: "BCCRC" },
                     chip_lot_number: { type: "Integer" },
                     reagent_lot_number: { type: "Integer" },
-                    library_type: { type: "Select", choices: choices.library_type },
+                    library_type: { type: "Select", choices: choices.library_type, default: "3'" },
                     index_used: { type: "Select", choices: choices.index_used },
                     pool: { type: "String" },
                     concentration: { type: "Integer" },
-                    chemistry_version: { type: "Select", choices: choices.chemistry_version },
+                    chemistry_version: { type: "Select", choices: choices.chemistry_version, default: "VERSION_3" },
                 }
             },
             tenxlibrarysampledetail: {
                 title: "TenX Library Sample Detail",
                 fields: {
-                    sample_spot_date: { type: "Date" },
+                    sample_spot_date: { type: "Date", default: Date.now() },
                     spotting_location: { type: "Select", choices: choices.spotting_location },
                     cell_state: { type: "Select", choices: choices.cell_state },
+                    num_cells_targeted: { type: "Integer", default: 3000 },
                     estimated_percent_viability: { type: "Integer" },
                     label_of_original_sample_vial: { type: "String" },
                     lims_vial_barcode: { type: "String" },

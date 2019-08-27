@@ -72,6 +72,7 @@
 					:children="modelChildren"
 					:relations="modelRelations"
           :new="false"
+					:isCreate="false"
 				/>
 			</v-tab-item>
 

@@ -44,6 +44,7 @@
 								:children="children"
 								:relations="relations"
 								:structure="structure"
+								:errors="errors"
 							/>
 						</v-card>
 
@@ -60,10 +61,10 @@
 	import UpdateComponent from "../components/updateEditComponent";
 	import CreateTicket from "../components/createJiraTicket";
 	import Jira from "../views/Jira"
-	import { getTitle } from "../helpers/util";
+	import { getTitle, createModelJSON} from "../helpers/util";
 	import Vue from "vue";
 	export default {
-		props: ["title", "fields", "children", "relations", "schoolings", "new"],
+		props: ["title", "fields", "children", "relations", "schoolings", "new", "isCreate"],
 		name: "EditComponent",
 		components: {
 			SmallEditComponent,
@@ -71,32 +72,6 @@
 			UpdateComponent,
 			Jira,
 			CreateTicket
-		},
-		data() {
-			return {
-				app: this.$route.params.app,
-				model: this.$route.params.type, 
-				jiraAuthenticated: false,
-				structure: {
-					fields: JSON.parse(JSON.stringify(this.fields)),
-					children:
-						typeof this.children === "undefined"
-							? null
-							: JSON.parse(JSON.stringify(this.children)),
-					relations:
-						typeof this.relations === "undefined"
-							? null
-							: JSON.parse(JSON.stringify(this.relations)),
-					schoolings:
-						typeof this.schoolings === "undefined"
-							? null
-							: JSON.parse(JSON.stringify(this.schoolings))
-				},
-				submit: false,
-				// closeJira: false, 
-				newInstance: this.new,
-
-			};
 		},
 		watch: {
 			jiraAuthenticated: function() {
@@ -117,22 +92,37 @@
 						console.log("NO JIRA!! validate now!")
 					}
 
-					// else {
-					// 	this.closeJira = true;
-					// }
 				}
 
 			}
 		},
 		methods: {
 			create() {
-				this.$store
+				console.log("FEFEC")
+				try {
+					console.log("FEFE")
+					let data = createModelJSON(this.structure.fields, this.structure.relations, this.structure.children)
+					console.log(data)
+				}
+				catch(e) {
+					console.log("CREATE ERROR")
+					this.errors = e
+					this.caly ="changed"
+					console.log(e)
+				}
+				console.log("DATA?")
+				// if(data !== undefined) this.sendAxios(data)
+			},
+			sendAxios(data) {
+					this.$store
 					.dispatch("refresh", { token: localStorage.getItem("user-token") })
 					.then(
 						this.$store
 							.dispatch("createData", {
 								app: this.$route.params.app,
-								type: "post",
+								type: (this.isCreate) ? "post" : "patch",
+								pk: (this.isCreate) ? null : this.$route.params.pk,
+								data: data,
 								model: this.$route.params.type,
 								token: this.$cookie.get("csrftoken")
 							})
@@ -150,5 +140,30 @@
 					});
 			},
 		},
+		data() {
+			return {
+				app: this.$route.params.app,
+				model: this.$route.params.type, 
+				jiraAuthenticated: false,
+				errors: null,
+				structure: {
+					fields: JSON.parse(JSON.stringify(this.fields)),
+					children:
+						typeof this.children === "undefined"
+							? null
+							: JSON.parse(JSON.stringify(this.children)),
+					relations:
+						typeof this.relations === "undefined"
+							? null
+							: JSON.parse(JSON.stringify(this.relations)),
+					schoolings:
+						typeof this.schoolings === "undefined"
+							? null
+							: JSON.parse(JSON.stringify(this.schoolings))
+				},
+				submit: false,
+				newInstance: this.new,
+			};
+		}
 	};
 </script>
