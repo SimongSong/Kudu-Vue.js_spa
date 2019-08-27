@@ -15,7 +15,10 @@ With Jira Integration.
 
 Basic Concept:
 The core part of this project relies on **Vuex**. 
-Firstly, structure of the database are defined as a json variables, and are saved to `structure/structure.js`, `structure/formFields.js` and `choiceMapping.js`.
+Firstly, structure of the database are defined as json variables, and are saved to `structure/structure.js`, `structure/formFields.js` and `choiceMapping.js`. Which are stored in **Vuex store**, on a vue side, there are 3 main components: `DetailPage.vue`, `ListPage.vue`, and `EditFormComponent.vue`. Before each component is loaded, it fetches right modesl structure from the store according to the route parameter. 
+
+eg.) 
+for List route will be something like `/list/:app/:type/`, where app is the App name and type is the name of the model.
 
 
 We are assuming the project's database will follow similar pattern to that of Django:
