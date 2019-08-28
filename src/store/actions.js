@@ -21,9 +21,6 @@ export default {
                 })
         })
     },
-    updateData({}, payload) {
-
-    },
     deleteData({}, payload) {
 
     },
