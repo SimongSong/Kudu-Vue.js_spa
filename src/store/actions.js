@@ -177,7 +177,7 @@ export default {
             })
             .then(r => {
                 console.log("created ticket")
-                resolve("ok")
+                resolve(r)
             })
             .catch(e => {
                 console.log(e)

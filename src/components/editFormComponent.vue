@@ -29,6 +29,7 @@
 				</v-card>
 			</v-tab-item>
 			<v-tab-item>
+					{{isCreate}} {{this.$store.state.structure[this.app][this.model].jira}}
 					<v-card v-if="(this.$store.state.structure[this.app][this.model].jira && !this.$store.state.jira.authenticated)" flat height="calc(90vh - 70px)" width="80vw">
 						<Jira/>
 					</v-card>

@@ -1,4 +1,5 @@
 export const BASE_URL = 'http://127.0.0.1:8000/api/'
+export const COLOSSUS_URL = 'https://colossus.canadacentral.cloudapp.azure.com'
 export const JIRA_URL = 'https://www.bcgsc.ca/jira/'
 
 export function checkTokenExpiration(token) {

@@ -1,19 +1,17 @@
 <template>
     <v-container fluid>  
-        {{this.$route.params}}  
         <v-card flat>
             <v-card-title>
                 <h2 :class="`display-2 font-weight-light mb-4`" :style="{'color':colour}">Confirm</h2>
             </v-card-title>
         </v-card>
-        title: {{defaultTitle}}  description: {{defaultDescription}}
         <v-form class="pl-4 pr-4" >
             <v-text-field
                 :value="getTitle"
                 id="title"
                 label="Title"
                 name="title"
-                clearable
+                readonly
                 :color="colour"
             ></v-text-field>
 
@@ -73,7 +71,7 @@
 
 
 <script>
-    import { BASE_URL } from '../helpers/util';
+    import { BASE_URL, COLOSSUS_URL } from '../helpers/util';
 	import Vue from "vue";
     export default {
         name: "CreateTicket",
@@ -91,6 +89,7 @@
                 libraryName: "",
                 projectSelected: "",
                 reporterSelected: "",
+                jiraTicket: "",
             }
         },
         created() {
@@ -108,13 +107,20 @@
 		computed: {
             getTitle() {
                 if (this.model === "library") {
-                    this.getSample
-                    console.log("model is library")
-                    this.defaultTitle = `${this.sampleName} - ${this.info.fields.pool_id.value} - ${this.info.fields.description.value}`
+                    if (this.info.fields.title.value) {
+                        this.defaultTitle = this.info.fields.title.value
+                    }
+                    else if (this.info.relations.sample.selected && this.info.fields.pool_id.value && this.info.fields.description.value) {
+                        this.getSample
+                        this.defaultTitle = `${this.sampleName} - ${this.info.fields.pool_id.value} - ${this.info.fields.description.value}`                   
+                    }
                 }
                 else if (this.model === "analysis") {
-                    console.log("model is analysis")
-                    this.defaultTitle = `Analysis for ${this.libraryName} with ${this.info.fields.aligner.value}`
+                    if (this.info.relations.library.selected && this.info.fields.aligner.value) {
+                        this.getLibrary
+                        this.defaultTitle = `Analysis for ${this.libraryName} with ${this.info.fields.aligner.value}`
+                    }
+
                 }
                 return (this.defaultTitle)
             },
@@ -124,17 +130,14 @@
 
             getModelName() {
                 if (this.model === "library") {
-                    console.log("model is library")
                     this.getSample()
                 }
                 else if (this.model === "analysis") {
-                    console.log("model is analysis")
                     this.getLibrary()
                 }
             },
             async getSample(){
                 return new Promise((resolve, reject) => {
-                    console.log("in get sample")
                     this.$store
                     .dispatch("loadData", {
                         app: "core",
@@ -148,7 +151,6 @@
                             console.log(response)
                             this.sampleName = response["sample_id"]
                             console.log(this.sampleName)
-                            console.log("ok")
                             resolve(this.sampleName)
                         },
                         error => {
@@ -159,33 +161,37 @@
                 })
 
             },
-            // getTitle: {
-            //     get() {
-            //         return this.defaultTitle
-            //     },
-            //     set(input){
-            //         if (input) {
-            //             console.log(input)
-            //             this.defaultTitle = input
-            //             console.log(this.defaultTitle)
-            //         }
-            //         else if (this.model === "library") {
-            //             console.log("model is library")
-            //             this.defaultTitle = `${this.sampleName} - ${this.info.fields.pool_id.value} - ${this.info.fields.description.value}`
-            //         }
-            //         else if (this.model === "analysis") {
-            //             console.log("model is analysis")
-            //             this.defaultDescription = `Analysis for ${this.libraryName} with ${this.info.fields.aligner.value}`
 
-            //         }
+            async getLibrary(){
+                return new Promise((resolve, reject) => {
+                    this.$store
+                    .dispatch("loadData", {
+                        app: this.app,
+                        type: "detail",
+                        model: "library",
+                        token: localStorage.getItem("user-token"),
+                        pk: this.info.relations.library.selected,
+                    })
+                    .then(
+                        response => {
+                            console.log(response)
+                            this.libraryName = response[this.$store.state.structure[this.app]["library"]["name"]]
+                            console.log(this.libraryName)
+                            resolve(this.libraryName)
+                        },
+                        error => {
+                            console.log("failed to get sample")
+                            reject("not ok")
+                        }
+                    )
+                })
 
-
-
-            //     }
-            // },
+            },
 
             getDescription() {
-                this.defaultDescription = `For more information about this ${this.model}, visit ${BASE_URL}`
+                const path = require('path');
+                this.library = 
+                this.defaultDescription = `For more information about this ${this.model}, visit ${COLOSSUS_URL}`
                 return (this.defaultDescription)
 
             },
@@ -202,11 +208,10 @@
                 }
                 this.$store.dispatch("createTicket", properties).then(
                     response => {
-                        console.log(response)
-                        console.log("ok")
+                        this.jiraTicket = response.data
+                        console.log(this.jiraTicket)
                     },
                     error => {
-                        console.log("not ok")
                     }
                 )
 
@@ -216,9 +221,6 @@
                 this.$store.dispatch("jiraProjects").then(
                     response => {
                         this.projects = response
-                        console.log(response)
-                        console.log("got projects")
-
                     },
                     error => {
                         console.log("couldnt get projects")
@@ -229,8 +231,6 @@
                 this.$store.dispatch("jiraUsers").then(
                     response => {
                         this.users = response
-                        console.log(response)
-                        console.log("got users")
 
                     },
                     error => {
@@ -238,34 +238,6 @@
                     }
                 )
             },
-
-            async getLibrary(){
-                return new Promise((resolve, reject) => {
-                    console.log("in get sample")
-                    this.$store
-                    .dispatch("loadData", {
-                        app: this.app,
-                        type: "detail",
-                        model: "library",
-                        token: localStorage.getItem("user-token"),
-                        pk: this.info.relations.library.selected,
-                    })
-                    .then(
-                        response => {
-                            console.log(response)
-                            this.libraryName = response[this.$store.state.structure[this.app]["library"]["name"]]
-                            console.log(this.libraryName)
-                            console.log("ok")
-                            resolve(this.libraryName)
-                        },
-                        error => {
-                            console.log("failed to get sample")
-                            reject("not ok")
-                        }
-                    )
-                })
-
-            }
 
         }
     };
