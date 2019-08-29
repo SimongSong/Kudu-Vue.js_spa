@@ -1,16 +1,17 @@
 import axios from 'axios'
-import { BASE_URL } from '../helpers/util'
+import { BASE_URL, JIRA_URL } from '../helpers/util'
+import Cookies from "js-cookie"
 
 
 export default {
     searchQuery({ commit }, payload) {
-        return new Promise(function(resolve, reject) {
+        return new Promise(function (resolve, reject) {
             if (!payload.query) reject("empty")
             axios.get(BASE_URL + 'kudusearch/' + payload.query, {
-                    headers: {
-                        Authorization: 'JWT ' + payload.token
-                    }
-                })
+                headers: {
+                    Authorization: 'JWT ' + payload.token
+                }
+            })
                 .then(r => {
                     console.log("FFEE")
                     resolve(r.data)
@@ -50,7 +51,7 @@ export default {
         console.log(payload.type)
         let app_model = state.structure[payload.app][payload.model]
         let url = (payload.type === "list" || payload.type === "relation") ? app_model.list_api : (app_model.detail_api + payload.pk + "/")
-        return new Promise(function(resolve, reject) {
+        return new Promise(function (resolve, reject) {
             axios
                 .get(BASE_URL + url, {
                     headers: {
@@ -67,7 +68,7 @@ export default {
                 .catch(e => {
                     console.log(e)
                     reject('fefe')
-                        // if(e.response.data.detail.includes("expired")) commit('LOGOUT')
+                    // if(e.response.data.detail.includes("expired")) commit('LOGOUT')
                 })
         })
     },
@@ -76,16 +77,16 @@ export default {
         console.log("LOADRELATIONINFO")
         console.log(payload)
         let list = payload.list.join(",")
-        return new Promise(function(resolve, reject) {
+        return new Promise(function (resolve, reject) {
             if (payload.list.length == 0) reject("empty")
             axios.get(BASE_URL + payload.url, {
-                    params: {
-                        id__in: list
-                    },
-                    headers: {
-                        Authorization: 'JWT ' + payload.token
-                    }
-                })
+                params: {
+                    id__in: list
+                },
+                headers: {
+                    Authorization: 'JWT ' + payload.token
+                }
+            })
                 .then(r => {
                     console.log(r)
                     resolve(r.data)
@@ -98,7 +99,7 @@ export default {
     },
 
     login({ commit }, payload) {
-        return new Promise(function(resolve, reject) {
+        return new Promise(function (resolve, reject) {
             axios.post(BASE_URL + "auth/", {
                 username: payload.username,
                 password: payload.password
@@ -117,7 +118,7 @@ export default {
     },
 
     refresh({ commit }, payload) {
-        return new Promise(function(resolve, reject) {
+        return new Promise(function (resolve, reject) {
             axios.post(BASE_URL + "auth/refresh/", {
                 token: payload.token,
             }).then(res => {
@@ -126,6 +127,109 @@ export default {
                 commit('LOGOUT')
             })
         });
-    }
+    },
+
+    jiraLogin({ commit }, payload) {
+        console.log("JIRA LOGIN")
+        return new Promise(function (resolve, reject) {
+            if ((!payload.username) || (!payload.password)) {
+                console.log("emptyyyy")
+                reject("empty")
+            }
+            axios.post(BASE_URL + 'jira/authenticate/', {},
+                {
+                    auth: {
+                        "username": payload.username,
+                        "password": payload.password,
+                    }
+                })
+                .then(r => {
+                    console.log("jira works")
+                    console.log(r.data)
+                    localStorage.setItem('jira-token', r.data)
+                    console.log("set item okay")
+                    commit('JIRA', { authenticated: true, token: r.data})
+                    console.log('commit jira ok')
+                    resolve(r.data)
+                })
+                .catch(e => {
+                    console.log('failed')
+                    console.log(e.response)
+                    reject(e.response)
+                })
+        })
+    },
+
+
+    createTicket({commit}, payload){
+        return new Promise(function (resolve, reject) {
+            var jira_token = localStorage.getItem("jira-token")
+            console.log("create ticket")
+            axios.post(BASE_URL + "jira/create/", {
+                token: jira_token,
+                project: payload.project,
+                title: payload.title,
+                description: payload.description,
+                reporter: payload.reporter,
+            })
+            .then(r => {
+                console.log("created ticket")
+                resolve(r)
+            })
+            .catch(e => {
+                console.log(e)
+                reject(e.response)
+            })
+        })
+
+    },
+
+    jiraProjects({ commit }) {
+        return new Promise(function (resolve, reject) {
+
+            var jira_token = localStorage.getItem("jira-token")
+            
+            axios.post(BASE_URL + "jira/projects/", {
+                token: jira_token,
+            })
+            .then(r => {
+                console.log("getting projects")
+                console.log(r.data.projects)
+                resolve(r.data.projects)
+            })
+            .catch(e => {
+                console.log(e)
+                console.log("failed to get projects")
+                reject("e.response")
+            })
+
+        })
+
+    },
+
+    jiraUsers({ commit }) {
+        return new Promise(function (resolve, reject) {
+
+            var jira_token = localStorage.getItem("jira-token")
+
+            axios.post(BASE_URL + "jira/users/", {
+                token: jira_token,
+            })
+                .then(r => {
+                    console.log("getting users")
+                    console.log(r.data.users)
+                    resolve(r.data.users)
+                })
+                .catch(e => {
+                    console.log(e)
+                    console.log("failed to get users")
+                    reject("e.response")
+                })
+
+        })
+
+    },
+
 
 }
+

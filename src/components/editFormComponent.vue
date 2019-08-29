@@ -5,7 +5,7 @@
 			<v-tab v-if="children !== undefined">Children</v-tab>
 			<v-tab :disabled="typeof this.relations === 'undefined'">Relations</v-tab>
 			<v-tab>SUBMIT</v-tab>
-
+			<!-- <v-tab><v-btn @click="verifyJira">SUBMIT</v-btn></v-tab> -->
 			<v-tab-item>
 				<v-card flat height="calc(90vh - 70px)" style="overflow-y: scroll">
 					<v-card-text>
@@ -29,16 +29,28 @@
 				</v-card>
 			</v-tab-item>
 			<v-tab-item>
-				<UpdateComponent
-					:title="title"
-					:fields="fields"
-					:children="children"
-					:relations="relations"
-					:structure="structure"	
-					:errors="errors"
-				/>
-				<v-btn @click="create">SUBMIT</v-btn>
+					{{isCreate}} {{this.$store.state.structure[this.app][this.model].jira}}
+					<v-card v-if="(this.$store.state.structure[this.app][this.model].jira && !this.$store.state.jira.authenticated)" flat height="calc(90vh - 70px)" width="80vw">
+						<Jira/>
+					</v-card>
+					<v-card v-else flat height="calc(90vh - 70px)" width="80vw"> 
+						<v-card flat v-if="(this.$store.state.structure[this.app][this.model].jira && isCreate)">
+							<CreateTicket :structure="structure"/>
+						</v-card>
+						<v-card flat v-else>
+							<UpdateComponent
+								:title="title"
+								:fields="fields"
+								:children="children"
+								:relations="relations"
+								:structure="structure"
+								:errors="errors"
+							/>
+						</v-card>
+
+					</v-card>
 			</v-tab-item>
+
 		</v-tabs>
 	</div>
 </template>
@@ -47,7 +59,9 @@
 	import SmallEditComponent from "../components/smallEditFormComponent";
 	import SmallRelationEditComponent from "../components/smallRelationEditFormComponent";
 	import UpdateComponent from "../components/updateEditComponent";
-	import { getTitle, createModelJSON } from "../helpers/util";
+	import CreateTicket from "../components/createJiraTicket";
+	import Jira from "../views/Jira"
+	import { getTitle, createModelJSON} from "../helpers/util";
 	import Vue from "vue";
 	export default {
 		props: ["title", "fields", "children", "relations", "schoolings", "isCreate"],
@@ -55,11 +69,31 @@
 		components: {
 			SmallEditComponent,
 			SmallRelationEditComponent,
-			UpdateComponent
+			UpdateComponent,
+			Jira,
+			CreateTicket
+		},
+		watch: {
+			jiraAuthenticated: function() {
+				console.log("jira authenticated variables changed")
+			},
 		},
 		computed: {
 			colour() {
 				return this.$store.getters.colourGetter;
+			},
+			verifyJira: function() {
+				this.jiraAuthenticated = this.$store.state.jira.authenticated;
+				console.log("in verify jira")
+				console.log(this.jiraAuthenticated)
+
+				if (this.$store.state.structure[this.app][this.model]["jira"]){
+					if (!this.jiraAuthenticated){
+						console.log("NO JIRA!! validate now!")
+					}
+
+				}
+
 			}
 		},
 		methods: {
@@ -104,10 +138,13 @@
 					.catch(e => {
 						this.$router.push("/login");
 					});
-			}
+			},
 		},
 		data() {
 			return {
+				app: this.$route.params.app,
+				model: this.$route.params.type, 
+				jiraAuthenticated: false,
 				errors: null,
 				structure: {
 					fields: JSON.parse(JSON.stringify(this.fields)),
@@ -124,7 +161,7 @@
 							? null
 							: JSON.parse(JSON.stringify(this.schoolings))
 				},
-				submit: false
+				submit: false,
 			};
 		}
 	};

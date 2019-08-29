@@ -21,8 +21,8 @@ export default {
     },
 
     aligner: {
-        'A': 'bwa-aln',
-        'M': 'bwa-mem',
+        'A': 'BWA_ALN',
+        'M': 'BWA_MEM',
     },
 
     smoothing: {
