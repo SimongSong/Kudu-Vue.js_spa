@@ -10,6 +10,7 @@
 					type="error"
 					v-if="errorsComputed"
 				>
+					{{errorsComputed}}
 					You have not filled the form completely. Please fill in the following fields:<br>
 					<div v-if="errorsComputed[0].length > 0">
 						<div v-for="f in errorsComputed[0]">
@@ -33,10 +34,17 @@
 				<div v-if="fields">
 					<v-divider></v-divider>
 					<div v-for="f in fieldDifferences" class="headline font-weight-light">
-						Value of
-						<span :style="{'color':colour}">{{titleEdit(f[0])}}</span> has been updated from
-						<span :style="{'color':colour}">{{f[1]}}</span> to
-						<span :style="{'color':colour}">{{f[2]}}</span>
+						<div v-if="f[1] === ''"> 
+							Value of 
+							<span :style="{'color':colour}">{{titleEdit(f[0])}}</span> has been updated to
+							<span :style="{'color':colour}">{{f[2]}}</span>
+						</div>
+						<div v-else>
+							Value of
+							<span :style="{'color':colour}">{{titleEdit(f[0])}}</span> has been updated from
+							<span :style="{'color':colour}">{{f[1]}}</span> to
+							<span :style="{'color':colour}">{{f[2]}}</span>
+						</div>
 					</div>
 				</div>
 
@@ -63,16 +71,27 @@
 				<div v-if="relations">
 					<div v-for="r in relationsDifferences">
 						<div class="headline font-weight-light">
-							Relationship with
-							<span :style="{'color':colour}">{{r[0]}}</span> has been updated from
-							<span :style="{'color':colour}">[ {{r[1].join(",")}} ]</span> to
-							<span :style="{'color':colour}">[ {{r[2].join(",")}} ]</span>.
+							<div v-if="r[1] === ''"> 
+								Relationship with
+								<span :style="{'color':colour}">{{r[0]}}</span> has been updated to
+								<span :style="{'color':colour}">[ {{r[2].join(",")}} ]</span>.
+							</div>
+							<div v-else>
+								Relationship with
+								<span :style="{'color':colour}">{{r[0]}}</span> has been updated from
+								<span :style="{'color':colour}">[ {{r[1].join(",")}} ]</span> to
+								<span :style="{'color':colour}">[ {{r[2].join(",")}} ]</span>.
+							</div>
 						</div>
 					</div>
 					<v-divider></v-divider>
 				</div>
 			</div>
-			<div v-else>You made no changes</div>
+			<div v-else>
+				<div v-if="!errorsComputed"> 
+					You made no changes
+				</div>
+			</div>
 		</v-card-text>
 	</v-card>
 </template>

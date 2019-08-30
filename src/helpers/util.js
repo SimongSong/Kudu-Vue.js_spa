@@ -1,11 +1,14 @@
 export const BASE_URL = 'http://127.0.0.1:8000/api/'
 export const COLOSSUS_URL = 'https://colossus.canadacentral.cloudapp.azure.com'
 export const JIRA_URL = 'https://www.bcgsc.ca/jira/'
+import store from "../store"
+import router from "../router"
 
+//DOESNT WORK
 export function checkTokenExpiration(token) {
-    this.$store.dispatch('login', { token: token })
+    store.dispatch('login', { token: token })
         .then(response => { console.log(response); },
-            error => { this.$router.push('/') })
+            error => { router.push('/') })
 }
 
 export function titleEdit(title) {
@@ -15,12 +18,12 @@ export function titleEdit(title) {
 }
 
 export function printNone(val) {
-    if (val) return val
+    if (val) return val 
     else return "None"
 }
 
 export function getTitle(app, model) {
-    return this.$store.getters.getModelTitle(app, model)
+    return store.getters.getModelTitle(app, model)
 }
 
 export function initCreateForm(form) {
@@ -52,7 +55,10 @@ export function initCreateForm(form) {
 }
 
 function checkValidity(value) {
+    console.log("value to validate: ")
+    console.log(value)
     if (Array.isArray(value)) {
+        console.log(value)
         if (value.length < 1 || value == undefined) return false
         else return true
     }
@@ -80,12 +86,14 @@ export function createModelJSON(fields, relations, children) {
     if (fields)
         Object.keys(fields).forEach(field => {
             if (fields[field].must) {
+                console.log(fields[field])
                 if (!checkValidity(fields[field].value)) errors[0].push(field)
             }
             returnJson.fields[field] = fields[field].value
         })
     if (relations)
         Object.keys(relations).forEach(relation => {
+            console.log("in relations")
             if (relations[relation].must) {
                 if (!checkValidity(relations[relation].selected)) errors[1].push(getTitle(relations[relation].model[0], relations[relation].model[1]))
             }

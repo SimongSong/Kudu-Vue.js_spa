@@ -11,7 +11,7 @@
 			</v-card-text>
 		</v-card>
 
-		<v-btn @click="closeCreate">CLOSE THIS MONSTROSITY</v-btn>
+		<v-btn @click="closeCreate">CLOSE WINDOW</v-btn>
 	</v-dialog>
 </template>
 
